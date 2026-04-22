@@ -10,98 +10,110 @@ Funzionamento:
 """
 
 import os
-from openai import OpenAI
 from dotenv import load_dotenv
+from langchain_openai import ChatOpenAI
+from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
+from langchain_core.output_parsers import StrOutputParser
+from langchain_core.messages import HumanMessage, AIMessage
 
-# === CONFIGURAZIONE ========================================================
-load_dotenv()
+# === 1. CONFIGURAZIONE ===
+load_dotenv(override=True)
 api_key = os.getenv("OPENAI_API_KEY")
+
 if not api_key:
     raise SystemExit("❌ Manca la chiave API nel file .env")
 
-client = OpenAI(api_key=api_key)
-
+# Utilizziamo il tuo modello Fine-Tuned
 MODEL_FT = "ft:gpt-4o-mini-2024-07-18:its-cadmo:smartina:CcpM9wrx"
-MAX_HISTORY = 10
+llm = ChatOpenAI(model=MODEL_FT, temperature=0.7, openai_api_key=api_key)
 
-INFO = {
-    "home": "Nella Home di ITSSocial puoi vedere i post pubblicati dagli studenti, commentare e mettere le stelle ai contenuti che ti piacciono di più.",
-    "profilo": "Nel Profilo puoi visualizzare le tue informazioni personali e i post che hai pubblicato.",
-    "post": "Su ITSSocial puoi pubblicare post per condividere ciò che stai facendo, i tuoi lavori o le tue idee.",
-    "tendenze": "La sezione Tendenze mostra i post che hanno ricevuto più stelle.",
-    "contatti": "Per assistenza o informazioni puoi contattare il team di ITSSocial tramite email: socialitsinfo@gmail.com",
-    "accesso": "Puoi accedere a ITSSocial con le tue credenziali studente oppure registrarti dalla pagina principale."
+# === 2. KNOWLEDGE BASE (DATABASE) ===
+KNOWLEDGE = {
+    "its_cadmo": (
+        "L'ITS CADMO ha sede a Soverato (CZ) ed è focalizzato sull'ICT (Informatica). "
+        "Corso biennale di 2000 ore con 800 ore di tirocinio. Sito: https://www.itscadmo.it/"
+    ),
+    "calabria": (
+        "ITS Academy in Calabria:\n"
+        "- ITS Cadmo (Soverato): ICT\n"
+        "- Its Efficienza Energetica (Reggio Calabria): Energia\n"
+        "- Its Pegasus (Polistena): Mobilità Sostenibile\n"
+        "- Its Tirreno (Fuscaldo): Chimica e Nuove Tecnologie della Vita\n"
+        "- Its Pinta (Cotronei): Agroalimentare\n"
+        "- Its M.A.SK. (San Ferdinando): Servizi alle Imprese\n"
+        "- Its Iridea (Cosenza): Agroalimentare\n"
+        "- Its Elaia Calabria (Vibo Valentia): Turismo e Beni Culturali"
+    ),
+    "social": (
+        "ITSSocial è per TUTTI gli studenti ITS d'Italia. "
+        "Funzioni: Home (post e stelle), Profilo, Tendenze e Contatti (socialitsinfo@gmail.com). "
+        "Novità: Sezione didattica dove i prof caricano link a video (es. JavaScript) consigliati."
+    )
 }
 
-# === MEMORIA ===============================================================
-memoria = {
-    "nome_utente": "",
-    "storia": []
-}
+# === 3. ROUTER LOGICO (Context Selector) ===
+def seleziona_contesto(u_input):
+    u = u_input.lower()
+    contesto = ""
+    if any(k in u for k in ["cadmo", "iscrizione", "soverato"]): contesto += KNOWLEDGE["its_cadmo"] + "\n"
+    if any(k in u for k in ["calabria", "elenco", "quali sono", "sede"]): contesto += KNOWLEDGE["calabria"] + "\n"
+    if any(k in u for k in ["social", "piattaforma", "video", "stelle", "post"]): contesto += KNOWLEDGE["social"] + "\n"
+    return contesto if contesto else "Sii amichevole e rispondi come SmarTina."
 
-def mem_add(role, content):
-    memoria["storia"].append({"role": role, "content": content})
-    if len(memoria["storia"]) > MAX_HISTORY:
-        memoria["storia"].pop(0)
+# === 4. PROMPT E MEMORIA ===
+storia_chat = []
+memoria_utente = {"nome": ""}
 
-# === CICLO PRINCIPALE ======================================================
-print("===============================================")
-print("💬 SmarTina – Prompt Tuning + Memory (autonoma)")
-print("===============================================\n")
+prompt = ChatPromptTemplate.from_messages([
+    ("system", "Sei SmarTina, l'assistente ufficiale di ITSSocial e degli ITS.\n"
+               "Usa queste info se necessario: {context}\n"
+               "Info Utente: {user_info}"),
+    MessagesPlaceholder(variable_name="history"),
+    ("human", "{input}"),
+])
+
+# Creazione della Chain
+chain = prompt | llm | StrOutputParser()
+
+# === 5. LOOP PRINCIPALE ===
+print("🚀 SmarTina LangChain Online (Calabria & Social Edition)")
+print("-------------------------------------------------------")
 
 while True:
-    user_input = input("👤 Tu: ").strip()
-
-    if not user_input:
-        continue
-    if user_input.lower() in {"exit", "quit"}:
-        print("👋 SmarTina ti saluta. Alla prossima!")
-        break
-
-    # === MEMORIA NOME UTENTE ===============================================
-    if user_input.lower().startswith(("mi chiamo", "il mio nome è")):
-        nome = user_input.split(maxsplit=2)[-1].strip().capitalize()
-        memoria["nome_utente"] = nome
-        print(f"💬 SmarTina: Piacere, {nome}! Ora lo ricorderò.\n")
-        continue
-
-    # Mostra memoria
-    if user_input.lower() in {"cosa ricordi", "cosa sai di me"}:
-        if memoria["nome_utente"]:
-            print(f"💬 SmarTina: Ricordo che ti chiami {memoria['nome_utente']} 💡\n")
-        else:
-            print("💬 SmarTina: Non ho ancora memorizzato il tuo nome. 😊\n")
-        continue
-
+    u_input = input("👤 Tu: ").strip()
+    if not u_input: continue
+    if u_input.lower() in ["exit", "quit"]: break
+    
     # Dimentica tutto
-    if user_input.lower() == "dimentica tutto":
-        memoria["nome_utente"] = ""
-        memoria["storia"].clear()
-        print("🧽 SmarTina: Memoria cancellata!\n")
+    if u_input.lower() == "dimentica tutto":
+        storia_chat = []
+        memoria_utente["nome"] = ""
+        print("🧽 Memoria pulita!\n")
         continue
 
-    # === COSTRUZIONE PROMPT ================================================
-    knowledge_text = "\n".join([f"{k.title()}: {v}" for k, v in INFO.items()])
-    nome_txt = f"L'utente si chiama {memoria['nome_utente']}." if memoria["nome_utente"] else ""
+    # Gestione Nome (Logica manuale per efficienza)
+    if u_input.lower().startswith(("mi chiamo", "il mio nome è")):
+        nome = u_input.split()[-1].strip().capitalize()
+        memoria_utente["nome"] = nome
+        print(f"💬 SmarTina: Piacere {nome}! Lo ricorderò. 😊\n")
+        continue
 
-    messages = [
-        {"role": "system", "content": (
-            f"Sei SmarTina, assistente ufficiale di ITSSocial. "
-            f"Hai accesso a queste informazioni:\n{knowledge_text}\n"
-            f"{nome_txt}\n"
-            "Decidi autonomamente se la richiesta dell'utente riguarda informazioni del social "
-            "(Home, Profilo, Post, Tendenze, Contatti, Accesso) o è generica. "
-            "Rispondi in modo chiaro, gentile e conciso."
-        )}
-    ]
-
-    messages += memoria["storia"][-5:]
-    messages.append({"role": "user", "content": user_input})
-
-    resp = client.chat.completions.create(model=MODEL_FT, messages=messages)
-    answer = resp.choices[0].message.content.strip()
-
-    mem_add("user", user_input)
-    mem_add("assistant", answer)
-
-    print(f"💬 SmarTina: {answer}\n")
+    # 1. Recupero contesto basato sulla domanda
+    current_context = seleziona_contesto(u_input)
+    
+    # 2. Generazione risposta via LangChain
+    try:
+        risposta = chain.invoke({
+            "input": u_input,
+            "context": current_context,
+            "user_info": f"L'utente si chiama {memoria_utente['nome']}" if memoria_utente["nome"] else "Nome sconosciuto.",
+            "history": storia_chat[-6:] # Ultime 3 coppie di messaggi
+        })
+        
+        # 3. Aggiornamento Storia
+        storia_chat.append(HumanMessage(content=u_input))
+        storia_chat.append(AIMessage(content=risposta))
+        
+        print(f"💬 SmarTina: {risposta}\n")
+    except Exception as e:
+        print(f"❌ Errore: {e}")
