@@ -36,36 +36,39 @@ KNOWLEDGE = {
         "Digital & Energy Process Specialist, Cybersecurity Expert. Sito: https://www.itscadmo.it/"
     ),
     "calabria": (
-        "ITS Academy in Calabria: "
-        "- ITS Cadmo (Soverato): ICT\n"
-        "- Its Efficienza Energetica (Reggio Calabria): Energia\n"
-        "- Its Pegasus (Polistena): Mobilità Sostenibile\n"
-        "- Its Tirreno (Fuscaldo): Chimica e Nuove Tecnologie della Vita\n"
-        "- Its Pinta (Cotronei): Agroalimentare\n"
-        "- Its M.A.SK. (San Ferdinando): Servizi alle Imprese\n"
-        "- Its Iridea (Cosenza): Agroalimentare\n"
-        "- Its Elaia Calabria (Vibo Valentia): Turismo"
+        "ITS Academy in Calabria: ITS Cadmo, Its Efficienza Energetica, Its Pegasus, "
+        "Its Tirreno, Its Pinta, Its M.A.SK., Its Iridea, Its Elaia Calabria."
     ),
     "social": (
         "ITSSocial è la piattaforma per gli studenti ITS. "
         "Funzioni: Home (post e stelle), Profilo, Tendenze. "
-        "Contatti: socialitsinfo@gmail.com. C'è anche una sezione video didattici."
+        "Contatti: socialitsinfo@gmail.com."
+    ),
+    "didattica": (
+        "Il Social include classi gestite dai professori. "
+        "Le classi possono essere: "
+        "- CHIUSE: dedicate esclusivamente alla classe specifica del professore per materiali riservati.\n"
+        "- APERTE: dove i professori caricano video didattici (es. da YouTube) su linguaggi di programmazione e altri temi tecnici."
     )
 }
 
-# === 3. ROUTER DI CONTESTO (Sostituisce i Tools) ===
+# === 3. ROUTER DI CONTESTO ===
 def seleziona_contesto(u_input):
     u = u_input.lower()
     contesto = ""
-    # Se l'utente chiede del Cadmo o di informatica
+    
     if any(k in u for k in ["cadmo", "soverato", "iscriz", "informatica", "digitale"]): 
         contesto += KNOWLEDGE["its_cadmo"] + "\n"
-    # Se chiede degli altri ITS o della Calabria in generale
+        
     if any(k in u for k in ["calabria", "elenco", "quali sono", "altri", "sede"]): 
         contesto += KNOWLEDGE["calabria"] + "\n"
-    # Se chiede del social
-    if any(k in u for k in ["social", "piattaforma", "stelle", "post", "video"]): 
+        
+    if any(k in u for k in ["social", "piattaforma", "stelle", "post", "tendenze"]): 
         contesto += KNOWLEDGE["social"] + "\n"
+
+    # Nuova regola per le classi e i video
+    if any(k in u for k in ["classe", "prof", "video", "youtube", "programmazione", "lezione"]): 
+        contesto += KNOWLEDGE["didattica"] + "\n"
     
     return contesto if contesto else "Sii amichevole e rispondi come SmarTina."
 
@@ -75,15 +78,15 @@ memoria_utente = {"nome": ""}
 
 prompt = ChatPromptTemplate.from_messages([
     ("system", "Sei SmarTina, l'assistente ufficiale di ITSSocial e degli ITS calabresi. "
-               "Dai sempre molta importanza all'ITS CADMO. Se l'utente chiede info su altri ITS, "
-               "forniscile ma suggerisci il Cadmo come eccellenza digitale.\n\n"
-               "CONTESTO DISPONIBILE:\n{context}\n\n"
-               "DATI UTENTE:\n{user_info}"),
+               "IMPORTANTE: Non menzionare mai eventi, workshop o calendari, poiché non sono attualmente gestiti. "
+               "Limitati a fornire supporto sulla piattaforma Social (post, stelle, profilo) e sui corsi dell'ITS CADMO.\n\n"
+               "CONTESTO REALE (Usa SOLO queste info):\n{context}\n\n"
+               "DATI UTENTE:\n{user_info}\n\n"
+               "Sii sintetica e non fare promesse su funzionalità non presenti nel contesto."),
     MessagesPlaceholder(variable_name="history"),
     ("human", "{input}"),
 ])
 
-# Chain semplificata (No AgentExecutor = No Errori)
 chain = prompt | llm | StrOutputParser()
 
 # === 5. LOOP PRINCIPALE ===
