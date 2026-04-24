@@ -13,8 +13,8 @@ import os
 from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
-from langchain_core.output_parsers import StrOutputParser
-from langchain_core.messages import HumanMessage, AIMessage
+from langchain.agents import create_openai_functions_agent
+from langchain.agents.agent import AgentExecutor
 
 # === 1. CONFIGURAZIONE ===
 load_dotenv(override=True)
