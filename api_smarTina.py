@@ -1,9 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 # api_smarTina.py
-# ciao
-# ciao2
-# ciao 3
+
 
 import os
 from fastapi import FastAPI
