@@ -3,6 +3,7 @@
 # api_smarTina.py
 # ciao
 # ciao2
+# ciao 3
 
 import os
 from fastapi import FastAPI
