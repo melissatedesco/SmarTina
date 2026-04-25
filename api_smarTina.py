@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 # api_smarTina.py
 
+
 import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware

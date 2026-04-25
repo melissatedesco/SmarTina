@@ -1,164 +1,131 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-# 💬 SmarTina – Assistente ITSSocial con Orchestratore e Memoria
-
-"""
-Funzionalità:
-- Orchestratore GPT decide se una richiesta è INFO (knowledge base) o GEN (chiacchiera)
-- Agente INFO risponde con informazioni statiche su ITSSocial
-- Agente GENERICO gestisce conversazioni libere, usando la memoria del nome utente
-- Comandi speciali:
-    - "Mi chiamo <nome>" → salva nome
-    - "Cosa ricordi?" / "Cosa sai di me" → mostra memoria
-    - "Dimentica tutto" → resetta memoria
-"""
-
 import os
-from openai import OpenAI
 from dotenv import load_dotenv
+from langchain_openai import ChatOpenAI
+from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
+from langchain_core.output_parsers import StrOutputParser
+from langchain_core.messages import HumanMessage, AIMessage
 
-# === CONFIGURAZIONE ========================================================
+# === 1. CONFIGURAZIONE ===
 
-load_dotenv()
-api_key = os.getenv("OPENAI_API_KEY")
+load_dotenv(override=True)
 
-if not api_key:
-    raise SystemExit("❌ Manca la chiave API nel file .env")
+# Usiamo il nuovo nome della variabile per evitare conflitti di sistema
+api_key = os.getenv("SMARTINA_KEY", "").strip()
 
-client = OpenAI(api_key=api_key)
+MODEL_FT = "ft:gpt-4o-mini-2024-07-18:its-cadmo:smartina:CcpM9wrx"
 
-MODEL_MAIN = "gpt-4o-mini"  # orchestratore
-MODEL_FT   = "ft:gpt-4o-mini-2024-07-18:its-cadmo:smartina:CcpM9wrx"
+if not api_key.startswith("sk-"):
+    print("❌ Errore: Non riesco a leggere SMARTINA_KEY dal file .env")
+    exit()
 
-# === KNOWLEDGE BASE ========================================================
-INFO = {
-    "home": "Nella Home di ITSSocial puoi vedere i post pubblicati dagli studenti, commentare e mettere le stelle ai contenuti che ti piacciono di più.",
-    "profilo": "Nel Profilo puoi visualizzare le tue informazioni personali e i post che hai pubblicato.",
-    "post": "Su ITSSocial puoi pubblicare post per condividere ciò che stai facendo, i tuoi lavori o le tue idee.",
-    "tendenze": "La sezione Tendenze mostra i post che hanno ricevuto più stelle.",
-    "contatti": "Per assistenza o informazioni puoi contattare il team di ITSSocial tramite email: socialitsinfo@gmail.com."
+llm = ChatOpenAI(
+    model=MODEL_FT, 
+    temperature=0.7, 
+    openai_api_key=api_key
+)
+
+# Usiamo il tuo modello Fine-Tuned
+MODEL_FT = "ft:gpt-4o-mini-2024-07-18:its-cadmo:smartina:CcpM9wrx"
+llm = ChatOpenAI(model=MODEL_FT, temperature=0.7, openai_api_key=api_key)
+
+# === 2. KNOWLEDGE BASE (DATI STATICI) ===
+KNOWLEDGE = {
+    "its_cadmo": (
+        "L'ITS CADMO ha sede a Soverato (CZ) ed è specializzato in ICT. "
+        "Corsi attivi: Data Analyst & AI Specialist, Software Developer, Digital Media Designer, "
+        "Digital & Energy Process Specialist, Cybersecurity Expert. Sito: https://www.itscadmo.it/"
+    ),
+    "calabria": (
+        "ITS Academy in Calabria: ITS Cadmo, Its Efficienza Energetica, Its Pegasus, "
+        "Its Tirreno, Its Pinta, Its M.A.SK., Its Iridea, Its Elaia Calabria."
+    ),
+    "social": (
+        "ITSSocial è la piattaforma per gli studenti ITS. "
+        "Funzioni: Home (post e stelle), Profilo, Tendenze. "
+        "Contatti: socialitsinfo@gmail.com."
+    ),
+    "didattica": (
+        "Il Social include classi gestite dai professori. "
+        "Le classi possono essere: "
+        "- CHIUSE: dedicate esclusivamente alla classe specifica del professore per materiali riservati.\n"
+        "- APERTE: dove i professori caricano video didattici (es. da YouTube) su linguaggi di programmazione e altri temi tecnici."
+    )
 }
 
-# === MEMORIA TEMPORANEA ===================================================
-memoria = {"nome_utente": ""}
-conversation_history = []
+# === 3. ROUTER DI CONTESTO ===
+def seleziona_contesto(u_input):
+    u = u_input.lower()
+    contesto = ""
+    
+    if any(k in u for k in ["cadmo", "soverato", "iscriz", "informatica", "digitale"]): 
+        contesto += KNOWLEDGE["its_cadmo"] + "\n"
+        
+    if any(k in u for k in ["calabria", "elenco", "quali sono", "altri", "sede"]): 
+        contesto += KNOWLEDGE["calabria"] + "\n"
+        
+    if any(k in u for k in ["social", "piattaforma", "stelle", "post", "tendenze"]): 
+        contesto += KNOWLEDGE["social"] + "\n"
 
-MAX_HISTORY = 10
-def add_history(role, content):
-    conversation_history.append({"role": role, "content": content})
-    if len(conversation_history) > MAX_HISTORY:
-        conversation_history.pop(0)
+    # Nuova regola per le classi e i video
+    if any(k in u for k in ["classe", "prof", "video", "youtube", "programmazione", "lezione"]): 
+        contesto += KNOWLEDGE["didattica"] + "\n"
+    
+    return contesto if contesto else "Sii amichevole e rispondi come SmarTina."
 
-# === ORCHESTRATORE =========================================================
-def orchestratore(user_input):
-    prompt = [
-        {"role": "system", "content": (
-            "Sei l'orchestratore di SmarTina, assistente ITSSocial. "
-            "Decidi se la richiesta riguarda informazioni del social "
-            "(Home, Profilo, Post, Tendenze, Contatti, Accesso) o una chiacchiera.\n"
-            "Se riguarda il social → CALL:INFO:<testo>\n"
-            "Altrimenti → CALL:GEN:<testo>\n"
-            "Rispondi solo in questa forma, senza aggiungere altro."
-        )},
-        {"role": "user", "content": user_input}
-    ]
-    resp = client.chat.completions.create(model=MODEL_MAIN, messages=prompt)
-    return resp.choices[0].message.content.strip()
+# === 4. PROMPT E MEMORIA ===
+storia_chat = []
+memoria_utente = {"nome": ""}
 
-# === AGENTE INFO ===========================================================
-def agente_info(user_input):
-    prompt = [
-        {"role": "system", "content": (
-            "Hai accesso alle informazioni di ITSSocial:\n"
-            f"Home: {INFO['home']}\n"
-            f"Profilo: {INFO['profilo']}\n"
-            f"Post: {INFO['post']}\n"
-            f"Tendenze: {INFO['tendenze']}\n"
-            f"Contatti: {INFO['contatti']}\n"
-            f"Accesso: {INFO['accesso']}\n\n"
-            "Rispondi in modo chiaro, gentile e conciso. Non inventare dati non presenti."
-        )},
-        {"role": "user", "content": user_input}
-    ]
-    resp = client.chat.completions.create(model=MODEL_FT, messages=prompt)
-    return resp.choices[0].message.content.strip()
+prompt = ChatPromptTemplate.from_messages([
+    ("system", "Sei SmarTina, l'assistente ufficiale di ITSSocial e degli ITS calabresi. "
+               "IMPORTANTE: Non menzionare mai eventi, workshop o calendari, poiché non sono attualmente gestiti. "
+               "Limitati a fornire supporto sulla piattaforma Social (post, stelle, profilo) e sui corsi dell'ITS CADMO.\n\n"
+               "CONTESTO REALE (Usa SOLO queste info):\n{context}\n\n"
+               "DATI UTENTE:\n{user_info}\n\n"
+               "Sii sintetica e non fare promesse su funzionalità non presenti nel contesto."),
+    MessagesPlaceholder(variable_name="history"),
+    ("human", "{input}"),
+])
 
-# === AGENTE GENERICO =======================================================
-def agente_generico(user_input, memoria=None, history=None):
-    messages = []
+chain = prompt | llm | StrOutputParser()
 
-    # Prompt semplice con nome utente e nome assistente
-    system_content = "Tu sei SmarTina, l'assistente virtuale di ITSSocial. "
-    if memoria and memoria.get("nome_utente"):
-        system_content += f"L'utente si chiama {memoria['nome_utente']}. Usa sempre il suo nome quando appropriato. "
-    system_content += "Chiama te stessa SmarTina, mai Assistant."
-
-    messages.append({"role": "system", "content": system_content})
-
-    # Cronologia chat
-    if history:
-        for h in history[-MAX_HISTORY:]:
-            messages.append({"role": h["role"], "content": h["content"]})
-
-    messages.append({"role": "user", "content": user_input})
-
-    resp = client.chat.completions.create(model=MODEL_FT, messages=messages)
-    return resp.choices[0].message.content.strip()
-
-# === CICLO PRINCIPALE ======================================================
-print("===============================================")
-print("💬 SmarTina – Assistente ITSSocial con Orchestratore")
-print("Scrivi 'exit' per uscire.")
-print("===============================================\n")
+# === 5. LOOP PRINCIPALE ===
+print("🚀 SmarTina Online! (Versione Stabile senza bug di import)")
+print("Scrivi 'exit' per uscire o 'dimentica tutto' per resettare.\n")
 
 while True:
-    user_input = input("👤 Tu: ").strip()
-    if user_input.lower() in {"exit", "quit"}:
-        print("👋 SmarTina ti saluta. Alla prossima!")
-        break
-    if not user_input:
+    u_input = input("👤 Tu: ").strip()
+    if not u_input: continue
+    if u_input.lower() in ["exit", "quit"]: break
+    
+    if u_input.lower() == "dimentica tutto":
+        storia_chat = []
+        memoria_utente["nome"] = ""
+        print("🧽 Memoria pulita!\n")
         continue
 
-    # --- Memorizza nome utente in modo semplice ---
-    if user_input.lower().startswith("mi chiamo"):
-        nome = user_input[9:].strip().capitalize()  # tutto dopo "mi chiamo"
-        memoria["nome_utente"] = nome
-        print(f"💬 SmarTina: Piacere, {nome}! Ora lo ricorderò.\n")
+    # Gestione Nome
+    if u_input.lower().startswith(("mi chiamo ", "il mio nome è ")):
+        nome = u_input.split()[-1].strip().capitalize()
+        memoria_utente["nome"] = nome
+        print(f"💬 SmarTina: Piacere {nome}! Me lo sono segnato. 😊\n")
         continue
 
-    if user_input.lower().startswith("il mio nome è"):
-        nome = user_input[13:].strip().capitalize()  # tutto dopo "il mio nome è"
-        memoria["nome_utente"] = nome
-        print(f"💬 SmarTina: Piacere, {nome}! Ora lo ricorderò.\n")
-        continue
-
-    # --- Mostra memoria ---
-    if user_input.lower() in {"cosa ricordi", "cosa sai di me"}:
-        if memoria["nome_utente"]:
-            print(f"💬 SmarTina: Ricordo che ti chiami {memoria['nome_utente']} 💡\n")
-        else:
-            print("💬 SmarTina: Non ho ancora memorizzato il tuo nome. 😊\n")
-        continue
-
-    # --- Dimentica tutto ---
-    if user_input.lower() == "dimentica tutto":
-        memoria["nome_utente"] = ""
-        conversation_history.clear()
-        print("🧽 SmarTina: Memoria cancellata!\n")
-        continue
-
-    # --- Orchestratore ---
-    decision = orchestratore(user_input)
-
-    if decision.startswith("CALL:INFO:"):
-        query = decision.replace("CALL:INFO:", "").strip()
-        risposta = agente_info(query)
-    else:
-        query = decision.replace("CALL:GEN:", "").strip()
-        risposta = agente_generico(query, memoria, conversation_history)
-
-    # --- Aggiorna cronologia ---
-    add_history("user", user_input)
-    add_history("assistant", risposta)
-
-    print(f"💬 SmarTina: {risposta}\n")
+    # Recupero contesto
+    current_context = seleziona_contesto(u_input)
+    
+    try:
+        risposta = chain.invoke({
+            "input": u_input,
+            "context": current_context,
+            "user_info": f"L'utente si chiama {memoria_utente['nome']}" if memoria_utente["nome"] else "Nome sconosciuto.",
+            "history": storia_chat[-6:] 
+        })
+        
+        # Aggiornamento storia
+        storia_chat.append(HumanMessage(content=u_input))
+        storia_chat.append(AIMessage(content=risposta))
+        
+        print(f"💬 SmarTina: {risposta}\n")
+    except Exception as e:
+        print(f"❌ Errore: {e}")

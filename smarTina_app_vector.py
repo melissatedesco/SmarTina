@@ -14,141 +14,129 @@ Memoria:
 """
 
 
-# === IMPORTAZIONI ===========================================================
-
-import os, pickle, faiss, numpy as np
+import os
+import pickle
+import faiss
+import numpy as np
 from dotenv import load_dotenv
-from openai import OpenAI
 
-# === CONFIGURAZIONE AMBIENTE ===============================================
+# Import LangChain
+from langchain_openai import ChatOpenAI, OpenAIEmbeddings
+from langchain_community.vectorstores import FAISS
+from langchain_community.docstore.in_memory import InMemoryDocstore
+from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
+from langchain_core.output_parsers import StrOutputParser
+from langchain_core.messages import HumanMessage, AIMessage
 
-load_dotenv()
-api_key = os.getenv("OPENAI_API_KEY")
+# === 1. CONFIGURAZIONE AMBIENTE ===
+load_dotenv(override=True)
+api_key = os.getenv("SMARTINA_KEY", "").strip()
 
-if not api_key:
-    raise SystemExit("❌ Manca la chiave API nel file .env")
+if not api_key.startswith("sk-"):
+    print("❌ Errore: SMARTINA_KEY non valida nel file .env")
+    exit()
 
-client = OpenAI(api_key=api_key)
+MODEL_FT = "ft:gpt-4o-mini-2024-07-18:its-cadmo:smartina:CcpM9wrx"
 
-# Modelli
-MODEL_MAIN = "gpt-4o-mini"  # orchestratore
-MODEL_FT   = "ft:gpt-4o-mini-2024-07-18:its-cadmo:smartina:CcpM9wrx"
-EMBEDDING_MODEL = "text-embedding-3-small"
+# Inizializziamo il Modello
+llm = ChatOpenAI(model=MODEL_FT, temperature=0.7, openai_api_key=api_key)
+embeddings = OpenAIEmbeddings(model="text-embedding-3-small", openai_api_key=api_key)
 
-# File RAG
+# === 2. CARICAMENTO RAG (FAISS) ===
 INDEX_PATH = "rag/its_social_faiss_index.faiss"
 METADATA_PATH = "rag/its_social_metadata.pkl"
 
-# === CARICAMENTO BASE DI CONOSCENZA RAG ====================================
+try:
+    # Carichiamo l'indice FAISS esistente
+    index = faiss.read_index(INDEX_PATH)
+    with open(METADATA_PATH, "rb") as f:
+        metadata = pickle.load(f)
+    
+    # Integriamo FAISS in LangChain per una gestione più semplice
+    # Creiamo un wrapper che LangChain può usare
+    vectorstore = FAISS(
+        embedding_function=embeddings,
+        index=index,
+        docstore=InMemoryDocstore({i: metadata[i] for i in range(len(metadata))}),
+        index_to_docstore_id={i: i for i in range(len(metadata))}
+    )
+    retriever = vectorstore.as_retriever(search_kwargs={"k": 2})
+    print("✅ Database RAG caricato correttamente.")
+except Exception as e:
+    print(f"⚠️ Avviso: Impossibile caricare il database RAG ({e}). Lo script userà solo la logica base.")
+    retriever = None
 
-index = faiss.read_index(INDEX_PATH)
-with open(METADATA_PATH, "rb") as f:
-    metadata = pickle.load(f)
+# === 3. DEFINIZIONE PROMPT ===
+# Qui uniamo tutte le istruzioni: No Eventi + Sì Classi/Video + Memoria
+prompt = ChatPromptTemplate.from_messages([
+    ("system", "Sei SmarTina, l'assistente ufficiale di ITSSocial. "
+               "REGOLE:\n"
+               "1. Usa il CONTESTO fornito dai documenti per rispondere.\n"
+               "2. Se l'utente chiede di docenti o video, spiega le Classi Aperte (YouTube) e Chiuse.\n"
+               "3. NON parlare mai di eventi, workshop o date future.\n"
+               "4. Sii amichevole e chiama l'utente per nome se lo conosci.\n\n"
+               "CONTESTO RAG:\n{context}\n\n"
+               "INFO UTENTE: {user_info}"),
+    MessagesPlaceholder(variable_name="history"),
+    ("human", "{input}"),
+])
 
-# === FUNZIONI RAG ===========================================================
+chain = prompt | llm | StrOutputParser()
 
-def get_embedding(text):
-    emb = client.embeddings.create(model=EMBEDDING_MODEL, input=text)
-    return emb.data[0].embedding
+# === 4. LOGICA DI SUPPORTO ===
+storia_chat = []
+memoria_utente = {"nome": ""}
 
-def cerca_blocchi_simili(query, k=2):
-    vec = np.array(get_embedding(query), dtype="float32").reshape(1, -1)
-    D,I = index.search(vec, k)
-    return [metadata[i] for i in I[0] if i < len(metadata)]
-
-def agente_rag(conversation_history):
-    """
-    Agente informativo (RAG) che usa la conoscenza dei documenti locali di ITSSocial.
-    """
-    ultimo_input = conversation_history[-1]["content"]
-    blocchi = cerca_blocchi_simili(ultimo_input, k=2)
-    contesto = "\n---\n".join(blocchi)
-    prompt = [
-        {"role": "system", "content": (
-            "Sei l'agente informativo di SmarTina, l’assistente ufficiale di ITSSocial. "
-            "Usa le informazioni trovate nei documenti RAG per rispondere in modo "
-            "chiaro, positivo e coerente con la conversazione. "
-            "Parla solo di ITSSocial: home, profilo, post, stelle, tendenze, commenti, regole, accesso e contatti. "
-            "Non parlare di bandi, tirocini, docenti o aziende."
-        )},
-        {"role": "system", "content": f"Contesto utile dai documenti:\n{contesto}"}
-    ] + conversation_history
-
-    resp = client.chat.completions.create(model=MODEL_FT, messages=prompt)
-    return resp.choices[0].message.content.strip()
-
-
-# === AGENTE GENERICO =======================================================
-
-def agente_generico(conversation_history):
-    """
-    Agente generico con memoria concettuale completa.
-    Usa la storia della conversazione per rispondere in modo coerente e naturale.
-    """
-    prompt = [
-        {"role": "system", "content": (
-            "Sei SmarTina, assistente ufficiale di ITSSocial. "
-            "Parla con tono positivo, coinvolgente e amichevole. "
-            "Ricorda ciò che l’utente dice nella sessione: nome, interessi e preferenze. "
-            "Concentrati sempre su ITSSocial e la sua community di studenti. "
-            "Non parlare di tirocini, bandi, aziende o docenti."
-        )}
-    ] + conversation_history
-
-    resp = client.chat.completions.create(model=MODEL_FT, messages=prompt)
-    return resp.choices[0].message.content.strip()
-
-# === ORCHESTRATORE GPT =====================================================
-
-def orchestratore(conversation_history):
-    """
-    Decide concettualmente a chi passare la richiesta (RAG o Generico),
-    basandosi su tutto il contesto della conversazione.
-    """
-    prompt = [
-        {"role": "system", "content": (
-            "Sei l'orchestratore di SmarTina. Analizza la conversazione e decidi chi deve rispondere.\n"
-            "Se la richiesta riguarda ITSSocial (home, profilo, post, stelle, tendenze, commenti, regole, accesso, contatti) → CALL:RAG:<testo>\n"
-            "Se invece è una conversazione generica o personale → CALL:GEN:<testo>\n"
-            "Rispondi solo con una di queste due forme, senza aggiungere altro testo."
-        )}
-    ] + conversation_history
-
-
-    resp = client.chat.completions.create(model=MODEL_MAIN, messages=prompt)
-    return resp.choices[0].message.content.strip()
-
-# === CICLO PRINCIPALE ======================================================
-
-conversation_history = []
-
-print("===============================================")
-print("🌐 SmarTina – Multi-Agente Concettuale con Memoria GPT + RAG")
-print("Scrivi 'exit' o 'quit' per uscire.")
+# === 5. LOOP PRINCIPALE ===
+print("\n===============================================")
+print("🌐 SmarTina LangChain RAG (Expert Edition)")
+print("Scrivi 'exit' per uscire.")
 print("===============================================\n")
 
 while True:
-    user_input = input("👤 Tu: ").strip()
-    if user_input.lower() in {"exit", "quit"}:
-        print("👋 SmarTina ti saluta. Alla prossima!")
-        break
-    if not user_input:
+    u_input = input("👤 Tu: ").strip()
+    if not u_input: continue
+    if u_input.lower() in ["exit", "quit"]: break
+
+    if u_input.lower() == "dimentica tutto":
+        storia_chat = []
+        memoria_utente["nome"] = ""
+        print("🧽 Memoria resettata!\n")
         continue
 
-    # Aggiungi messaggio utente alla memoria
-    conversation_history.append({"role": "user", "content": user_input})
+    # Gestione Nome
+    if u_input.lower().startswith(("mi chiamo ", "il mio nome è ")):
+        nome = u_input.split()[-1].strip().capitalize()
+        memoria_utente["nome"] = nome
+        print(f"💬 SmarTina: Piacere {nome}! Me lo sono segnato. 😊\n")
+        continue
 
-    # 1️⃣ Orchestratore decide concettualmente chi deve rispondere
-    decision = orchestratore(conversation_history)
+    # 1️⃣ Recupero Contesto dal RAG (se disponibile)
+    context_text = ""
+    if retriever:
+        docs = retriever.invoke(u_input)
+        context_text = "\n\n".join([d.page_content for d in docs])
+    
+    # 2️⃣ Aggiunta info manuali per Classi/Video (se non presenti nel RAG)
+    if any(k in u_input.lower() for k in ["classe", "video", "prof"]):
+        context_text += "\nDidattica: Esistono Classi Chiuse (private) e Classi Aperte (video YouTube)."
 
-    # 2️⃣ Routing tecnico (basato su CALL)
-    if decision.startswith("CALL:RAG:"):
-        risposta = agente_rag(conversation_history)
-    else:
-        risposta = agente_generico(conversation_history)
+    user_info = f"L'utente si chiama {memoria_utente['nome']}." if memoria_utente["nome"] else "Nome sconosciuto."
 
-    # 3️⃣ Aggiorna la memoria con la risposta del bot
-    conversation_history.append({"role": "assistant", "content": risposta})
+    # 3️⃣ Generazione Risposta
+    try:
+        risposta = chain.invoke({
+            "input": u_input,
+            "context": context_text,
+            "user_info": user_info,
+            "history": storia_chat[-6:]
+        })
 
-    # 4️⃣ Mostra la risposta
-    print(f"SmarTina: {risposta}\n")
+        print(f"💬 SmarTina: {risposta}\n")
+
+        # Aggiornamento Storia
+        storia_chat.append(HumanMessage(content=u_input))
+        storia_chat.append(AIMessage(content=risposta))
+
+    except Exception as e:
+        print(f"❌ Errore: {e}")
