@@ -3,14 +3,20 @@ openai>=1.50.0
 python-dotenv>=1.0.1
 faiss-cpu>=1.8.0
 mysql-connector-python>=9.0.0
+numpy>=1.26.0
+
+# --- LangChain (Nuove aggiunte necessarie) ---
+langchain>=0.3.0
+langchain-openai>=0.2.0
+langchain-community>=0.3.0
 
 # --- Visualizzazione e clustering ---
 matplotlib>=3.8.0
 scikit-learn>=1.4.0
-numpy>=1.26.0
 
-# --- (Opzionale) per notebook Jupyter, se lavori in ambiente interattivo ---
-jupyterlab>=4.0.0
 # --- API backend ---
 fastapi>=0.115.0
 uvicorn>=0.30.0
+
+# --- Interattivo ---
+jupyterlab>=4.0.0
