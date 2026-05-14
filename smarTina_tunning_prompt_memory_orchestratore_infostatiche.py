@@ -30,70 +30,62 @@ llm = ChatOpenAI(model=MODEL_FT, temperature=0.7, openai_api_key=api_key)
 
 # === 2. KNOWLEDGE BASE (CORRETTO) ===
 KNOWLEDGE = {
-    "its_cadmo": (
-        "L'ITS CADMO ha sede a Soverato (CZ) ed è specializzato in ICT. "
-        "Corsi attivi: Data Analyst & AI Specialist, Software Developer, Digital Media Designer, "
-        "Digital & Energy Process Specialist, Cybersecurity Expert. Sito: https://www.itscadmo.it/"
-    ),
-
-    "calabria": (
-        "ITS CADMO (CZ), Its Efficienza Energetica (RC), Its Pegasus (RC), "
-        "Its Tirreno (CS), Its Pinta (KR) Its M.A.SK. (RC), Its Iridea (CS), Its Elaia Calabria (VV)"
-    ), 
-
-    "social": (
-        "ITSSocial è la piattaforma per gli studenti ITS. "
-        "Funzioni: Home (post e stelle), Profilo, Tendenze. "
-        "Contatti: socialitsinfo@gmail.com."
-    ),
-
-    "didattica": (
-        "Il Social include classi gestite dai professori. "
-        "Le classi possono essere: "
-        "- CHIUSE: dedicate esclusivamente alla classe specifica del professore per materiali riservati.\n"
-        "- APERTE: dove i professori caricano video didattici (es. da YouTube) su linguaggi di programmazione e altri temi tecnici."
-    )
+    "calabria": "Calabria: ITS CADMO (CZ), Efficienza Energetica (RC), Pegasus (RC), Tirreno (CS), Pinta (KR), M.A.SK. (RC), Iridea (CS), Elaia (VV).",
+    "campania": "Campania: BACT (NA), TEC MOS (CE), Mobilità Sostenibile (NA), Moda Campania (NA), MA.ME. (NA), Energy-Lab (BN), Antonio Bruno (AV), Ermete (AV), SCI.TEC.VITA (NA), Newtech SI (SA), TE.LA. (SA), Casa Campania (NA), Hitech & Communication (NA), ICT Campus (BN), Ma.De. Academy (NA).",
+    "emilia_romagna": "Emilia-Romagna: Logistica e Mobilità (PC), Agroalimentare (PR), Meccanica Meccatronica (BO), Territorio Energia (FE), Tecnologie Industrie Creative (FC), Turismo e Benessere (RN), Nuove Tecnologie della Vita (MO).",
+    "friuli": "Friuli Venezia Giulia: Meccanica e Aeronautica (UD), Alto Adriatico (PN), Alessandro Volta (TS), Accademia Nautica Adriatico (TS).",
+    "lazio": "Lazio: Caboto (LT), Agroalimentare (VT), Rossellini (RM), Servizi Imprese (VT), Bio Campus (LT), Tecnologie Vita (RM), Turismo (RM), Meccatronico (FR), Lazio Digital (RM), Agnesi (RM), ICT Academy (RM), Sistema Moda (RM), Agroalimentare Rieti (RI), Eco-Stem (RM), ITSEL (RM), Logistica 4.0 (RI).",
+    "liguria": "Liguria: Efficienza Energetica (SV), ICT Liguria (GE), Accademia Marina Mercantile (GE), Meccanico/Navalmeccanico (SP), Agroalimentare (IM), Turismo Liguria (GE).",
+    "lombardia": "Lombardia: Rizzoli (MI), JobsAcademy (BG), Minoprio (CO), Jobs Factory (PV), Tecnologie Vita (BG), Machina Lonati (BS), Trasporti/Logistica (VA), Cantieri dell’Arte (MI), Made in Italy (CR), Energia Ambiente (MB), Turismo (CO), Meccatronica (MI), Sistema Casa (MB), Agroalimentare (LO/MN/SO), InnovaProfessioni (MI), TTF (MI), Symposium (BS), I-CREA (BG).",
+    "marche_molise": "Marche: Recanati (MC), Moda (FM), Energia (AN), Turismo (PU). Molise: D.E.Mo.S. (CB).",
+    "piemonte": "Piemonte: ICT (TO), Mobilità Aerospazio (TO), Sistema Moda (BI), Agroalimentare (CN), Biotecnologie (TO), Sistemi Energetici (TO), Turismo (TO).",
+    "puglia": "Puglia: Aerospazio (BR), Cuccovillo (BA), Agroalimentare (BA), Apulia Digital Maker (FG), Turismo (LE), Infomobilità (TA), MI.TI (TA).",
+    "sardegna": "Sardegna: Efficienza Energetica (NU), Mo.So.S. (CA), Agroalimentare (SS), Turismo (SS), Novitas 4.0 (NU).",
+    "sicilia": "Sicilia: Enna (EN), Steve Jobs (CT), Albatros (ME), Archimede (SR), Trasporti (CT), Alessandro Volta (PA), Sicani (AG), Emporium del Golfo (TP), Aerospazio (RG), Madonie (PA).",
+    "toscana": "Toscana: Energia Ambiente (SI), Prime (FI), M.I.T.A. (FI), ISYL (LU), E.A.T. (GR), VITA (SI), TAB (FI), Prodigi (FI), A.T.E. (LI).",
+    "umbria_veneto": "Umbria: Made in Italy (PG). Veneto: Turismo (VE), Mobilità (VR), Meccatronico (VI), RED (PD), Moda (PD), Agroalimentare (TV), Marco Polo (VE), Digital Academy (PD).",
+    "social_didattica": "ITSSocial: Home (post/stelle), Profilo, Tendenze. Didattica: Classi CHIUSE (riservate) e APERTE (video didattici YouTube su programmazione)."
 }
-
-# === 3. ROUTER DI CONTESTO ===
 def seleziona_contesto(u_input):
     u = u_input.lower()
     contesto = ""
+    # Mappa delle parole chiave per ogni regione
+    mappa_regioni = {
+        "campania": "campania", "lazio": "lazio", "lombardia": "lombardia", 
+        "sicilia": "sicilia", "piemonte": "piemonte", "puglia": "puglia", 
+        "toscana": "toscana", "sardegna": "sardegna", "liguria": "liguria",
+        "emilia": "emilia_romagna", "romagna": "emilia_romagna",
+        "friuli": "friuli", "veneto": "umbria_veneto", "umbria": "umbria_veneto",
+        "marche": "marche_molise", "molise": "marche_molise", "calabria": "calabria",
+        "cadmo": "calabria"
+    }
     
-    if any(k in u for k in ["cadmo", "soverato", "iscrizione", "informatica", "digitale"]): 
-        contesto += KNOWLEDGE["its_cadmo"] + "\n"
-        
-    if any(k in u for k in ["calabria", "elenco", "quali sono", "altri", "sede"]): 
-        contesto += KNOWLEDGE["calabria"] + "\n"
-        
-    if any(k in u for k in ["social", "piattaforma", "stelle", "post", "tendenze"]): 
-        contesto += KNOWLEDGE["social"] + "\n"
-
-    # Nuova regola per le classi e i video
-    if any(k in u for k in ["classe", "prof", "video", "youtube", "programmazione", "lezione"]): 
-        contesto += KNOWLEDGE["didattica"] + "\n"
+    for chiave, regione in mappa_regioni.items():
+        if chiave in u:
+            contesto += KNOWLEDGE[regione] + "\n"
     
-    return contesto if contesto else "Sii amichevole e rispondi come SmarTina."
-
+    if any(k in u for k in ["social", "stelle", "post", "video", "classe"]):
+        contesto += KNOWLEDGE["social_didattica"] + "\n"
+    
+    return contesto if contesto else "Informazioni generali sugli ITS d'Italia e ITSSocial."
 # === 4. PROMPT E MEMORIA ===
 storia_chat = []
 memoria_utente = {"nome": ""}
 
 prompt = ChatPromptTemplate.from_messages([
-    ("system", "Sei SmarTina, l'assistente ufficiale di ITSSocial e degli ITS calabresi. "
-               "IMPORTANTE: Non menzionare mai eventi, workshop o calendari, poiché non sono attualmente gestiti. "
-               "Limitati a fornire supporto sulla piattaforma Social (post, stelle, profilo) e sui corsi dell'ITS CADMO.\n\n"
-               "CONTESTO REALE (Usa SOLO queste info):\n{context}\n\n"
-               "DATI UTENTE:\n{user_info}\n\n"
-               "Sii sintetica e non fare promesse su funzionalità non presenti nel contesto."),
+    ("system", "Sei SmarTina, l'assistente ufficiale di ITSSocial. "
+               "REGOLE: \n1. Non parlare MAI di eventi, workshop o calendari.\n"
+               "2. Usa esclusivamente i dati del contesto per elencare gli ITS.\n"
+               "3. Sii professionale, amichevole e sintetica.\n\n"
+               "CONTESTO REALE:\n{context}\n\n"
+               "DATI UTENTE:\n{user_info}"),
     MessagesPlaceholder(variable_name="history"),
     ("human", "{input}"),
 ])
-
 chain = prompt | llm | StrOutputParser()
 
 # === 5. LOOP PRINCIPALE ===
-print("🚀 SmarTina Online! (Versione Stabile senza bug di import)")
+print("🚀 SmarTina l'assistente dell'ITSOCIAL")
 print("Scrivi 'exit' per uscire o 'dimentica tutto' per resettare.\n")
 
 while True:
