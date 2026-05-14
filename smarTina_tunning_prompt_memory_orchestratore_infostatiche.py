@@ -28,22 +28,25 @@ llm = ChatOpenAI(
 MODEL_FT = "ft:gpt-4o-mini-2024-07-18:its-cadmo:smartina:CcpM9wrx"
 llm = ChatOpenAI(model=MODEL_FT, temperature=0.7, openai_api_key=api_key)
 
-# === 2. KNOWLEDGE BASE (DATI STATICI) ===
+# === 2. KNOWLEDGE BASE (CORRETTO) ===
 KNOWLEDGE = {
     "its_cadmo": (
         "L'ITS CADMO ha sede a Soverato (CZ) ed è specializzato in ICT. "
         "Corsi attivi: Data Analyst & AI Specialist, Software Developer, Digital Media Designer, "
         "Digital & Energy Process Specialist, Cybersecurity Expert. Sito: https://www.itscadmo.it/"
     ),
+
     "calabria": (
-        "ITS Academy in Calabria: ITS Cadmo, Its Efficienza Energetica, Its Pegasus, "
-        "Its Tirreno, Its Pinta, Its M.A.SK., Its Iridea, Its Elaia Calabria."
-    ),
+        "ITS CADMO (CZ), Its Efficienza Energetica (RC), Its Pegasus (RC), "
+        "Its Tirreno (CS), Its Pinta (KR) Its M.A.SK. (RC), Its Iridea (CS), Its Elaia Calabria (VV)"
+    ), 
+
     "social": (
         "ITSSocial è la piattaforma per gli studenti ITS. "
         "Funzioni: Home (post e stelle), Profilo, Tendenze. "
         "Contatti: socialitsinfo@gmail.com."
     ),
+
     "didattica": (
         "Il Social include classi gestite dai professori. "
         "Le classi possono essere: "
@@ -57,7 +60,7 @@ def seleziona_contesto(u_input):
     u = u_input.lower()
     contesto = ""
     
-    if any(k in u for k in ["cadmo", "soverato", "iscriz", "informatica", "digitale"]): 
+    if any(k in u for k in ["cadmo", "soverato", "iscrizione", "informatica", "digitale"]): 
         contesto += KNOWLEDGE["its_cadmo"] + "\n"
         
     if any(k in u for k in ["calabria", "elenco", "quali sono", "altri", "sede"]): 

@@ -11,7 +11,7 @@ import os
 
 # Carica chiave API
 load_dotenv()
-api_key = os.getenv("OPENAI_API_KEY")
+api_key = os.getenv("SMARTINA_KEY")
 
 if not api_key:
     raise SystemExit("❌ Manca la chiave API nel file .env")
