@@ -28,22 +28,66 @@ llm = ChatOpenAI(
 MODEL_FT = "ft:gpt-4o-mini-2024-07-18:its-cadmo:smartina:CcpM9wrx"
 llm = ChatOpenAI(model=MODEL_FT, temperature=0.7, openai_api_key=api_key)
 
-# === 2. KNOWLEDGE BASE (CORRETTO) ===
+# === 2. KNOWLEDGE BASE  ===
 KNOWLEDGE = {
-    "calabria": "Calabria: ITS CADMO (CZ), Efficienza Energetica (RC), Pegasus (RC), Tirreno (CS), Pinta (KR), M.A.SK. (RC), Iridea (CS), Elaia (VV).",
-    "campania": "Campania: BACT (NA), TEC MOS (CE), Mobilità Sostenibile (NA), Moda Campania (NA), MA.ME. (NA), Energy-Lab (BN), Antonio Bruno (AV), Ermete (AV), SCI.TEC.VITA (NA), Newtech SI (SA), TE.LA. (SA), Casa Campania (NA), Hitech & Communication (NA), ICT Campus (BN), Ma.De. Academy (NA).",
-    "emilia_romagna": "Emilia-Romagna: Logistica e Mobilità (PC), Agroalimentare (PR), Meccanica Meccatronica (BO), Territorio Energia (FE), Tecnologie Industrie Creative (FC), Turismo e Benessere (RN), Nuove Tecnologie della Vita (MO).",
-    "friuli": "Friuli Venezia Giulia: Meccanica e Aeronautica (UD), Alto Adriatico (PN), Alessandro Volta (TS), Accademia Nautica Adriatico (TS).",
-    "lazio": "Lazio: Caboto (LT), Agroalimentare (VT), Rossellini (RM), Servizi Imprese (VT), Bio Campus (LT), Tecnologie Vita (RM), Turismo (RM), Meccatronico (FR), Lazio Digital (RM), Agnesi (RM), ICT Academy (RM), Sistema Moda (RM), Agroalimentare Rieti (RI), Eco-Stem (RM), ITSEL (RM), Logistica 4.0 (RI).",
-    "liguria": "Liguria: Efficienza Energetica (SV), ICT Liguria (GE), Accademia Marina Mercantile (GE), Meccanico/Navalmeccanico (SP), Agroalimentare (IM), Turismo Liguria (GE).",
-    "lombardia": "Lombardia: Rizzoli (MI), JobsAcademy (BG), Minoprio (CO), Jobs Factory (PV), Tecnologie Vita (BG), Machina Lonati (BS), Trasporti/Logistica (VA), Cantieri dell’Arte (MI), Made in Italy (CR), Energia Ambiente (MB), Turismo (CO), Meccatronica (MI), Sistema Casa (MB), Agroalimentare (LO/MN/SO), InnovaProfessioni (MI), TTF (MI), Symposium (BS), I-CREA (BG).",
-    "marche_molise": "Marche: Recanati (MC), Moda (FM), Energia (AN), Turismo (PU). Molise: D.E.Mo.S. (CB).",
-    "piemonte": "Piemonte: ICT (TO), Mobilità Aerospazio (TO), Sistema Moda (BI), Agroalimentare (CN), Biotecnologie (TO), Sistemi Energetici (TO), Turismo (TO).",
-    "puglia": "Puglia: Aerospazio (BR), Cuccovillo (BA), Agroalimentare (BA), Apulia Digital Maker (FG), Turismo (LE), Infomobilità (TA), MI.TI (TA).",
-    "sardegna": "Sardegna: Efficienza Energetica (NU), Mo.So.S. (CA), Agroalimentare (SS), Turismo (SS), Novitas 4.0 (NU).",
-    "sicilia": "Sicilia: Enna (EN), Steve Jobs (CT), Albatros (ME), Archimede (SR), Trasporti (CT), Alessandro Volta (PA), Sicani (AG), Emporium del Golfo (TP), Aerospazio (RG), Madonie (PA).",
-    "toscana": "Toscana: Energia Ambiente (SI), Prime (FI), M.I.T.A. (FI), ISYL (LU), E.A.T. (GR), VITA (SI), TAB (FI), Prodigi (FI), A.T.E. (LI).",
-    "umbria_veneto": "Umbria: Made in Italy (PG). Veneto: Turismo (VE), Mobilità (VR), Meccatronico (VI), RED (PD), Moda (PD), Agroalimentare (TV), Marco Polo (VE), Digital Academy (PD).",
+    "calabria": "Calabria: ITS CADMO (CZ), Efficienza Energetica (RC), Pegasus (RC),"
+        "Tirreno (CS), Pinta (KR), M.A.SK. (RC), Iridea (CS), Elaia (VV).",
+        
+    "campania": "Campania: BACT (NA), TEC MOS (CE), Mobilità Sostenibile (NA), Moda Campania (NA), MA.ME. (NA), Energy-Lab (BN), "
+        "Antonio Bruno (AV), Ermete (AV), SCI.TEC.VITA (NA), Newtech SI (SA), "
+        "TE.LA. (SA), Casa Campania (NA), Hitech & Communication (NA), "
+        "ICT Campus (BN), Ma.De. Academy (NA).",
+
+    "emilia_romagna": "Emilia-Romagna: Logistica e Mobilità (PC), "
+        "Agroalimentare (PR), Meccanica Meccatronica (BO), "
+        "Territorio Energia (FE),Tecnologie Industrie Creative (FC), "
+        "Turismo e Benessere (RN), Nuove Tecnologie della Vita (MO).",
+
+    "friuli": "Friuli Venezia Giulia: Meccanica e Aeronautica (UD), "
+        "Alto Adriatico (PN), Alessandro Volta (TS), Accademia Nautica Adriatico (TS).",
+
+    "lazio": "Lazio: Caboto (LT), Agroalimentare (VT), Rossellini (RM), "
+        "Servizi Imprese (VT), Bio Campus (LT), Tecnologie Vita (RM), Turismo (RM), "
+        "Meccatronico (FR), Lazio Digital (RM), Agnesi (RM), ICT Academy (RM), "
+        "Sistema Moda (RM), Agroalimentare Rieti (RI), Eco-Stem (RM), ITSEL (RM), "
+        "Logistica 4.0 (RI).",
+
+    "liguria": "Liguria: Efficienza Energetica (SV), ICT Liguria (GE), "
+        "Accademia Marina Mercantile (GE), Meccanico/Navalmeccanico (SP), "
+        "Agroalimentare (IM), Turismo Liguria (GE).",
+
+    "lombardia": "Lombardia: Rizzoli (MI), JobsAcademy (BG), Minoprio (CO), Jobs Factory (PV),"
+        " Tecnologie Vita (BG), Machina Lonati (BS), Trasporti/Logistica (VA), "
+        "Cantieri dell’Arte (MI), Made in Italy (CR), Energia Ambiente (MB), "
+        "Turismo (CO), Meccatronica (MI), Sistema Casa (MB), "
+        "Agroalimentare (LO/MN/SO), InnovaProfessioni (MI), TTF (MI), Symposium (BS), "
+        "I-CREA (BG).",
+
+    "marche_molise": "Marche: Recanati (MC), Moda (FM), Energia (AN), "
+        "Turismo (PU). Molise: D.E.Mo.S. (CB).",
+
+    "piemonte": "Piemonte: ICT (TO), Mobilità Aerospazio (TO), Sistema Moda "
+        "(BI), Agroalimentare (CN), Biotecnologie (TO), "
+        "Sistemi Energetici (TO), Turismo (TO).",
+        
+    "puglia": "Puglia: Aerospazio (BR), Cuccovillo (BA), Agroalimentare (BA), "
+        "Apulia Digital Maker (FG), Turismo (LE), "
+        "Infomobilità (TA), MI.TI (TA).",
+
+    "sardegna": "Sardegna: Efficienza Energetica (NU), Mo.So.S. (CA), "
+        "Agroalimentare (SS), Turismo (SS), Novitas 4.0 (NU).",
+
+    "sicilia": "Sicilia: Enna (EN), Steve Jobs (CT), Albatros (ME), "
+        "Archimede (SR), Trasporti (CT), Alessandro Volta (PA), Sicani (AG), "
+        "Emporium del Golfo (TP), Aerospazio (RG), Madonie (PA).",
+
+    "toscana": "Toscana: Energia Ambiente (SI), Prime (FI), M.I.T.A. (FI), "
+    "ISYL (LU), E.A.T. (GR), VITA (SI), TAB (FI), Prodigi (FI), A.T.E. (LI).",
+
+    "umbria_veneto": "Umbria: Made in Italy (PG). Veneto: Turismo (VE), "
+    "Mobilità (VR), Meccatronico (VI), RED (PD), Moda (PD), "
+    "Agroalimentare (TV), Marco Polo (VE), Digital Academy (PD).",
+
     "social_didattica": "ITSSocial: Home (post/stelle), Profilo, Tendenze. Didattica: Classi CHIUSE (riservate) e APERTE (video didattici YouTube su programmazione)."
 }
 def seleziona_contesto(u_input):
@@ -57,7 +101,6 @@ def seleziona_contesto(u_input):
         "emilia": "emilia_romagna", "romagna": "emilia_romagna",
         "friuli": "friuli", "veneto": "umbria_veneto", "umbria": "umbria_veneto",
         "marche": "marche_molise", "molise": "marche_molise", "calabria": "calabria",
-        "cadmo": "calabria"
     }
     
     for chiave, regione in mappa_regioni.items():
