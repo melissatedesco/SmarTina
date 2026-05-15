@@ -1,78 +1,137 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# 🌐 SmarTina – Assistente ufficiale di ITSSocial (Multi-Agente con Memoria e RAG)
+# 🌐 SmarTina – Pipeline RAG con pre-processing avanzato per ITSocial
+#
+# Uso: python rag/create_vector_store.py data/smarTina_contenuti.txt
+#
+# Dipendenze: pip install openai python-dotenv faiss-cpu numpy
+#             pip install autocorrect textblob spacy
+#             python -m spacy download it_core_news_sm
 
-"""
-Ruoli:
-- 🧭 Orchestratore GPT → decide se la richiesta riguarda ITSSocial (RAG) o è generica (GEN).
-- ℹ️ Agente INFO GPT → risponde con informazioni su home, profilo, post, stelle, tendenze, commenti, accesso, contatti.
-- 💬 Agente Generico GPT → gestisce conversazioni libere e mantiene la memoria della sessione.
-
-
-
-Questo script crea anche l’indice FAISS e i metadata per il RAG di ITSSocial.
-"""
-
-# === IMPORTAZIONI ===========================================================
-
-import os, pickle, faiss, numpy as np
-from dotenv import load_dotenv
+import os
+import sys
+import re
+import pickle
+import numpy as np
+import faiss
+from autocorrect import Speller
+from textblob import TextBlob
+import spacy
 from openai import OpenAI
+from dotenv import load_dotenv
 
-# === CONFIGURAZIONE AMBIENTE ===============================================
+# === 1. CONFIGURAZIONE ===
+load_dotenv(override=True)
+api_key = os.getenv("OPENAI_API_KEY", "").strip()
 
-load_dotenv()
-api_key = os.getenv("OPENAI_API_KEY")
+if not api_key.startswith("sk-"):
+    raise SystemExit("❌ OPENAI_API_KEY non valida nel file .env")
 
-if not api_key:
-    raise SystemExit("❌ Manca la chiave API nel file .env")
+client  = OpenAI(api_key=api_key)
+nlp     = spacy.load("it_core_news_sm")
+speller = Speller(lang="it")
 
-client = OpenAI(api_key=api_key)
-
-# Modelli
-EMBEDDING_MODEL = "text-embedding-3-small"
-
-# File RAG
-INDEX_PATH = "rag/its_social_faiss_index.faiss"
-METADATA_PATH = "rag/its_social_metadata.pkl"
-
-# === DATI BASE ==========================================================
-# Puoi aggiungere qui testi, FAQ, descrizioni o regolamenti di ITSSocial
-documenti = [
-    "ITSSocial è la piattaforma social dedicata agli studenti degli ITS italiani.",
-    "Nella sezione Home puoi vedere i post pubblicati dagli studenti e interagire con la community.",
-    "Nel Profilo puoi aggiornare le tue informazioni personali e visualizzare i tuoi post.",
-    "La sezione Tendenze mostra i contenuti più apprezzati, con il maggior numero di stelle.",
-    "Per assistenza puoi contattare il team ITSSocial all'indirizzo support@itssocial.it.",
-    "Puoi accedere a ITSSocial con le credenziali del tuo ITS. Se non hai un account, puoi registrarti dal sito ufficiale.",
-]
-
-# === CREAZIONE EMBEDDING ================================================
-print("🔄 Generazione embedding per i contenuti ITSSocial...")
-embeddings = []
-for doc in documenti:
-    emb = client.embeddings.create(model=EMBEDDING_MODEL, input=doc)
-    embeddings.append(emb.data[0].embedding)
-
-X = np.array(embeddings, dtype="float32")
-
-# === CREAZIONE INDICE FAISS =============================================
-print("📦 Creazione indice FAISS...")
-index = faiss.IndexFlatL2(X.shape[1])
-index.add(X)
-
-# ✅ Assicuriamoci che la cartella esista
-os.makedirs("rag", exist_ok=True)
-
-# === SALVATAGGIO METADATA ===============================================
-faiss.write_index(index, INDEX_PATH)
-with open(METADATA_PATH, "wb") as f:
-    pickle.dump(documenti, f)
+INDEX_DIR     = "rag/its_social_faiss"
+CHUNK_SIZE    = 500
+CHUNK_OVERLAP = 50
+EMBED_MODEL   = "text-embedding-3-small"
 
 
-# === RISULTATO ============================================================
+# === 2. CARICAMENTO DOCUMENTO ===
+def load_document(path: str) -> str:
+    if not path.endswith(".txt"):
+        raise ValueError(f"❌ Formato non supportato. Usa un file .txt")
+    if not os.path.exists(path):
+        raise FileNotFoundError(f"❌ File non trovato: {path}")
+    print("📄 Caricamento TXT...")
+    with open(path, encoding="utf-8") as f:
+        text = f.read()
+    print(f"   → {len(text)} caratteri caricati")
+    return text
 
-print("\n✅ Indice FAISS e metadata creati con successo!")
-print(f"📁 File indice: {INDEX_PATH}")
-print(f"📁 File metadata: {METADATA_PATH}")
-print("\n🌟 SmarTina è pronta a rispondere su ITSSocial!")
+
+# === 3. DIVISIONE IN CHUNK ===
+def split_text(text: str) -> list:
+    chunks = []
+    start  = 0
+    while start < len(text):
+        chunk = text[start : start + CHUNK_SIZE].strip()
+        if chunk:
+            chunks.append(chunk)
+        start += CHUNK_SIZE - CHUNK_OVERLAP
+    return chunks
+
+
+# === 4. PRE-PROCESSING ===
+def preprocess_text(text: str) -> str:
+    # Correzione ortografica con autocorrect
+    corrected = speller(text)
+
+    # Ulteriore correzione con TextBlob
+    corrected = str(TextBlob(corrected).correct())
+
+    # Pulizia: mantieni solo lettere, numeri e spazi
+    corrected = re.sub(r"[^\w\s]", " ", corrected)
+    corrected = re.sub(r"\s+", " ", corrected).strip()
+
+    # Rimozione stop words italiane con SpaCy
+    doc    = nlp(corrected)
+    tokens = [t.text for t in doc if not t.is_stop and not t.is_space and t.text]
+
+    return " ".join(tokens)
+
+
+# === 5. GENERAZIONE EMBEDDING ===
+def get_embeddings(texts: list) -> np.ndarray:
+    response = client.embeddings.create(model=EMBED_MODEL, input=texts)
+    vectors  = [item.embedding for item in response.data]
+    return np.array(vectors, dtype="float32")
+
+
+# === 6. SALVATAGGIO INDICE FAISS ===
+def build_and_save(original_chunks: list, vectors: np.ndarray, index_dir: str):
+    os.makedirs(index_dir, exist_ok=True)
+
+    index = faiss.IndexFlatL2(vectors.shape[1])
+    index.add(vectors)
+
+    faiss.write_index(index, os.path.join(index_dir, "index.faiss"))
+    with open(os.path.join(index_dir, "chunks.pkl"), "wb") as f:
+        pickle.dump(original_chunks, f)
+
+    print(f"✅ Indice salvato in: {index_dir}")
+
+
+def main():
+    if len(sys.argv) < 2:
+        raise SystemExit("❌ Uso: python rag/create_vector_store.py <smarTina_contenuti.txt>")
+
+    path = sys.argv[1]
+
+    # Caricamento
+    raw_text = load_document(path)
+
+    # Chunking sul testo originale
+    original_chunks = split_text(raw_text)
+    if not original_chunks:
+        raise SystemExit("❌ Nessun chunk generato. Controlla il file sorgente.")
+    print(f"✂️  {len(original_chunks)} chunk creati")
+
+    # Pre-processing per gli embedding (i chunk originali vengono preservati)
+    print("🔧 Pre-processing in corso...")
+    processed_chunks = [preprocess_text(c) for c in original_chunks]
+
+    # Embedding dei chunk processati
+    print("🔢 Generazione embedding...")
+    vectors = get_embeddings(processed_chunks)
+
+    # Salvataggio: indice FAISS (vettori processati) + metadata (testi originali)
+    print("💾 Salvataggio indice FAISS e metadata...")
+    build_and_save(original_chunks, vectors, INDEX_DIR)
+
+    print(f"\n📚 Chunk indicizzati: {len(original_chunks)}")
+    print("🌟 SmarTina è pronta a rispondere su ITSocial!")
+
+
+if __name__ == "__main__":
+    main()

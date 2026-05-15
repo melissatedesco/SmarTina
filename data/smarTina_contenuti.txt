@@ -1,18 +1,18 @@
 ###Benvenuto
 
-Ciao! Sono SmarTina, l'assistente ufficiale di ITSSocial.
+Ciao! Sono SmarTina, l'assistente ufficiale di ITSocial.
 Posso aiutarti con la piattaforma, le classi, i messaggi, i ticket di assistenza e le informazioni sugli ITS Academy italiani.
 Dimmi pure cosa vuoi sapere!
 
-###Cos'è ITSSocial
+###Cos'è ITSocial
 
-ITSSocial è il social network ufficiale per studenti e professori degli Istituti Tecnici Superiori italiani.
+ITSocial è il social network ufficiale per studenti e professori degli Istituti Tecnici Superiori italiani.
 Combina funzionalità social classiche — post, like, commenti, messaggi diretti, follow — con strumenti scolastici come classi virtuali, compiti, materiali e annunci.
 Non è un social generico: è uno spazio pensato esclusivamente per la community ITS.
 
 ###Ruoli
 
-Su ITSSocial esistono 4 ruoli:
+Su ITSocial esistono 4 ruoli:
 - Studente: social completo + accesso classi in sola lettura + consegna compiti
 - Professore: social completo + creazione e gestione di classi, compiti, materiali e annunci
 - Istituto: gestione dei professori dell'istituto
@@ -21,7 +21,7 @@ Il ruolo determina cosa puoi fare sulla piattaforma.
 
 ###App mobile
 
-ITSSocial è disponibile sia come versione web sia come app mobile per iOS e Android.
+ITSocial è disponibile sia come versione web sia come app mobile per iOS e Android.
 L'app include feed, messaggi, classi, notifiche, profilo e la chat con SmarTina.
 Si accede con le stesse credenziali della versione web.
 
@@ -182,89 +182,166 @@ Le 6 aree tecnologiche nazionali: efficienza energetica, mobilità sostenibile, 
 ###ITS in Italia per regione
 
 Gli ITS Academy sono presenti in tutte le regioni italiane.
-Regioni con più ITS: Lombardia (18), Lazio (16), Campania (15), Sicilia (10), Toscana (9), Calabria (9).
-Regioni con meno ITS: Umbria (1), Molise (1), Sardegna (5).
-
-Calabria (9 ITS):
-ITS Pegasus — mobilità sostenibile e logistica (RC) — www.itspegasus.it
-ITS Efficienza Energetica A. Monaco — efficienza energetica (CS) — www.itimonaco.it
-ITS Fondazione RC Effe — efficienza energetica (RC) — fondazioneitsrc.com
-ITS Tirreno — biotecnologie (CS) — www.itstirreno.it
-Fondazione Pinta — agroalimentare (KR) — www.itsagroalimentarecalabria.it
-Fondazione M.A.SK. — cybersecurity e fintech (RC) — itsmask.it
-Fondazione Elaia Calabria — turismo (VV) — itselaiacalabria.org
-Fondazione Cadmo ICT — ICT e digitale (CZ) — www.itscadmo.it — sedi: Lamezia Terme, Soverato, Castrolibero
-ITS Sistema Agroalimentare Iridea — agricoltura di precisione (CS) — itsiridea.it
+Regioni con più ITS: Lombardia (16), Campania (15), Calabria (9), Lazio (13).
+Regioni con meno ITS: Basilicata (1), Molise (1), Umbria (1), Sardegna (4).
 
 Abruzzo (6 ITS):
-ITS Sistema Meccanica (CH) — www.itsmeccanicabruzzo.it
-ITS Efficienza Energetica (AQ) — www.itsenergia.org
-ITS Sistema Agroalimentare (TE) — www.itsagroalimentarete.it
-ITS MOST Mobilità Sostenibile (CH) — www.itsmost.it
-ITS Sistema Moda (PE) — www.itsmodapescara.it
-ITS Abruzzo Turismo e Cultura (TE) — www.its-turismoabruzzo.it
+- [ITS Sistema Meccanica](https://itsmeccanicabruzzo.it) — meccanica (Chieti)
+- [ITS Efficienza Energetica L'Aquila](https://itsenergia.org) — efficienza energetica (L'Aquila)
+- [ITS Sistema Agroalimentare](https://itsagroalimentarete.it) — agroalimentare (Teramo)
+- [ITS MOST Mobilità Sostenibile](https://itsmost.it) — mobilità sostenibile (Chieti)
+- [ITS Sistema Moda](https://itsmodapescara.it) — moda (Pescara)
+- [ITS Abruzzo Turismo e Cultura](https://its-turismoabruzzo.it) — turismo (Teramo)
+
+Basilicata (1 ITS):
+- [ITS Efficienza Energetica Potenza](https://its-efficienzaenergeticabasilicata.it) — efficienza energetica (Potenza)
+
+Calabria (9 ITS):
+- [ITS Pegasus](https://itspegasus.it) — mobilità sostenibile e logistica (Reggio Calabria)
+- [ITS Efficienza Energetica A. Monaco](https://its-efficienzaenergeticacs.it) — efficienza energetica (Cosenza)
+- [ITS Efficienza Energetica RC](https://itsefficienzaenergeticarc.it) — efficienza energetica (Reggio Calabria)
+- [ITS Tirreno – Nuove Tecnologie della Vita](https://itstirreno.it) — nuove tecnologie della vita (Cosenza)
+- [Fondazione Pinta](https://fondazionepinta.it) — agroalimentare (Crotone)
+- [Fondazione M.A.SK.](https://fondazionemask.it) — cybersecurity e fintech (Reggio Calabria)
+- [Fondazione Elaia Calabria](https://itselaia.it) — turismo (Vibo Valentia)
+- [Fondazione Cadmo ICT](https://fondazionecadmo.it) — ICT e digitale (Catanzaro)
+- [ITS Sistema Agroalimentare Iridea](https://itsirdea.it) — agricoltura di precisione (Cosenza)
 
 Campania (15 ITS):
-Fondazione BACT (Napoli) — www.fondazionebact.it
-ITS TEC MOS (Caserta) — www.itstecmos.it
-ITS Mobilità Marittima (Napoli) — www.itsmare.it
-ITS Moda Campania (Napoli) — www.itsmodacampania.it
-ITS Antonio Bruno (Avellino) — www.itsantoniobruno.it
-ITS Ermete (Avellino) — www.itsermete.it
-ITS Newtech SI (Salerno) — www.itsnewtechsi.it
-MA.ME. (Napoli), Energy-Lab (Benevento), SCI.TEC.VITA (Napoli), TE.LA. (Salerno), Casa Campania (Napoli), Hitech & Communication (Napoli), ICT Campus (Benevento), Ma.De. Academy (Napoli).
+- [Fondazione BACT](https://fondazionebact.it) — Napoli
+- [ITS TEC MOS](https://itstecmos.it) — Caserta
+- [ITS Mobilità Sostenibile Trasporti Marittimi](https://itsmare.it) — Napoli
+- [ITS Moda Campania](https://itsmodacampania.it) — Napoli
+- [ITS MA.ME.](https://itsmame.it) — Napoli
+- [ITS Energy-Lab](https://itsenergylab.it) — Benevento
+- [ITS Antonio Bruno](https://itsantoniobruno.it) — Avellino
+- [ITS Ermete](https://itsermete.it) — Avellino
+- [ITS SCI.TEC.VITA](https://itsscitecvita.it) — Napoli
+- [ITS Academy Newtech SI](https://itsnewtechsi.it) — Salerno
+- [ITS TE.LA.](https://itstela.it) — Salerno
+- [ITS Casa Campania](https://itscasacampania.it) — Napoli
+- [ITS Campania Hitech & Communication](https://itshitechcampania.it) — Napoli
+- [ICT Campus ITS Academy](https://ictcampus.it) — Benevento
+- [ITS Ma.De. Academy](https://itsmadeacademy.it) — Napoli
 
 Emilia-Romagna (7 ITS):
-Logistica e Mobilità (Piacenza), Agroalimentare (Parma), Meccanica Meccatronica (Bologna), Territorio Energia (Ferrara), Tecnologie Industrie Creative (Forlì-Cesena), Turismo e Benessere (Rimini), Nuove Tecnologie della Vita (Modena).
+- [ITS Logistica e Mobilità](https://itslogistica.it) — logistica (Piacenza)
+- [ITS Agroalimentare](https://itstechandfood.it) — agroalimentare (Parma)
+- [ITS Meccanica Meccatronica Motoristica Packaging](https://itsmaker.it) — meccanica (Bologna)
+- [ITS Territorio Energia Costruire](https://itstec.it) — energia (Ferrara)
+- [ITS Tecnologie Industrie Creative](https://fitstic.it) — made in Italy (Forlì-Cesena)
+- [ITS Turismo e Benessere](https://itsturismoebenessere.it) — turismo (Rimini)
+- [ITS Nuove Tecnologie della Vita](https://itsbiomedicale.it) — biotecnologie (Modena)
 
 Friuli Venezia Giulia (4 ITS):
-Meccanica e Aeronautica (Udine), Alto Adriatico (Pordenone), Alessandro Volta (Trieste), Accademia Nautica Adriatico (Trieste).
+- [ITS Industria Meccanica e Aeronautica](https://itsmalignani.it) — meccanica e aeronautica (Udine)
+- [ITS Alto Adriatico](https://itsaltoadriatico.it) — (Pordenone)
+- [ITS Alessandro Volta](https://itsvolta.it) — (Trieste)
+- [ITS Accademia Nautica Adriatico](https://accademianautica.it) — nautica (Trieste)
 
-Lazio (16 ITS):
-Caboto (Latina), Agroalimentare (Viterbo), Rossellini (Roma), Servizi Imprese (Viterbo), Bio Campus (Latina), Tecnologie Vita (Roma), Turismo (Roma), Meccatronico (Frosinone), Lazio Digital (Roma), Agnesi (Roma), ICT Academy (Roma), Sistema Moda (Roma), Agroalimentare Rieti (Rieti), Eco-Stem (Roma), ITSEL (Roma), Logistica 4.0 (Rieti).
+Lazio (13 ITS):
+- [ITS Fondazione G. Caboto](https://fondazionecaboto.it) — (Latina)
+- [ITS Agroalimentare](https://itsagroalimentare.it) — agroalimentare (Viterbo)
+- [ITS Roberto Rossellini](https://itsrossellini.it) — (Roma)
+- [ITS Servizi alle Imprese](https://itsservizialleimprese.it) — (Viterbo)
+- [ITS Bio Campus](https://itsbiocampus.it) — biotecnologie (Latina)
+- [ITS Nuove Tecnologie Vita](https://its-nuovetecnologiedellavita.it) — (Roma)
+- [ITS Turismo Roma](https://itsturismoroma.it) — turismo (Roma)
+- [ITS Meccatronico Lazio](https://itsmeccatronicolazio.it) — meccatronica (Frosinone)
+- [ITS Academy Lazio Digital](https://laziodigital.it) — digitale (Roma)
+- [ITS Maria Gaetana Agnesi](https://itsagnesi.it) — (Roma)
+- [ITS ICT Academy Roma](https://ictacademy.it) — ICT (Roma)
+- [ITS Academy Sistema Moda](https://its-modaroma.it) — moda (Roma)
+- [ITS Academy Logistica 4.0](https://itslogistica40.it) — logistica (Rieti)
 
 Liguria (6 ITS):
-Efficienza Energetica (Savona), ICT Liguria (Genova), Accademia Marina Mercantile (Genova), Meccanico/Navalmeccanico (La Spezia), Agroalimentare (Imperia), Turismo Liguria (Genova).
+- [ITS Efficienza Energetica](https://itsenergia-liguria.it) — efficienza energetica (Savona)
+- [ITS ICT Liguria](https://ictliguria.it) — ICT (Genova)
+- [Accademia Marina Mercantile](https://accademiamarinamercantile.it) — marina mercantile (Genova)
+- [ITS Meccanico/Navalmeccanico](https://itslaspezia.it) — meccanica navale (La Spezia)
+- [ITS Agroalimentare Imperia](https://itsagroalimentareliguria.it) — agroalimentare (Imperia)
+- [ITS Turismo Liguria](https://itsturismoliguria.it) — turismo (Genova)
 
-Lombardia (18 ITS):
-ITS Angelo Rizzoli (MI) — moda e design — www.itsrizzoli.it
-JobsAcademy (BG) — efficienza energetica e meccatronica — fondazionejobsacademy.org
-ITS Machina Lonati (BS) — moda e tessile — www.machinalonati.it
-ITS Lombardo Meccatronica (MI) — meccatronica — www.itslombardomeccatronica.it
-ITS Moving (BG) — mobilità sostenibile — www.itsmoving.it
-Minoprio (Como), Jobs Factory (Pavia), Tecnologie Vita (Bergamo), Trasporti/Logistica (Varese), Cantieri dell'Arte (Milano), Made in Italy (Cremona), Energia Ambiente (Monza Brianza), Turismo (Como), Sistema Casa (Monza Brianza), Agroalimentare (Lodi/Mantova/Sondrio), InnovaProfessioni (Milano), TTF (Milano), Symposium (Brescia), I-CREA (Bergamo).
+Lombardia (16 ITS):
+- [ITS Angelo Rizzoli](https://itsrizzoli.it) — moda e design (Milano)
+- [JobsAcademy](https://jobsacademy.it) — efficienza energetica e meccatronica (Bergamo)
+- [ITS Minoprio](https://fondazioneminoprio.it) — (Como)
+- [ITS Nuove Tecnologie Vita](https://its-nuovetecnologievita.it) — (Bergamo)
+- [ITS Machina Lonati](https://machinalonati.it) — moda e tessile (Brescia)
+- [ITS Trasporti e Logistica](https://itscasabiancamalpensa.it) — trasporti e logistica (Varese)
+- [ITS Cantieri dell'Arte](https://itscantieridellarte.it) — (Milano)
+- [ITS Made in Italy](https://itsmadeinitaly.it) — made in Italy (Cremona)
+- [ITS Energia Ambiente Edilizia](https://its-bec.it) — energia (Monza Brianza)
+- [ITS Turismo Ospitalità](https://itsturismosmart.it) — turismo (Como)
+- [ITS Lombardo Meccatronica](https://itslombardomeccatronica.it) — meccatronica (Milano)
+- [ITS Sistema Casa Rosario Messina](https://itssistemacasa.it) — (Monza Brianza)
+- [ITS Filiera Agroalimentare](https://itsagroalimentare.it) — agroalimentare (Lodi/Mantova/Sondrio)
+- [ITS InnovaProfessioni](https://innovaprofessioni.it) — (Milano)
+- [ITS TTF Technologies Talent Factory](https://itsttf.it) — (Milano)
+- [ITS Symposium](https://itssymposium.it) — (Brescia)
 
 Marche (4 ITS):
-Recanati (Macerata), Moda (Fermo), Energia (Ancona), Turismo (Pesaro-Urbino).
+- [ITS Recanati](https://itsrecanati.it) — (Macerata)
+- [ITS Sistema Moda](https://itssistemamoda.it) — moda (Fermo)
+- [ITS Efficienza Energetica](https://fondazioneitsenergia.it) — efficienza energetica (Ancona)
+- [ITS Turismo Marche](https://itsturismomarche.it) — turismo (Pesaro-Urbino)
 
 Molise (1 ITS):
-D.E.Mo.S. (Campobasso).
+- [ITS D.E.Mo.S.](https://www.itsdemos.it) — (Campobasso)
 
 Piemonte (7 ITS):
-ICT (Torino), Mobilità Aerospazio (Torino), Sistema Moda (Biella), Agroalimentare (Cuneo), Biotecnologie (Torino), Sistemi Energetici (Torino), Turismo (Torino).
+- [ITS ICT Piemonte](https://its-ictpiemonte.it) — ICT (Torino)
+- [ITS Mobilità Aerospazio/Meccatronica](https://its-aerospaziomeccatronica.it) — mobilità e aerospazio (Torino)
+- [ITS Sistema Moda](https://its-tessileabbigliamentomoda.it) — moda (Biella)
+- [ITS Agroalimentare Piemonte](https://its-agroalimentarepiemonte.it) — agroalimentare (Cuneo)
+- [ITS Biotecnologie](https://its-biotecnologiepiemonte.it) — biotecnologie (Torino)
+- [ITS Sistemi Energetici](https://its-energia.it) — energia (Torino)
+- [ITS Turismo Attività Culturali](https://its-turismopiemonte.it) — turismo (Torino)
 
 Puglia (7 ITS):
-ITS Cuccovillo (BA) — meccatronica — www.itsmeccatronicapuglia.it
-ITS Apulia Digital Maker (FG) — ICT e digitale — www.apuliadigitalmaker.it
-ITS Aerospazio (BR) — aerospazio — www.itsaerospaziopuglia.it
-ITS Turismo (LE) — turismo — www.itsturismopuglia.it
-Agroalimentare (Bari), Infomobilità (Taranto), MI.TI (Taranto).
+- [ITS Aerospazio](https://itsaerospaziopuglia.it) — aerospazio (Brindisi)
+- [ITS Antonio Cuccovillo](https://itsmeccatronicapuglia.it) — meccatronica (Bari)
+- [ITS Agroalimentare Puglia](https://itsagroalimentarepuglia.it) — agroalimentare (Bari)
+- [ITS Apulia Digital Maker](https://apuliadigitalmaker.it) — ICT e digitale (Foggia)
+- [ITS Turismo](https://itsturismopuglia.it) — turismo (Lecce)
+- [ITS Infomobilità](https://itslogistica.puglia.it) — infomobilità (Taranto)
+- [ITS MI.TI Martina Franca](https://itsmitimartinafranca.it) — (Taranto)
 
-Sardegna (5 ITS):
-Efficienza Energetica (Nuoro), Mo.So.S. (Cagliari), Agroalimentare (Sassari), Turismo (Sassari), Novitas 4.0 (Nuoro).
+Sardegna (4 ITS):
+- [ITS Efficienza Energetica](https://itsenergeticanuoro.it) — efficienza energetica (Nuoro)
+- [ITS Mo.So.S.](https://itsmosos.it) — (Cagliari)
+- [ITS Filiera Agroalimentare](https://itsagroalimentaresardegna.it) — agroalimentare (Sassari)
+- [ITS Turismo Sardegna](https://itsturismosardegna.it) — turismo (Sassari)
 
-Sicilia (10 ITS):
-Enna (Enna), Steve Jobs (Catania), Albatros (Messina), Archimede (Siracusa), Trasporti (Catania), Alessandro Volta (Palermo), Sicani (Agrigento), Emporium del Golfo (Trapani), Aerospazio (Ragusa), Madonie (Palermo).
+Sicilia (8 ITS):
+- [ITS Efficienza Energetica Enna](https://itsenna.it) — efficienza energetica (Enna)
+- [ITS Steve Jobs](https://itsstevejobs.eu) — (Catania)
+- [ITS Albatros](https://itsalbatros.it) — (Messina)
+- [ITS Archimede](https://itsarchimede.it) — (Siracusa)
+- [ITS Trasporti](https://infomobilitysicilia.it) — trasporti (Catania)
+- [ITS Alessandro Volta](https://its-volta.it) — (Palermo)
+- [ITS Sicani](https://itssicani.it) — (Agrigento)
+- [ITS Emporium del Golfo](https://itsemporium.it) — (Trapani)
 
-Toscana (9 ITS):
-Energia Ambiente (Siena), Prime (Firenze), M.I.T.A. (Firenze), ISYL (Lucca), E.A.T. (Grosseto), VITA (Siena), TAB (Firenze), Prodigi (Firenze), A.T.E. (Livorno).
+Toscana (8 ITS):
+- [ITS Energia Ambiente](https://itsenergiaambiente.it) — energia (Siena)
+- [ITS Prime](https://itsprime.it) — (Firenze)
+- [ITS M.I.T.A.](https://mitacademy.it) — (Firenze)
+- [ITS ISYL](https://isyl.it) — (Lucca)
+- [ITS E.A.T.](https://fondazione-eat.it) — (Grosseto)
+- [ITS VITA](https://itsvita.it) — (Siena)
+- [ITS TAB](https://fondazionetab.it) — (Firenze)
+- [ITS Prodigi](https://its-prodigi.it) — (Firenze)
 
 Umbria (1 ITS):
-Made in Italy (Perugia).
+- [ITS Umbria Made in Italy](https://itsumbria.it) — made in Italy (Perugia)
 
 Veneto (8 ITS):
-ITS Meccatronico (VI) — meccatronica — www.itsmeccatronico.it
-ITS Turismo Veneto (VE) — turismo — www.itsturismo.it
-ITS Red (PD) — ICT e digitale — www.itsred.it
-ITS Cosmo (PD) — nuove tecnologie della vita — www.itscosmo.it
-Mobilità (Verona), Moda (Padova), Agroalimentare (Treviso), Marco Polo (Venezia).
+- [ITS Turismo Veneto](https://itsturismo.it) — turismo (Venezia)
+- [ITS Mobilità Sostenibile LAST](https://itslast.it) — mobilità sostenibile (Verona)
+- [ITS Meccatronico](https://itsmeccatronico.it) — meccatronica (Vicenza)
+- [ITS RED](https://itsred.it) — ICT e digitale (Padova)
+- [ITS Moda-Calzatura](https://itscosmo.it) — moda (Padova)
+- [ITS Agroalimentare e Vitivinicolo](https://itsagroalimentareveneto.it) — agroalimentare (Treviso)
+- [ITS Marco Polo](https://itsmarcopolo.it) — (Venezia)
+- [ITS Digital Academy Mario Volpato](https://itsdigitalacademy.it) — digitale (Venezia)
