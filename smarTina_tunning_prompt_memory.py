@@ -1,16 +1,14 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 # 💬 SmarTina – Prompt Tuning + Memory (senza orchestratore)
-
 """
 Funzionamento:
 - Il modello fine-tuned decide autonomamente se rispondere con INFO o GEN.
 - Mantiene memoria del nome utente.
-- Knowledge base ITSocial: tutte le funzionalità della piattaforma.
+- Knowledge base ITSocial: Home, Profilo, Post, Tendenze, Contatti, Accesso, Its_Academy, Ticket.
 """
 
 import os
-import re
 from openai import OpenAI
 from dotenv import load_dotenv
 
@@ -22,33 +20,25 @@ if not api_key:
 
 client = OpenAI(api_key=api_key)
 
-MODEL_FT    = "ft:gpt-4o-mini-2024-07-18:its-cadmo:smartina:CcpM9wrx"
+# 💡 Configurato con gpt-4o-mini per i test PRE fine-tuning
+MODEL_FT = "gpt-4o-mini"
 MAX_HISTORY = 10
 
 INFO = {
-    "cos_e":      "ITSocial è il social network per studenti e professori degli ITS Academy italiani. Unisce funzioni social (post, like, commenti, messaggi, follow) e scolastiche (classi, compiti, materiali, annunci).",
-    "ruoli":      "4 ruoli: Studente (social + classi in lettura + consegna compiti), Professore (social + crea/gestisce classi), Istituto (gestione professori), Admin (accesso completo).",
-    "app_mobile": "Disponibile come web e app iOS/Android. Stesse credenziali. Include feed, messaggi, classi, notifiche, profilo e chat SmarTina.",
-    "accesso":    "Registrazione: /registrazione con email valida. Login: /login. Token sessione: 1 ora (non è un bug). Recupero password: /recupera-password → email → codice → nuova password.",
-    "home_feed":  "Home a 3 colonne: menu sinistra, feed centro, Tendenze destra. 4 tab feed: Tutti (10 post a scroll), Seguiti, Annunci, Notifiche.",
-    "post":       "Composer in cima al feed. Max 500 caratteri, 5 allegati, sondaggio fino a 5 opzioni. Post non modificabili: elimina e ripubblica. Elimina solo i propri post.",
-    "like":       "Icona stella sotto il post per mettere/togliere like. Funziona anche dai Tendenze.",
-    "salvataggio":"Icona segnalibro per salvare/rimuovere. Post salvati nel profilo → tab Salvati.",
-    "commenti":   "Icona commento sotto il post. I propri commenti sono modificabili ed eliminabili. Non si possono modificare commenti altrui.",
-    "profilo":    "Mostra nome, username, foto, bio (max 160 char), contatori post/follower/seguiti. Tab: Post, Salvati, Mi piace. Foto tramite URL online (es. Imgur). Modifica con icona matita.",
-    "ricerca":    "Barra di ricerca in home, risultati in tempo reale su nome e username. Cliccando si visita il profilo o si apre una chat.",
-    "messaggi":   "Apri chat da profilo utente o sezione Messaggi. Funzioni: Rispondi, Fissa (24h/7gg/30gg), Importante (stella gialla), Inoltra. Pallino verde = online ultimi 2 minuti. Polling automatico.",
-    "notifiche":  "8 tipi: like, commenti, nuovi follower, richiesta iscrizione classe, iscrizione approvata/rifiutata, nuovo annuncio, messaggi. Aggiornamento ogni 8 secondi. Solo in-app, nessuna email.",
-    "classi":     "PUBBLICA: visibile in Esplora, iscrizione automatica. PRIVATA: serve codice 8 caratteri, attesa approvazione. 4 sezioni: Bacheca, Lavori, Persone, Materiali. Compiti: Ok/>3gg, Urgent/≤3gg, Over/scaduto.",
-    "ticket":     "Scrivi 'Voglio aprire un ticket' o contatta socialitsinfo@gmail.com. Tipi: Richiesta info, Segnalazione problema, Supporto tecnico, Feedback.",
-    "its_academy":"ITS Academy: percorsi post-diploma, 2 anni ~1800-2000 ore, ≥35% in azienda, ≥50% docenti dal lavoro. Titolo: Diploma Tecnico Superiore (EQF 5). Riconosciuto UE. 6 aree: energia, mobilità, vita, Made in Italy, turismo, ICT.",
-    "contatti":   "Email supporto: socialitsinfo@gmail.com",
+    "home": "Nella Home di ITSocial puoi vedere i post pubblicati dagli studenti, commentare e mettere le stelle ai contenuti che ti piacciono di più.",
+    "profilo": "Nel Profilo puoi visualizzare le tue informazioni personali e i post che hai pubblicato.",
+    "post": "Su ITSocial puoi pubblicare post per condividere ciò che stai facendo, i tuoi lavori o le tuoi idee.",
+    "tendenze": "La sezione Tendenze mostra i post che hanno ricevuto più stelle.",
+    "contatti": "Per assistenza o informazioni puoi contattare il team di ITSocial tramite email: socialitsinfo@gmail.com",
+    "accesso": "Puoi accedere a ITSocial con le tue credenziali studente oppure registrarti dalla pagina principale.",
+    "its_academy": "Gli ITS Academy sono percorsi di specializzazione tecnica post-diploma della durata di 2 anni (circa 1800-2000 ore). Almeno il 35% del tempo viene svolto in azienda e oltre il 50% dei docenti proviene dal mondo del lavoro. Rilasciano il Diploma Tecnico Superiore (EQF livello 5) riconosciuto in tutta l'Unione Europea e sono suddivisi in 6 aree tecnologiche: Efficienza energetica, Mobilità sostenibile, Nuove tecnologie della vita, Made in Italy, Tecnologie del turismo e ICT.",
+    "ticket": "Per aprire un ticket basta scrivere in chat 'Voglio aprire un ticket' o contattare l'assistenza via email a socialitsinfo@gmail.com. Le tipologie disponibili sono: Richiesta informazioni, Segnalazione problema, Supporto tecnico e Feedback sull'esperienza."
 }
 
 # === MEMORIA ===============================================================
 memoria = {
     "nome_utente": "",
-    "storia":      [],
+    "storia": []
 }
 
 def mem_add(role, content):
@@ -58,7 +48,7 @@ def mem_add(role, content):
 
 # === CICLO PRINCIPALE ======================================================
 print("===============================================")
-print("💬 SmarTina – Prompt Tuning + Memory")
+print("💬 SmarTina – Prompt Tuning + Memory (autonoma)")
 print("===============================================\n")
 
 while True:
@@ -71,12 +61,13 @@ while True:
         break
 
     # === MEMORIA NOME UTENTE ===============================================
-    # Rileva il nome ovunque nel messaggio (es. "ciao mi chiamo X", "mi chiamo X tu?")
-    _match = re.search(r"(?:mi chiamo|il mio nome è)\s+([A-Za-zÀ-ÿ]+)", user_input, re.IGNORECASE)
-    if _match:
-        memoria["nome_utente"] = _match.group(1).capitalize()
-    # Il messaggio passa sempre all'LLM: risponde al saluto E a eventuali domande
+    if user_input.lower().startswith(("mi chiamo", "il mio nome è")):
+        nome = user_input.split(maxsplit=2)[-1].strip().capitalize()
+        memoria["nome_utente"] = nome
+        print(f"💬 SmarTina: Piacere, {nome}! Ora lo ricorderò.\n")
+        continue
 
+    # Mostra memoria
     if user_input.lower() in {"cosa ricordi", "cosa sai di me"}:
         if memoria["nome_utente"]:
             print(f"💬 SmarTina: Ricordo che ti chiami {memoria['nome_utente']} 💡\n")
@@ -84,6 +75,7 @@ while True:
             print("💬 SmarTina: Non ho ancora memorizzato il tuo nome. 😊\n")
         continue
 
+    # Dimentica tutto
     if user_input.lower() == "dimentica tutto":
         memoria["nome_utente"] = ""
         memoria["storia"].clear()
@@ -91,20 +83,16 @@ while True:
         continue
 
     # === COSTRUZIONE PROMPT ================================================
-    info_text = "\n".join([f"{k.title()}: {v}" for k, v in INFO.items()])
-    nome      = memoria["nome_utente"]
-    nome_rule = (
-        f"REGOLA ASSOLUTA: l'utente si chiama {nome}. Usa il nome {nome} nella risposta. "
-        "Non usare mai altri nomi."
-    ) if nome else ""
+    knowledge_text = "\n".join([f"{k.title().replace('_', ' ')}: {v}" for k, v in INFO.items()])
+    nome_txt = f"L'utente si chiama {memoria['nome_utente']}." if memoria["nome_utente"] else ""
 
     messages = [
         {"role": "system", "content": (
-            f"Sei SmarTina, assistente ufficiale di ITSocial.\n"
-            f"{nome_rule}\n"
-            f"Informazioni disponibili:\n{info_text}\n\n"
-            "Rispondi solo con informazioni presenti qui sopra. "
-            "Non inventare nomi di ITS, eventi o dati non presenti. "
+            f"Sei SmarTina, assistente ufficiale di ITSocial. "
+            f"Hai accesso a queste informazioni:\n{knowledge_text}\n"
+            f"{nome_txt}\n"
+            "Decidi autonomamente se la richiesta dell'utente riguarda informazioni del social "
+            "(Home, Profilo, Post, Tendenze, Contatti, Accesso, Its Academy, Ticket) o è generica. "
             "Rispondi in modo chiaro, gentile e conciso."
         )}
     ]
@@ -112,10 +100,13 @@ while True:
     messages += memoria["storia"][-5:]
     messages.append({"role": "user", "content": user_input})
 
-    resp   = client.chat.completions.create(model=MODEL_FT, messages=messages)
-    answer = resp.choices[0].message.content.strip()
+    try:
+        resp = client.chat.completions.create(model=MODEL_FT, messages=messages)
+        answer = resp.choices[0].message.content.strip()
 
-    mem_add("user", user_input)
-    mem_add("assistant", answer)
+        mem_add("user", user_input)
+        mem_add("assistant", answer)
 
-    print(f"💬 SmarTina: {answer}\n")
+        print(f"💬 SmarTina: {answer}\n")
+    except Exception as e:
+        print(f"❌ Errore API: {e}\n")
