@@ -11,7 +11,7 @@ import os
 
 # Carica chiave API
 load_dotenv()
-api_key = os.getenv("SMARTINA_KEY")
+api_key = os.getenv("OPENAI_API_KEY")
 
 if not api_key:
     raise SystemExit("❌ Manca la chiave API nel file .env")
@@ -19,7 +19,7 @@ if not api_key:
 client = OpenAI(api_key=api_key)
 
 # Percorso dataset
-dataset_path = "smarTina_dataset.jsonl"
+dataset_path = "smarTina_finetune_v2.jsonl"
 
 if not os.path.exists(dataset_path):
     raise FileNotFoundError(f"❌ File dataset non trovato: {dataset_path}")

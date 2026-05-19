@@ -1,162 +1,347 @@
 ###Benvenuto
 
-Benvenuto
+Ciao! Sono SmarTina, l'assistente ufficiale di ITSocial.
+Posso aiutarti con la piattaforma, le classi, i messaggi, i ticket di assistenza e le informazioni sugli ITS Academy italiani.
+Dimmi pure cosa vuoi sapere!
 
-Ciao! 👋
-Benvenuto su ITSSocial — il social dove gli studenti ITS condividono idee, esperienze e lavori reali.
-Qui non ci sono selfie o vacanze: solo post che raccontano cosa fai, cosa impari e cosa costruisci nel tuo percorso ITS.
+###Cos'è ITSocial
 
-Vuoi scoprire come funziona?
+ITSocial è il social network ufficiale per studenti e professori degli Istituti Tecnici Superiori italiani.
+Combina funzionalità social classiche — post, like, commenti, messaggi diretti, follow — con strumenti scolastici come classi virtuali, compiti, materiali e annunci.
+Non è un social generico: è uno spazio pensato esclusivamente per la community ITS.
 
-Cos’è ITSSocial
+###Ruoli
 
-Cosa posso fare
+Su ITSocial esistono 4 ruoli:
+- Studente: social completo + accesso classi in sola lettura + consegna compiti
+- Professore: social completo + creazione e gestione di classi, compiti, materiali e annunci
+- Istituto: gestione dei professori dell'istituto
+- Admin: accesso completo alla piattaforma
+Il ruolo determina cosa puoi fare sulla piattaforma.
 
-Tendenze
+###App mobile
 
-Post più stellati
+ITSocial è disponibile sia come versione web sia come app mobile per iOS e Android.
+L'app include feed, messaggi, classi, notifiche, profilo e la chat con SmarTina.
+Si accede con le stesse credenziali della versione web.
 
-Vai alla Home
+###Registrazione e accesso
 
-Visualizza il mio profilo
+Per registrarsi: pagina /registrazione, pubblica e accessibile senza login. Serve un'email valida.
+Per accedere: pagina /login con email e password.
+Il token di sessione dura 1 ora per motivi di sicurezza. Trascorsa l'ora bisogna rifare il login — non è un bug.
+Per recuperare la password: pagina /recupera-password, inserire l'email, ricevere il codice di verifica, impostare la nuova password.
 
-Apri un ticket
+###Home e feed
 
-###Cos’è ITSSocial
+La home ha tre colonne:
+- Sinistra: menu di navigazione
+- Centro: feed con 4 tab (Tutti, Seguiti, Annunci, Notifiche) + composer per creare post + widget SmarTina
+- Destra: pannello Tendenze e classi in evidenza
 
-ITSSocial è la community ufficiale degli studenti ITS.
-Puoi:
+I 4 tab del feed:
+- Tutti: tutti i post pubblici, caricamento progressivo 10 alla volta con infinite scroll
+- Seguiti: solo i post delle persone che si segue, caricati tutti in una volta
+- Annunci: filtra solo i post di tipo annuncio
+- Notifiche: raccoglie like, commenti e nuovi follower ricevuti
 
-Condividere post e raccontare le tue esperienze ITS
+###Post
 
-Mettere stelle ai post che ti ispirano
-
-Commentare e confrontarti con altri studenti
-
-Scoprire le Tendenze, i post più apprezzati della settimana
-
-Non è un social qualunque: è un luogo dove le idee crescono insieme.
-
-###Cosa puoi fare su ITSSocial
-
-Scrivere post — condividi esperienze, idee o risultati del tuo percorso ITS
-
-Commentare — scambia opinioni con altri studenti
-
-Mettere stelle — mostra apprezzamento per i post che ti piacciono
-
-Scoprire le Tendenze — i post più apprezzati
-
-Gestire il tuo profilo — visualizza post e stelle ricevute
-
-Navigare nella Home — segui i post più recenti
-
-###Nuovo! Apri un ticket
-
-Puoi chiedere assistenza tecnica o supporto admin
-
-Devi fornire il tuo nome per ricevere risposte personalizzate
-
-Puoi aprire più ticket separati
+Per pubblicare un post: aprire il composer in cima al feed, scrivere il contenuto (max 500 caratteri), aggiungere eventuali allegati o sondaggio, premere Pubblica.
+Allegati: massimo 5 file per post (immagini e documenti).
+Sondaggio: massimo 5 opzioni, durata scelta tra 1, 3, 7 o 14 giorni.
+I post non sono modificabili dopo la pubblicazione. L'unica opzione è eliminare e ripubblicare.
+Si può eliminare solo i propri post: menu del post > Elimina > conferma.
 
 ###Tendenze
 
-Le Tendenze ITSSocial mostrano i post più apprezzati.
-Non è una classifica, ma un modo per far emergere contenuti che hanno ispirato molti studenti.
+Le Tendenze mostrano i post più apprezzati in base ai like ricevuti.
+Algoritmo in due fasi: prima cerca i post con più like degli ultimi 7 giorni; se i risultati sono insufficienti, allarga agli ultimi 30 giorni.
+Si trovano nel pannello a destra della home.
 
-Guarda i post in tendenza
+###Like e stelle
 
-Scopri come ottenere più stelle
+Per mettere like: cliccare l'icona stella sotto il post. Il contatore si aggiorna immediatamente.
+Per togliere il like: cliccare di nuovo la stessa icona.
+Si può mettere like anche ai post nella sezione Tendenze.
 
-###Post con più stelle
+###Salvataggio post
 
-Le stelle indicano apprezzamento reale.
-Ogni stella è un segnale: “questo post mi ha trasmesso qualcosa”.
+Per salvare un post: cliccare l'icona segnalibro sul post. Viene aggiunto ai salvati immediatamente.
+Per rimuoverlo: cliccare di nuovo la stessa icona.
+I post salvati si trovano nel profilo, tab "Salvati".
 
-Guarda i post più stellati
+###Commenti
 
-Lasciati ispirare dalla community
+Per commentare: cliccare l'icona commento sotto il post, scrivere il messaggio e inviare.
+I commenti sono modificabili dall'autore: menu del commento > Modifica > aggiornare il testo > salva.
+I commenti sono eliminabili dall'autore: menu del commento > Elimina > conferma.
+Non si possono modificare o eliminare i commenti scritti da altri.
 
-#Profilo personale
+###Profilo
 
-Nel tuo profilo puoi:
+Il profilo mostra: nome, cognome, username, foto profilo, bio (max 160 caratteri), contatori post/follower/seguiti.
+Tab disponibili: Post (post pubblicati), Salvati (post salvati), Mi piace (post con like).
+Per modificare il profilo: cliccare l'icona matita e aggiornare nome, cognome, bio, URL foto profilo.
+La foto profilo si imposta con un URL di un'immagine online (es. Imgur). Non è possibile caricare file direttamente.
+Se l'URL foto non è valido, viene mostrato l'avatar con le iniziali del nome.
+Bio max 160 caratteri: se il salvataggio non va a buon fine, probabilmente il testo è troppo lungo.
+Per smettere di seguire qualcuno: profilo dell'utente > pulsante "Segui già" > conferma.
 
-Vedere i post pubblicati
+###Ricerca utenti
 
-Contare le stelle ricevute
+La barra di ricerca si trova nella home. I risultati si aggiornano automaticamente mentre si scrive (ricerca su nome e username).
+Cliccando sul profilo trovato si può visitarlo o mandargli un messaggio.
 
-Leggere i commenti
+###Messaggi diretti
 
-Aggiornare bio
+Per aprire una chat: profilo dell'utente > pulsante "Messaggio", oppure sezione Messaggi nella sidebar > icona ricerca > cerca per username.
+Per rispondere a un messaggio specifico: freccia sul messaggio > Rispondi. Il messaggio originale viene citato nella risposta.
+Per fissare un messaggio: freccia > Fissa > scegliere durata (24 ore, 7 giorni, 30 giorni). Il messaggio fissato appare nel banner in cima alla chat. Per rimuovere: freccia > Desfissa.
+Per contrassegnare come importante: freccia > Importante. Il messaggio riceve una stella gialla. Tutti i messaggi importanti si trovano cliccando l'icona stella in alto a destra nella chat.
+Per inoltrare un messaggio: freccia > Inoltra. Funziona solo con conversazioni già aperte.
+Stato online: pallino verde = ultima attività meno di 2 minuti fa. La chat mostra anche "Online" o "Visto X minuti/ore/giorni fa".
+I messaggi si aggiornano con polling automatico ogni pochi secondi: un piccolo ritardo è normale, non è un bug.
 
-###Home ITSSocial
+###Notifiche
 
-Qui trovi:
+Le notifiche coprono 8 tipi di eventi:
+- Like ai propri post
+- Commenti ricevuti
+- Nuovi follower
+- Richiesta di iscrizione a una classe (solo professori)
+- Iscrizione approvata
+- Iscrizione rifiutata
+- Nuovo annuncio in una classe
+- Nuovi messaggi diretti
+Le notifiche si trovano nel tab "Notifiche" del feed e nel pannello a campanella.
+Si aggiornano automaticamente ogni 8 secondi.
+Sono solo in-app: non vengono inviate email.
+Cliccando una notifica si viene portati direttamente al contenuto (post, classe, profilo o conversazione).
+Si può segnare una notifica come letta cliccandoci sopra, oppure segnare tutte come lette in una volta.
 
-I post più recenti
+###Classi virtuali
 
-Idee e lavori degli studenti
+Le classi sono di due tipi:
+- PUBBLICA: visibile nella sezione "Esplora classi". L'iscrizione viene approvata automaticamente.
+- PRIVATA: non visibile nell'elenco. Per iscriversi serve il codice invito (8 caratteri) fornito dal professore. L'iscrizione va in stato "In attesa di approvazione" finché il professore non decide.
 
-Contenuti popolari e con più stelle
+Gli stati di iscrizione sono: IN_ATTESA, APPROVATA, RIFIUTATA.
+Quando il professore approva o rifiuta, lo studente riceve una notifica.
+Si può abbandonare una classe in qualsiasi momento dal dettaglio della classe. Una volta abbandonata si perde l'accesso a materiali, annunci e compiti.
 
-###Le regole della community
+Dentro una classe ci sono 4 sezioni:
+- Bacheca (annunci del professore)
+- Lavori (compiti con scadenza e stato)
+- Persone (professore e studenti iscritti)
+- Materiali (file e link condivisi dal professore)
 
-Rispetta chi condivide
+Annunci: comunicazioni del professore con possibili allegati (immagini, PDF, Word, testo — max 10 MB ciascuno). Gli studenti possono commentare gli annunci.
+Materiali: file o link condivisi dal professore.
+Compiti: hanno descrizione, scadenza e punteggio massimo. Lo studente può consegnare direttamente dalla piattaforma e ricevere voto e feedback.
+Stati dei compiti: Ok (scadenza oltre 3 giorni), Urgent (scadenza entro 3 giorni), Over (scadenza passata, consegna non più possibile).
 
-Niente spam o pubblicità
+La dashboard studente mostra i 3 compiti futuri più vicini aggregati da tutte le classi.
+La creazione di classi è riservata ai professori (autorità CLASSE_CREATE).
 
-Post solo su mondo ITS
+Nota: i like sugli annunci di classe vengono salvati solo nel browser locale. Cambiando dispositivo o cancellando la cache, i like non vengono recuperati.
 
-###Accesso
+###Ticket di assistenza
 
-Usa le tue credenziali ITS ufficiali per entrare.
-Nessuna app extra, nessuna registrazione complicata.
+Per aprire un ticket: scrivere "Voglio aprire un ticket" oppure contattare socialitsinfo@gmail.com.
+Dati necessari: nome, cognome, username, email, tipo di richiesta.
+Tipi di ticket disponibili:
+- Richiesta informazioni
+- Segnalazione problema
+- Supporto tecnico
+- Feedback sull'esperienza
+Si possono aprire più ticket separati, uno per ogni richiesta o problema.
 
-###Ticket e Supporto
+###Limitazioni note
 
-Apri un ticket per:
-
-Assistenza tecnica (es. problemi di accesso, bug)
-
-Supporto admin (es. informazioni, regole, account)
-
-Come fare:
-
-Digita: “Voglio fare un ticket”
-
-Dì il tuo nome
-
-Scegli tipo di ticket (tecnico o admin)
-
-Descrivi il problema o la richiesta
-
-Puoi aprire più ticket separati per ogni richiesta.
+- Gruppi: sezione visibile nel menu ma non ancora implementata.
+- Esplora: presente nella sidebar ma non ancora funzionale.
+- Feed: non si aggiorna in tempo reale. Per vedere i nuovi post bisogna ricaricare la pagina manualmente.
+- Like annunci di classe: salvati solo nel browser locale, non persistono su altri dispositivi.
+- Notifiche e badge messaggi si aggiornano automaticamente ogni 8 secondi senza ricaricare.
 
 ###Contatti
 
-Per supporto diretto:
-socialitsinfo@gmail.com
+Email supporto: socialitsinfo@gmail.com
 
-###Menu principale
+###Cos'è un ITS Academy
 
-Scegli cosa vuoi fare:
+Gli ITS Academy (Istituti Tecnici Superiori) sono percorsi di formazione post-diploma che combinano teoria e pratica.
+- Almeno il 35% delle ore si svolge in azienda
+- Almeno il 50% dei docenti proviene dal mondo del lavoro
+- Durata: 2 anni, circa 1800-2000 ore totali
+- Titolo: Diploma di Tecnico Superiore (EQF livello 5)
+Il diploma EQF 5 si colloca tra il diploma di maturità (EQF 4) e la laurea triennale (EQF 6). È riconosciuto in tutta l'Unione Europea ed è corredato dall'Europass Diploma Supplement.
+Le 6 aree tecnologiche nazionali: efficienza energetica, mobilità sostenibile, nuove tecnologie della vita, Made in Italy (agroalimentare, meccanica, moda), turismo e beni culturali, ICT.
 
-Cos’è ITSSocial
+###ITS in Italia per regione
 
-Cosa posso fare
+Gli ITS Academy sono presenti in tutte le regioni italiane.
+Regioni con più ITS: Lombardia (16), Campania (15), Calabria (9), Lazio (13).
+Regioni con meno ITS: Basilicata (1), Molise (1), Umbria (1), Sardegna (4).
 
-Tendenze
+Abruzzo (6 ITS):
+- [ITS Sistema Meccanica](https://itsmeccanicabruzzo.it) — meccanica (Chieti)
+- [ITS Efficienza Energetica L'Aquila](https://itsenergia.org) — efficienza energetica (L'Aquila)
+- [ITS Sistema Agroalimentare](https://itsagroalimentarete.it) — agroalimentare (Teramo)
+- [ITS MOST Mobilità Sostenibile](https://itsmost.it) — mobilità sostenibile (Chieti)
+- [ITS Sistema Moda](https://itsmodapescara.it) — moda (Pescara)
+- [ITS Abruzzo Turismo e Cultura](https://its-turismoabruzzo.it) — turismo (Teramo)
 
-Post più stellati
+Basilicata (1 ITS):
+- [ITS Efficienza Energetica Potenza](https://its-efficienzaenergeticabasilicata.it) — efficienza energetica (Potenza)
 
-Il mio profilo
+Calabria (9 ITS):
+- [ITS Pegasus](https://itspegasus.it) — mobilità sostenibile e logistica (Reggio Calabria)
+- [ITS Efficienza Energetica A. Monaco](https://its-efficienzaenergeticacs.it) — efficienza energetica (Cosenza)
+- [ITS Efficienza Energetica RC](https://itsefficienzaenergeticarc.it) — efficienza energetica (Reggio Calabria)
+- [ITS Tirreno – Nuove Tecnologie della Vita](https://itstirreno.it) — nuove tecnologie della vita (Cosenza)
+- [Fondazione Pinta](https://fondazionepinta.it) — agroalimentare (Crotone)
+- [Fondazione M.A.SK.](https://fondazionemask.it) — cybersecurity e fintech (Reggio Calabria)
+- [Fondazione Elaia Calabria](https://itselaia.it) — turismo (Vibo Valentia)
+- [Fondazione Cadmo ICT](https://fondazionecadmo.it) — ICT e digitale (Catanzaro)
+- [ITS Sistema Agroalimentare Iridea](https://itsirdea.it) — agricoltura di precisione (Cosenza)
 
-Home ITSSocial
+Campania (15 ITS):
+- [Fondazione BACT](https://fondazionebact.it) — Napoli
+- [ITS TEC MOS](https://itstecmos.it) — Caserta
+- [ITS Mobilità Sostenibile Trasporti Marittimi](https://itsmare.it) — Napoli
+- [ITS Moda Campania](https://itsmodacampania.it) — Napoli
+- [ITS MA.ME.](https://itsmame.it) — Napoli
+- [ITS Energy-Lab](https://itsenergylab.it) — Benevento
+- [ITS Antonio Bruno](https://itsantoniobruno.it) — Avellino
+- [ITS Ermete](https://itsermete.it) — Avellino
+- [ITS SCI.TEC.VITA](https://itsscitecvita.it) — Napoli
+- [ITS Academy Newtech SI](https://itsnewtechsi.it) — Salerno
+- [ITS TE.LA.](https://itstela.it) — Salerno
+- [ITS Casa Campania](https://itscasacampania.it) — Napoli
+- [ITS Campania Hitech & Communication](https://itshitechcampania.it) — Napoli
+- [ICT Campus ITS Academy](https://ictcampus.it) — Benevento
+- [ITS Ma.De. Academy](https://itsmadeacademy.it) — Napoli
 
-Regole
+Emilia-Romagna (7 ITS):
+- [ITS Logistica e Mobilità](https://itslogistica.it) — logistica (Piacenza)
+- [ITS Agroalimentare](https://itstechandfood.it) — agroalimentare (Parma)
+- [ITS Meccanica Meccatronica Motoristica Packaging](https://itsmaker.it) — meccanica (Bologna)
+- [ITS Territorio Energia Costruire](https://itstec.it) — energia (Ferrara)
+- [ITS Tecnologie Industrie Creative](https://fitstic.it) — made in Italy (Forlì-Cesena)
+- [ITS Turismo e Benessere](https://itsturismoebenessere.it) — turismo (Rimini)
+- [ITS Nuove Tecnologie della Vita](https://itsbiomedicale.it) — biotecnologie (Modena)
 
-Accesso
+Friuli Venezia Giulia (4 ITS):
+- [ITS Industria Meccanica e Aeronautica](https://itsmalignani.it) — meccanica e aeronautica (Udine)
+- [ITS Alto Adriatico](https://itsaltoadriatico.it) — (Pordenone)
+- [ITS Alessandro Volta](https://itsvolta.it) — (Trieste)
+- [ITS Accademia Nautica Adriatico](https://accademianautica.it) — nautica (Trieste)
 
-Contatti
+Lazio (13 ITS):
+- [ITS Fondazione G. Caboto](https://fondazionecaboto.it) — (Latina)
+- [ITS Agroalimentare](https://itsagroalimentare.it) — agroalimentare (Viterbo)
+- [ITS Roberto Rossellini](https://itsrossellini.it) — (Roma)
+- [ITS Servizi alle Imprese](https://itsservizialleimprese.it) — (Viterbo)
+- [ITS Bio Campus](https://itsbiocampus.it) — biotecnologie (Latina)
+- [ITS Nuove Tecnologie Vita](https://its-nuovetecnologiedellavita.it) — (Roma)
+- [ITS Turismo Roma](https://itsturismoroma.it) — turismo (Roma)
+- [ITS Meccatronico Lazio](https://itsmeccatronicolazio.it) — meccatronica (Frosinone)
+- [ITS Academy Lazio Digital](https://laziodigital.it) — digitale (Roma)
+- [ITS Maria Gaetana Agnesi](https://itsagnesi.it) — (Roma)
+- [ITS ICT Academy Roma](https://ictacademy.it) — ICT (Roma)
+- [ITS Academy Sistema Moda](https://its-modaroma.it) — moda (Roma)
+- [ITS Academy Logistica 4.0](https://itslogistica40.it) — logistica (Rieti)
 
-Apri un ticket
+Liguria (6 ITS):
+- [ITS Efficienza Energetica](https://itsenergia-liguria.it) — efficienza energetica (Savona)
+- [ITS ICT Liguria](https://ictliguria.it) — ICT (Genova)
+- [Accademia Marina Mercantile](https://accademiamarinamercantile.it) — marina mercantile (Genova)
+- [ITS Meccanico/Navalmeccanico](https://itslaspezia.it) — meccanica navale (La Spezia)
+- [ITS Agroalimentare Imperia](https://itsagroalimentareliguria.it) — agroalimentare (Imperia)
+- [ITS Turismo Liguria](https://itsturismoliguria.it) — turismo (Genova)
+
+Lombardia (16 ITS):
+- [ITS Angelo Rizzoli](https://itsrizzoli.it) — moda e design (Milano)
+- [JobsAcademy](https://jobsacademy.it) — efficienza energetica e meccatronica (Bergamo)
+- [ITS Minoprio](https://fondazioneminoprio.it) — (Como)
+- [ITS Nuove Tecnologie Vita](https://its-nuovetecnologievita.it) — (Bergamo)
+- [ITS Machina Lonati](https://machinalonati.it) — moda e tessile (Brescia)
+- [ITS Trasporti e Logistica](https://itscasabiancamalpensa.it) — trasporti e logistica (Varese)
+- [ITS Cantieri dell'Arte](https://itscantieridellarte.it) — (Milano)
+- [ITS Made in Italy](https://itsmadeinitaly.it) — made in Italy (Cremona)
+- [ITS Energia Ambiente Edilizia](https://its-bec.it) — energia (Monza Brianza)
+- [ITS Turismo Ospitalità](https://itsturismosmart.it) — turismo (Como)
+- [ITS Lombardo Meccatronica](https://itslombardomeccatronica.it) — meccatronica (Milano)
+- [ITS Sistema Casa Rosario Messina](https://itssistemacasa.it) — (Monza Brianza)
+- [ITS Filiera Agroalimentare](https://itsagroalimentare.it) — agroalimentare (Lodi/Mantova/Sondrio)
+- [ITS InnovaProfessioni](https://innovaprofessioni.it) — (Milano)
+- [ITS TTF Technologies Talent Factory](https://itsttf.it) — (Milano)
+- [ITS Symposium](https://itssymposium.it) — (Brescia)
+
+Marche (4 ITS):
+- [ITS Recanati](https://itsrecanati.it) — (Macerata)
+- [ITS Sistema Moda](https://itssistemamoda.it) — moda (Fermo)
+- [ITS Efficienza Energetica](https://fondazioneitsenergia.it) — efficienza energetica (Ancona)
+- [ITS Turismo Marche](https://itsturismomarche.it) — turismo (Pesaro-Urbino)
+
+Molise (1 ITS):
+- [ITS D.E.Mo.S.](https://www.itsdemos.it) — (Campobasso)
+
+Piemonte (7 ITS):
+- [ITS ICT Piemonte](https://its-ictpiemonte.it) — ICT (Torino)
+- [ITS Mobilità Aerospazio/Meccatronica](https://its-aerospaziomeccatronica.it) — mobilità e aerospazio (Torino)
+- [ITS Sistema Moda](https://its-tessileabbigliamentomoda.it) — moda (Biella)
+- [ITS Agroalimentare Piemonte](https://its-agroalimentarepiemonte.it) — agroalimentare (Cuneo)
+- [ITS Biotecnologie](https://its-biotecnologiepiemonte.it) — biotecnologie (Torino)
+- [ITS Sistemi Energetici](https://its-energia.it) — energia (Torino)
+- [ITS Turismo Attività Culturali](https://its-turismopiemonte.it) — turismo (Torino)
+
+Puglia (7 ITS):
+- [ITS Aerospazio](https://itsaerospaziopuglia.it) — aerospazio (Brindisi)
+- [ITS Antonio Cuccovillo](https://itsmeccatronicapuglia.it) — meccatronica (Bari)
+- [ITS Agroalimentare Puglia](https://itsagroalimentarepuglia.it) — agroalimentare (Bari)
+- [ITS Apulia Digital Maker](https://apuliadigitalmaker.it) — ICT e digitale (Foggia)
+- [ITS Turismo](https://itsturismopuglia.it) — turismo (Lecce)
+- [ITS Infomobilità](https://itslogistica.puglia.it) — infomobilità (Taranto)
+- [ITS MI.TI Martina Franca](https://itsmitimartinafranca.it) — (Taranto)
+
+Sardegna (4 ITS):
+- [ITS Efficienza Energetica](https://itsenergeticanuoro.it) — efficienza energetica (Nuoro)
+- [ITS Mo.So.S.](https://itsmosos.it) — (Cagliari)
+- [ITS Filiera Agroalimentare](https://itsagroalimentaresardegna.it) — agroalimentare (Sassari)
+- [ITS Turismo Sardegna](https://itsturismosardegna.it) — turismo (Sassari)
+
+Sicilia (8 ITS):
+- [ITS Efficienza Energetica Enna](https://itsenna.it) — efficienza energetica (Enna)
+- [ITS Steve Jobs](https://itsstevejobs.eu) — (Catania)
+- [ITS Albatros](https://itsalbatros.it) — (Messina)
+- [ITS Archimede](https://itsarchimede.it) — (Siracusa)
+- [ITS Trasporti](https://infomobilitysicilia.it) — trasporti (Catania)
+- [ITS Alessandro Volta](https://its-volta.it) — (Palermo)
+- [ITS Sicani](https://itssicani.it) — (Agrigento)
+- [ITS Emporium del Golfo](https://itsemporium.it) — (Trapani)
+
+Toscana (8 ITS):
+- [ITS Energia Ambiente](https://itsenergiaambiente.it) — energia (Siena)
+- [ITS Prime](https://itsprime.it) — (Firenze)
+- [ITS M.I.T.A.](https://mitacademy.it) — (Firenze)
+- [ITS ISYL](https://isyl.it) — (Lucca)
+- [ITS E.A.T.](https://fondazione-eat.it) — (Grosseto)
+- [ITS VITA](https://itsvita.it) — (Siena)
+- [ITS TAB](https://fondazionetab.it) — (Firenze)
+- [ITS Prodigi](https://its-prodigi.it) — (Firenze)
+
+Umbria (1 ITS):
+- [ITS Umbria Made in Italy](https://itsumbria.it) — made in Italy (Perugia)
+
+Veneto (8 ITS):
+- [ITS Turismo Veneto](https://itsturismo.it) — turismo (Venezia)
+- [ITS Mobilità Sostenibile LAST](https://itslast.it) — mobilità sostenibile (Verona)
+- [ITS Meccatronico](https://itsmeccatronico.it) — meccatronica (Vicenza)
+- [ITS RED](https://itsred.it) — ICT e digitale (Padova)
+- [ITS Moda-Calzatura](https://itscosmo.it) — moda (Padova)
+- [ITS Agroalimentare e Vitivinicolo](https://itsagroalimentareveneto.it) — agroalimentare (Treviso)
+- [ITS Marco Polo](https://itsmarcopolo.it) — (Venezia)
+- [ITS Digital Academy Mario Volpato](https://itsdigitalacademy.it) — digitale (Venezia)

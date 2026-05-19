@@ -1,88 +1,112 @@
 #!/usr/bin/env python3
-
 # -*- coding: utf-8 -*-
-
 # 💬 SmarTina – Prompt Tuning + Memory (senza orchestratore)
-
-
-
 """
-
 Funzionamento:
-
 - Il modello fine-tuned decide autonomamente se rispondere con INFO o GEN.
-
 - Mantiene memoria del nome utente.
-
-- Knowledge base ITSSocial: Home, Profilo, Post, Tendenze, Contatti, Accesso.
-
+- Knowledge base ITSocial: Home, Profilo, Post, Tendenze, Contatti, Accesso, Its_Academy, Ticket.
 """
+
 import os
+from openai import OpenAI
 from dotenv import load_dotenv
-from langchain_openai import ChatOpenAI
-from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
-from langchain_core.output_parsers import StrOutputParser
-from langchain_core.messages import HumanMessage, AIMessage
 
-# === 1. CONFIGURAZIONE ===
-load_dotenv(override=True) # Forza il ricaricamento del file .env
+# === CONFIGURAZIONE ========================================================
+load_dotenv()
+api_key = os.getenv("OPENAI_API_KEY")
+if not api_key:
+    raise SystemExit("❌ Manca la chiave API nel file .env")
 
-# Cerchiamo la chiave
-api_key = os.getenv("SMARTINA_KEY")
+client = OpenAI(api_key=api_key)
 
-# Controllo di sicurezza immediato
-if not api_key or len(api_key) < 20:
-    print("❌ ERRORE: Chiave API non trovata o troppo corta nel file .env!")
-    print("Verifica di avere: SMARTINA_KEY=sk-proj-...")
-    exit()
+# 💡 Configurato con gpt-4o-mini per i test PRE fine-tuning
+MODEL_FT = "gpt-4o-mini"
+MAX_HISTORY = 10
 
-MODEL_FT = "ft:gpt-4o-mini-2024-07-18:its-cadmo:smartina:CcpM9wrx"
-
-# Inizializziamo il modello
-try:
-    llm = ChatOpenAI(model=MODEL_FT, temperature=0.7, openai_api_key=api_key)
-except Exception as e:
-    print(f"❌ Errore inizializzazione: {e}")
-    exit()
-
-# === 2. KNOWLEDGE BASE ===
-# (Ho lasciato solo un esempio, usa quella completa che abbiamo scritto prima)
-KNOWLEDGE = {
-    "info": "SmarTina assistente ITSSocial. Focus su corsi ITS e piattaforma social. No eventi."
+INFO = {
+    "home": "Nella Home di ITSocial puoi vedere i post pubblicati dagli studenti, commentare e mettere le stelle ai contenuti che ti piacciono di più.",
+    "profilo": "Nel Profilo puoi visualizzare le tue informazioni personali e i post che hai pubblicato.",
+    "post": "Su ITSocial puoi pubblicare post per condividere ciò che stai facendo, i tuoi lavori o le tuoi idee.",
+    "tendenze": "La sezione Tendenze mostra i post che hanno ricevuto più stelle.",
+    "contatti": "Per assistenza o informazioni puoi contattare il team di ITSocial tramite email: socialitsinfo@gmail.com",
+    "accesso": "Puoi accedere a ITSocial con le tue credenziali studente oppure registrarti dalla pagina principale.",
+    "its_academy": "Gli ITS Academy sono percorsi di specializzazione tecnica post-diploma della durata di 2 anni (circa 1800-2000 ore). Almeno il 35% del tempo viene svolto in azienda e oltre il 50% dei docenti proviene dal mondo del lavoro. Rilasciano il Diploma Tecnico Superiore (EQF livello 5) riconosciuto in tutta l'Unione Europea e sono suddivisi in 6 aree tecnologiche: Efficienza energetica, Mobilità sostenibile, Nuove tecnologie della vita, Made in Italy, Tecnologie del turismo e ICT.",
+    "ticket": "Per aprire un ticket basta scrivere in chat 'Voglio aprire un ticket' o contattare l'assistenza via email a socialitsinfo@gmail.com. Le tipologie disponibili sono: Richiesta informazioni, Segnalazione problema, Supporto tecnico e Feedback sull'esperienza."
 }
-knowledge_text_string = "\n".join([f"- {v}" for v in KNOWLEDGE.values()])
 
-# === 3. PROMPT E MEMORIA ===
-storia_chat = []
-memoria_utente = {"nome": ""}
+# === MEMORIA ===============================================================
+memoria = {
+    "nome_utente": "",
+    "storia": []
+}
 
-prompt = ChatPromptTemplate.from_messages([
-    ("system", "Sei SmarTina, l'assistente ufficiale di ITSSocial. Non inventare eventi.\n\n"
-               "INFO: {knowledge_text}\n\n"
-               "UTENTE: {user_info}"),
-    MessagesPlaceholder(variable_name="history"),
-    ("human", "{input}"),
-])
+def mem_add(role, content):
+    memoria["storia"].append({"role": role, "content": content})
+    if len(memoria["storia"]) > MAX_HISTORY:
+        memoria["storia"].pop(0)
 
-chain = prompt | llm | StrOutputParser()
-
-# === 4. LOOP ===
-print("✅ Connessione stabilita! SmarTina è pronta.")
+# === CICLO PRINCIPALE ======================================================
+print("===============================================")
+print("💬 SmarTina – Prompt Tuning + Memory (autonoma)")
+print("===============================================\n")
 
 while True:
-    u_input = input("👤 Tu: ").strip()
-    if not u_input or u_input.lower() in ["exit", "quit"]: break
+    user_input = input("👤 Tu: ").strip()
+
+    if not user_input:
+        continue
+    if user_input.lower() in {"exit", "quit"}:
+        print("👋 SmarTina ti saluta. Alla prossima!")
+        break
+
+    # === MEMORIA NOME UTENTE ===============================================
+    if user_input.lower().startswith(("mi chiamo", "il mio nome è")):
+        nome = user_input.split(maxsplit=2)[-1].strip().capitalize()
+        memoria["nome_utente"] = nome
+        print(f"💬 SmarTina: Piacere, {nome}! Ora lo ricorderò.\n")
+        continue
+
+    # Mostra memoria
+    if user_input.lower() in {"cosa ricordi", "cosa sai di me"}:
+        if memoria["nome_utente"]:
+            print(f"💬 SmarTina: Ricordo che ti chiami {memoria['nome_utente']} 💡\n")
+        else:
+            print("💬 SmarTina: Non ho ancora memorizzato il tuo nome. 😊\n")
+        continue
+
+    # Dimentica tutto
+    if user_input.lower() == "dimentica tutto":
+        memoria["nome_utente"] = ""
+        memoria["storia"].clear()
+        print("🧽 SmarTina: Memoria cancellata!\n")
+        continue
+
+    # === COSTRUZIONE PROMPT ================================================
+    knowledge_text = "\n".join([f"{k.title().replace('_', ' ')}: {v}" for k, v in INFO.items()])
+    nome_txt = f"L'utente si chiama {memoria['nome_utente']}." if memoria["nome_utente"] else ""
+
+    messages = [
+        {"role": "system", "content": (
+            f"Sei SmarTina, assistente ufficiale di ITSocial. "
+            f"Hai accesso a queste informazioni:\n{knowledge_text}\n"
+            f"{nome_txt}\n"
+            "Decidi autonomamente se la richiesta dell'utente riguarda informazioni del social "
+            "(Home, Profilo, Post, Tendenze, Contatti, Accesso, Its Academy, Ticket) o è generica. "
+            "Rispondi in modo chiaro, gentile e conciso."
+        )}
+    ]
+
+    messages += memoria["storia"][-5:]
+    messages.append({"role": "user", "content": user_input})
 
     try:
-        # Passiamo correttamente tutte le variabili richieste dal prompt
-        risposta = chain.invoke({
-            "input": u_input,
-            "knowledge_text": knowledge_text_string,
-            "user_info": f"Nome: {memoria_utente['nome']}" if memoria_utente["nome"] else "Sconosciuto",
-            "history": storia_chat[-6:]
-        })
-        print(f"💬 SmarTina: {risposta}\n")
-        storia_chat.append(HumanMessage(content=u_input))
-        storia_chat.append(AIMessage(content=risposta))
+        resp = client.chat.completions.create(model=MODEL_FT, messages=messages)
+        answer = resp.choices[0].message.content.strip()
+
+        mem_add("user", user_input)
+        mem_add("assistant", answer)
+
+        print(f"💬 SmarTina: {answer}\n")
     except Exception as e:
-        print(f"❌ Errore durante il dialogo: {e}")
+        print(f"❌ Errore API: {e}\n")

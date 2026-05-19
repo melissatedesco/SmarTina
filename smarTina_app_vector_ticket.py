@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# 💬 SmarTina – Assistente ITSSocial con con Orchestratore, Memoria e Ticket
+# 💬 SmarTina – Assistente ITSocial con Orchestratore, Memoria e Ticket
 
 """
 RUOLI:
 - 🧭 Orchestratore GPT → decide se la richiesta è INFO (knowledge base) o GEN (chiacchiera)
-- ℹ️ Agente INFO GPT → risponde con informazioni statiche su ITSSocial
+- ℹ️ Agente INFO GPT → risponde con informazioni statiche su ITSocial
 - 💬 Agente GENERICO GPT → gestisce conversazioni libere, usando la memoria del nome utente e la cronologia
 - 📝 Ticket → permette di aprire ticket in chat (Assistenza Tecnica o Supporto Admin)
 """
@@ -90,7 +90,7 @@ def agente_info(user_input):
         return "I ticket si gestiscono solo qui in chat con me 😊 Puoi scrivere 'lista ticket' per vedere quelli già aperti."
     prompt = [
         {"role": "system", "content": (
-            "Rispondi in modo chiaro e conciso, usando solo informazioni verificate su ITSSocial."
+            "Rispondi in modo chiaro e conciso, usando solo informazioni verificate su ITSocial."
         )},
         {"role": "user", "content": user_input}
     ]
@@ -100,7 +100,7 @@ def agente_info(user_input):
 # === AGENTE GENERICO =======================================================
 def agente_generico(user_input, memoria=None, history=None):
     messages = []
-    system_content = "Tu sei SmarTina, assistente virtuale di ITSSocial. "
+    system_content = "Tu sei SmarTina, assistente virtuale di ITSocial. "
     if memoria.get("nome_utente"):
         system_content += f"Ricorda che l'utente si chiama {memoria['nome_utente']}. "
     system_content += "Rispondi sempre come SmarTina."
@@ -116,7 +116,7 @@ def agente_generico(user_input, memoria=None, history=None):
 
 # === CICLO PRINCIPALE ======================================================
 print("===============================================")
-print("💬 SmarTina – Assistente ITSSocial con Ticket e Memoria Temporanea")
+print("💬 SmarTina – Assistente ITSocial con Ticket e Memoria Temporanea")
 print("===============================================\n")
 
 while True:
