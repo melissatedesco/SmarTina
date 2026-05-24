@@ -7,10 +7,7 @@ Funzionalità:
 - Orchestratore GPT decide se una richiesta è INFO (knowledge base) o GEN (chiacchiera)
 - Agente INFO risponde con informazioni statiche su ITSocial
 - Agente GENERICO gestisce conversazioni libere, usando la memoria del nome utente
-- Comandi speciali:
-    - "Mi chiamo <nome>" → salva nome
-    - "Cosa ricordi?" / "Cosa sai di me" → mostra memoria
-    - "Dimentica tutto" → resetta memoria
+- Comandi speciali per la gestione della memoria locale.
 """
 
 import os
@@ -45,8 +42,8 @@ INFO = {
 # === MEMORIA TEMPORANEA ===================================================
 memoria = {"nome_utente": ""}
 conversation_history = []
-
 MAX_HISTORY = 10
+
 def add_history(role, content):
     conversation_history.append({"role": role, "content": content})
     if len(conversation_history) > MAX_HISTORY:
@@ -56,23 +53,27 @@ def add_history(role, content):
 def orchestratore(user_input):
     prompt = [
         {"role": "system", "content": (
-            "Sei l'orchestratore di SmarTina, assistente ITSocial. "
-            "Decidi se la richiesta riguarda informazioni del social "
-            "(Home, Profilo, Post, Tendenze, Contatti, Accesso, Its Academy, Ticket) o una chiacchiera.\n"
-            "Se riguarda il social → CALL:INFO:<testo>\n"
-            "Altrimenti → CALL:GEN:<testo>\n"
-            "Rispondi solo in questa forma, senza aggiungere altro."
+            "Sei l'orchestratore di SmarTina. Il tuo unico compito è smistare la richiesta dell'utente.\n\n"
+            "Devi rispondere RIGIDAMENTE con CALL:INFO:<testo> se l'utente chiede informazioni su:\n"
+            "- Funzionalità del social (Home, Profilo, Post, Tendenze, Accesso)\n"
+            "- Assistenza, contatti o apertura Ticket (Contatti, Ticket)\n"
+            "- Informazioni, definizioni o spiegazioni su cosa sono gli 'ITS', gli 'Academy' o gli 'ITS Academy'.\n\n"
+            "Devi rispondere RIGIDAMENTE con CALL:GEN:<testo> SOLO se l'utente fa richieste generiche, "
+            "saluti (ciao, come va), complimenti o provocazioni/frasi fuori tema non legate ai punti sopra citati.\n\n"
+            "Rispondi solo ed esclusivamente in questa forma, senza aggiungere spazi vuoti o altro."
         )},
         {"role": "user", "content": user_input}
     ]
-    resp = client.chat.completions.create(model=MODEL_MAIN, messages=prompt)
+    resp = client.chat.completions.create(model=MODEL_MAIN, messages=prompt, timeout=10.0)
     return resp.choices[0].message.content.strip()
 
 # === AGENTE INFO ===========================================================
 def agente_info(user_input):
     prompt = [
         {"role": "system", "content": (
-            "Hai accesso alle informazioni di ITSocial:\n"
+            "Sei l'agente informativo di SmarTina. Sii sempre gentile, educata e professionale.\n"
+            "Rispondi alle domande usando ESCLUSIVAMENTE i dati testuali forniti qui sotto. Non inventare nulla.\n"
+            "Se l'utente ti chiede degli 'ITS', delle 'Academy' o degli 'ITS Academy', usa la voce 'Its Academy'.\n\n"
             f"Home: {INFO['home']}\n"
             f"Profilo: {INFO['profilo']}\n"
             f"Post: {INFO['post']}\n"
@@ -80,34 +81,38 @@ def agente_info(user_input):
             f"Contatti: {INFO['contatti']}\n"
             f"Accesso: {INFO['accesso']}\n"
             f"Its Academy: {INFO['its_academy']}\n"
-            f"Ticket: {INFO['ticket']}\n\n"
-            "Rispondi in modo chiaro, gentile e conciso. Non inventare dati non presenti."
+            f"Ticket: {INFO['ticket']}\n"
         )},
         {"role": "user", "content": user_input}
     ]
-    resp = client.chat.completions.create(model=MODEL_FT, messages=prompt)
+    resp = client.chat.completions.create(model=MODEL_FT, messages=prompt, timeout=10.0)
     return resp.choices[0].message.content.strip()
 
 # === AGENTE GENERICO =======================================================
 def agente_generico(user_input, memoria=None, history=None):
     messages = []
 
-    # Prompt semplice con nome utente e nome assistente
-    system_content = "Tu sei SmarTina, l'assistente virtuale di ITSocial. "
+   # Configurazione della personalità gentile di SmarTina
+    system_content = (
+        "Tu sei SmarTina, l'assistente virtuale di ITSocial. "
+        "Il tuo tratto fondamentale è la GENTILEZZA: sii sempre estremamente educata, calma, pacifica e professionale. "
+        "Non offendere, non usare mai parole volgari e non insultare MAI l'utente, "
+    )
+    
     if memoria and memoria.get("nome_utente"):
-        system_content += f"L'utente si chiama {memoria['nome_utente']}. Usa sempre il suo nome quando appropriato. "
+        system_content += f"L'utente si chiama {memoria['nome_utente']}. Usa il suo nome quando appropriato per essere amichevole. "
+    
     system_content += "Chiama te stessa SmarTina, mai Assistant."
 
     messages.append({"role": "system", "content": system_content})
 
-    # Cronologia chat
     if history:
         for h in history[-MAX_HISTORY:]:
             messages.append({"role": h["role"], "content": h["content"]})
 
     messages.append({"role": "user", "content": user_input})
 
-    resp = client.chat.completions.create(model=MODEL_FT, messages=messages)
+    resp = client.chat.completions.create(model=MODEL_FT, messages=messages, timeout=10.0)
     return resp.choices[0].message.content.strip()
 
 # === CICLO PRINCIPALE ======================================================
@@ -124,17 +129,27 @@ while True:
     if not user_input:
         continue
 
+    # --- 1. VERIFICA DELLA MEMORIA  ---
+    if any(domanda in user_input.lower() for domanda in {"come mi chiamo", "ti ricordi come mi chiamo", "cosa ricordi", "cosa sai di me"}):
+        if memoria["nome_utente"]:
+            print(f"💬 SmarTina: Ti chiami {memoria['nome_utente']}! 😊\n")
+        else:
+            print("💬 SmarTina: Non mi hai ancora detto il tuo nome! Come ti chiami? 😊\n")
+        continue
+
     # --- Memorizza nome utente in modo semplice ---
-    if user_input.lower().startswith("mi chiamo"):
-        nome = user_input[9:].strip().capitalize()  # tutto dopo "mi chiamo"
+    if "mi chiamo" in user_input.lower():
+        idx = user_input.lower().find("mi chiamo") + len("mi chiamo")
+        nome = user_input[9:].strip().capitalize()  
         memoria["nome_utente"] = nome
         print(f"💬 SmarTina: Piacere, {nome}! Ora lo ricorderò.\n")
         continue
 
-    if user_input.lower().startswith("il mio nome è"):
-        nome = user_input[13:].strip().capitalize()  # tutto dopo "il mio nome è"
+    if "il mio nome è" in user_input.lower():
+        idx = user_input.lower().find("il mio nome è") + len("il mio nome è")
+        nome = user_input[idx:].strip(".,! ").capitalize()
         memoria["nome_utente"] = nome
-        print(f"💬 SmarTina: Piacere, {nome}! Ora lo ricorderò.\n")
+        print(f"💬 SmarTina: Piacere, {nome}! Ora lo ricorderò. 😊\n")
         continue
 
     # --- Mostra memoria ---
@@ -153,17 +168,23 @@ while True:
         continue
 
     # --- Orchestratore ---
-    decision = orchestratore(user_input)
+    try:
+        # Chiamata all'orchestratore
+        decision = orchestratore(user_input)
 
-    if decision.startswith("CALL:INFO:"):
-        query = decision.replace("CALL:INFO:", "").strip()
-        risposta = agente_info(query)
-    else:
-        query = decision.replace("CALL:GEN:", "").strip()
-        risposta = agente_generico(query, memoria, conversation_history)
+        if decision.startswith("CALL:INFO:"):
+            query = decision.replace("CALL:INFO:", "").strip()
+            risposta = agente_info(query)
+        else:
+            query = decision.replace("CALL:GEN:", "").strip()
+            risposta = agente_generico(query, memoria, conversation_history)
 
-    # --- Aggiorna cronologia ---
-    add_history("user", user_input)
-    add_history("assistant", risposta)
+        # --- Aggiorna cronologia ---
+        add_history("user", user_input)
+        add_history("assistant", risposta)
 
-    print(f"💬 SmarTina: {risposta}\n")
+        print(f"💬 SmarTina: {risposta}\n")
+
+    except Exception as e:
+        print(f"❌ Ops! C'è stato un problema di connessione con OpenAI.")
+        print(f"Dettaglio errore: {e}\n")
