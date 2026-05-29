@@ -80,7 +80,7 @@ def preprocess_text(text: str) -> str:
     doc = nlp(text_clean)
     
     # Teniamo le parole importanti, ma togliamo i simboli strani o spazi di troppo.
-    # Per fare bella figura con i prof, filtriamo i token che sono punteggiatura pura,
+    # Filtriamo i token che sono punteggiatura pura,
     # ma manteniamo la struttura della frase per l'embedding di OpenAI.
     tokens = [token.text for token in doc if not token.is_space]
     text_clean = " ".join(tokens)

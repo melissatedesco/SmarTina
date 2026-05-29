@@ -21,7 +21,7 @@ if not api_key:
 client = OpenAI(api_key=api_key)
 
 # 💡 Configurato con gpt-4o-mini per i test PRE fine-tuning
-MODEL_FT = "gpt-4o-mini"
+MODEL_FT = "gpt-4o-mini-2024-07-18:its-cadmo:"
 MAX_HISTORY = 10
 
 INFO = {
