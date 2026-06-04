@@ -7,8 +7,6 @@ import re
 import pickle
 import faiss
 import numpy as np
-from typing import List, Dict
-from datetime import datetime
 from dotenv import load_dotenv
 from openai import OpenAI
 import mysql.connector
@@ -54,7 +52,7 @@ def validate_and_normalize_payload(raw_json: str):
     payload_json = extract_json_block(raw_json)
     data = json.loads(payload_json)
 
-    required = ["nome_utente", "cognome_utente", "username", "email", "tipo_ticket"]
+    required = ["nome_utente", "cognome_utente", "username", "email", "tipo_ticket", "descrizione_ticket"]
 
     missing = [k for k in required if k not in data or not str(data[k]).strip()]
     if missing:
@@ -66,6 +64,7 @@ def validate_and_normalize_payload(raw_json: str):
         "username": data["username"].strip(),
         "email": data["email"].strip(),
         "tipo_ticket": data["tipo_ticket"].strip(),
+        "descrizione_ticket": data["descrizione_ticket"].strip(),
     }
 
 # === DB ===
@@ -73,18 +72,18 @@ def validate_and_normalize_payload(raw_json: str):
 def get_db():
     return mysql.connector.connect(**DB_CONFIG)
     
-def registra_ticket(nome, cognome, username, email, tipo):
+def registra_ticket(nome, cognome, username, email, tipo, descrizione):
     """Registra un nuovo ticket nel database con data/ora automatica."""
     conn = get_db()
     try:
         cur = conn.cursor()
         cur.execute(
             """
-            INSERT INTO ticket 
-            (nome_utente, cognome_utente, username, email_utente, tipo_ticket)
-            VALUES (%s, %s, %s, %s, %s)
+            INSERT INTO ticket
+            (nome_utente, cognome_utente, username, email_utente, tipo_ticket, descrizione_ticket)
+            VALUES (%s, %s, %s, %s, %s, %s)
             """,
-            (nome, cognome, username, email, tipo)
+            (nome, cognome, username, email, tipo, descrizione)
         )
         conn.commit()
     finally:
@@ -143,15 +142,16 @@ def orchestratore(hist: list) -> str:
             {"role": "system",
              "content": (
                  "Sei l'orchestratore di SmarTina. Analizza la conversazione e decidi chi risponde.\n\n"
-                 "Rispondi CALL:TICKET:<testo> se l'utente vuole aprire, vedere o gestire un ticket di assistenza.\n\n"
+                 "Rispondi CALL:TICKET:<testo> se:\n"
+                 "- L'utente vuole fare una segnalazione, aprire un ticket, richiedere supporto, dare feedback\n"
+                 "- L'utente descrive un problema tecnico o un bug ('non funziona', 'non riesco', 'errore', 'problema')\n"
+                 "- La conversazione è già in corso per raccogliere dati di un ticket\n"
+                 "IMPORTANTE: se nelle ultime battute l'utente ha detto 'segnalazione', 'ticket', 'problema', usa SEMPRE CALL:TICKET.\n\n"
                  "Rispondi CALL:RAG:<testo> se la richiesta riguarda:\n"
-                 "- Funzionalità di ITSocial (home, post, classi, messaggi, notifiche, profilo, accesso, tendenze)\n"
-                 "- Qualsiasi ITS Academy (nome specifico come 'ITS Cadmo', 'ITS Pegasus', ecc.)\n"
-                 "- Regioni italiane con ITS (es. 'ITS in Calabria', 'ITS a Milano')\n"
-                 "- Informazioni generali su ITS Academy (cos'è, durata, diploma, EQF)\n"
-                 "- Qualsiasi domanda che inizia con 'cosa è', 'dimmi di', 'vorrei sapere', 'informazioni su'\n"
-                 "  In caso di dubbio, scegli sempre CALL:RAG.\n\n"
-                 "Rispondi CALL:GEN:<testo> SOLO per saluti puri, chiacchiere fuori tema o quando l'utente dice il suo nome.\n\n"
+                 "- Come funziona ITSocial (spiegazioni su home, post, classi, messaggi, notifiche, profilo, tendenze)\n"
+                 "- Informazioni su ITS Academy italiani (nomi, sedi, link, regioni, aree tecnologiche)\n"
+                 "- Domande che iniziano con 'come si fa', 'cos'è', 'dove trovo', 'dimmi di'\n\n"
+                 "Rispondi CALL:GEN:<testo> SOLO per saluti puri o chiacchiere completamente fuori tema.\n\n"
                  "Rispondi SOLO con una di queste tre forme, niente altro."
              )}
         ] + hist
@@ -164,7 +164,8 @@ def orchestratore(hist: list) -> str:
 def agente_ticket(hist):
     p = [
         {"role": "system",
-         "content": "Richiedi dati: nome_utente,cognome_utente, username, email, tipo_ticket. "
+         "content": "Richiedi dati: nome_utente, cognome_utente, username, email, tipo_ticket, descrizione_ticket. "
+                    "La descrizione_ticket è il problema o la richiesta descritta dall’utente (estraila dalla conversazione se già presente). "
                     "Quando tutti i dati sono presenti rispondi SOLO con CALL:CONFIRMED:{...JSON...}. "
                     "Tipi ticket disponibili:\n"
                     "- Richiesta informazioni\n"
@@ -192,7 +193,15 @@ def agente_rag(hist):
                 "e sugli ITS Academy italiani (cos'è un ITS, aree tecnologiche, diploma EQF 5, "
                 "elenco per regione con link ufficiali). "
                 "Se l'informazione è nei documenti, rispondi in modo chiaro e completo. "
-                "Non inventare dati o link non presenti nel contesto."
+                "Non inventare dati o link non presenti nel contesto.\n\n"
+                "REGOLA FONDAMENTALE per le domande sugli ITS:\n"
+                "- Prima risposta: elenca SOLO i nomi degli istituti (niente link, niente descrizioni). "
+                "Poi chiedi esplicitamente: 'A quale di questi sei interessato?'\n"
+                "- Se nella conversazione l'utente ha già indicato un istituto specifico (per nome o numero), "
+                "rispondi con il link ufficiale e i dettagli di QUELL'istituto.\n"
+                "- Non fornire mai link nella prima risposta. I link si danno SOLO dopo che l'utente ha scelto.\n"
+                "- Non inventare nomi o link non presenti nei documenti. "
+                "Se non hai dati su una scuola specifica, dillo chiaramente."
             )},
             {"role": "system", "content": f"Documenti di riferimento:\n{contesto}"}
         ] + hist
@@ -313,17 +322,18 @@ def smarTina_chat(user_id: str, nuovo_messaggio: str, history_esterno=None):
         # Routing robusto — funziona anche se l'orchestratore omette i due punti finali
         if "CALL:TICKET" in dec:
             out = agente_ticket(history)
-            if out.startswith("CALL:CONFIRMED:"):
-                raw = out.replace("CALL:CONFIRMED:", "", 1).strip()
+            if "CALL:CONFIRMED:" in out:
+                raw = out[out.index("CALL:CONFIRMED:") + len("CALL:CONFIRMED:"):].strip()
                 dati = validate_and_normalize_payload(raw)
                 registra_ticket(
                     dati["nome_utente"],
                     dati["cognome_utente"],
                     dati["username"],
                     dati["email"],
-                    dati["tipo_ticket"]
+                    dati["tipo_ticket"],
+                    dati["descrizione_ticket"]
                 )
-                out = "Ticket registrato correttamente nel database."
+                out = "Ticket registrato correttamente."
 
         elif "CALL:RAG" in dec:
             out = agente_rag(history)

@@ -12,11 +12,10 @@ Non è un social generico: è uno spazio pensato esclusivamente per la community
 
 ###Ruoli
 
-Su ITSocial esistono 4 ruoli:
+Su ITSocial esistono 3 ruoli principali:
 - Studente: social completo + accesso classi in sola lettura + consegna compiti
 - Professore: social completo + creazione e gestione di classi, compiti, materiali e annunci
 - Istituto: gestione dei professori dell'istituto
-- Admin: accesso completo alla piattaforma
 Il ruolo determina cosa puoi fare sulla piattaforma.
 
 ###App mobile
@@ -29,7 +28,7 @@ Si accede con le stesse credenziali della versione web.
 
 Per registrarsi: pagina /registrazione, pubblica e accessibile senza login. Serve un'email valida.
 Per accedere: pagina /login con email e password.
-Il token di sessione dura 1 ora per motivi di sicurezza. Trascorsa l'ora bisogna rifare il login — non è un bug.
+La sessione dura 1 ora per motivi di sicurezza. Trascorsa l'ora bisogna rifare il login — non è un bug.
 Per recuperare la password: pagina /recupera-password, inserire l'email, ricevere il codice di verifica, impostare la nuova password.
 
 ###Home e feed
@@ -179,13 +178,15 @@ Gli ITS Academy (Istituti Tecnici Superiori) sono percorsi di formazione post-di
 Il diploma EQF 5 si colloca tra il diploma di maturità (EQF 4) e la laurea triennale (EQF 6). È riconosciuto in tutta l'Unione Europea ed è corredato dall'Europass Diploma Supplement.
 Le 6 aree tecnologiche nazionali: efficienza energetica, mobilità sostenibile, nuove tecnologie della vita, Made in Italy (agroalimentare, meccanica, moda), turismo e beni culturali, ICT.
 
-###ITS in Italia per regione
+###ITS in Italia - panoramica
 
 Gli ITS Academy sono presenti in tutte le regioni italiane.
-Regioni con più ITS: Lombardia (16), Campania (15), Calabria (9), Lazio (13).
+Regioni con più ITS: Lombardia (16), Campania (15), Lazio (13), Calabria (9).
 Regioni con meno ITS: Basilicata (1), Molise (1), Umbria (1), Sardegna (4).
 
-Abruzzo (6 ITS):
+###ITS in Abruzzo
+
+Abruzzo — 6 ITS Academy:
 - [ITS Sistema Meccanica](https://itsmeccanicabruzzo.it) — meccanica (Chieti)
 - [ITS Efficienza Energetica L'Aquila](https://itsenergia.org) — efficienza energetica (L'Aquila)
 - [ITS Sistema Agroalimentare](https://itsagroalimentarete.it) — agroalimentare (Teramo)
@@ -193,10 +194,14 @@ Abruzzo (6 ITS):
 - [ITS Sistema Moda](https://itsmodapescara.it) — moda (Pescara)
 - [ITS Abruzzo Turismo e Cultura](https://its-turismoabruzzo.it) — turismo (Teramo)
 
-Basilicata (1 ITS):
+###ITS in Basilicata
+
+Basilicata — 1 ITS Academy:
 - [ITS Efficienza Energetica Potenza](https://its-efficienzaenergeticabasilicata.it) — efficienza energetica (Potenza)
 
-Calabria (9 ITS):
+###ITS in Calabria
+
+Calabria — 9 ITS Academy:
 - [ITS Pegasus](https://itspegasus.it) — mobilità sostenibile e logistica (Reggio Calabria)
 - [ITS Efficienza Energetica A. Monaco](https://its-efficienzaenergeticacs.it) — efficienza energetica (Cosenza)
 - [ITS Efficienza Energetica RC](https://itsefficienzaenergeticarc.it) — efficienza energetica (Reggio Calabria)
@@ -207,24 +212,28 @@ Calabria (9 ITS):
 - [Fondazione Cadmo ICT](https://fondazionecadmo.it) — ICT e digitale (Catanzaro)
 - [ITS Sistema Agroalimentare Iridea](https://itsirdea.it) — agricoltura di precisione (Cosenza)
 
-Campania (15 ITS):
-- [Fondazione BACT](https://fondazionebact.it) — Napoli
-- [ITS TEC MOS](https://itstecmos.it) — Caserta
-- [ITS Mobilità Sostenibile Trasporti Marittimi](https://itsmare.it) — Napoli
-- [ITS Moda Campania](https://itsmodacampania.it) — Napoli
-- [ITS MA.ME.](https://itsmame.it) — Napoli
-- [ITS Energy-Lab](https://itsenergylab.it) — Benevento
-- [ITS Antonio Bruno](https://itsantoniobruno.it) — Avellino
-- [ITS Ermete](https://itsermete.it) — Avellino
-- [ITS SCI.TEC.VITA](https://itsscitecvita.it) — Napoli
-- [ITS Academy Newtech SI](https://itsnewtechsi.it) — Salerno
-- [ITS TE.LA.](https://itstela.it) — Salerno
-- [ITS Casa Campania](https://itscasacampania.it) — Napoli
-- [ITS Campania Hitech & Communication](https://itshitechcampania.it) — Napoli
-- [ICT Campus ITS Academy](https://ictcampus.it) — Benevento
-- [ITS Ma.De. Academy](https://itsmadeacademy.it) — Napoli
+###ITS in Campania
 
-Emilia-Romagna (7 ITS):
+Campania — 15 ITS Academy:
+- [Fondazione BACT](https://fondazionebact.it) — biotecnologie (Napoli)
+- [ITS TEC MOS](https://itstecmos.it) — meccatronica (Caserta)
+- [ITS Mobilità Sostenibile Trasporti Marittimi](https://itsmare.it) — mobilità sostenibile (Napoli)
+- [ITS Moda Campania](https://itsmodacampania.it) — moda (Napoli)
+- [ITS MA.ME.](https://itsmame.it) — made in Italy (Napoli)
+- [ITS Energy-Lab](https://itsenergylab.it) — efficienza energetica (Benevento)
+- [ITS Antonio Bruno](https://itsantoniobruno.it) — ICT (Avellino)
+- [ITS Ermete](https://itsermete.it) — agroalimentare (Avellino)
+- [ITS SCI.TEC.VITA](https://itsscitecvita.it) — nuove tecnologie della vita (Napoli)
+- [ITS Academy Newtech SI](https://itsnewtechsi.it) — ICT (Salerno)
+- [ITS TE.LA.](https://itstela.it) — logistica (Salerno)
+- [ITS Casa Campania](https://itscasacampania.it) — turismo (Napoli)
+- [ITS Campania Hitech & Communication](https://itshitechcampania.it) — ICT (Napoli)
+- [ICT Campus ITS Academy](https://ictcampus.it) — ICT (Benevento)
+- [ITS Ma.De. Academy](https://itsmadeacademy.it) — made in Italy (Napoli)
+
+###ITS in Emilia-Romagna
+
+Emilia-Romagna — 7 ITS Academy:
 - [ITS Logistica e Mobilità](https://itslogistica.it) — logistica (Piacenza)
 - [ITS Agroalimentare](https://itstechandfood.it) — agroalimentare (Parma)
 - [ITS Meccanica Meccatronica Motoristica Packaging](https://itsmaker.it) — meccanica (Bologna)
@@ -233,28 +242,34 @@ Emilia-Romagna (7 ITS):
 - [ITS Turismo e Benessere](https://itsturismoebenessere.it) — turismo (Rimini)
 - [ITS Nuove Tecnologie della Vita](https://itsbiomedicale.it) — biotecnologie (Modena)
 
-Friuli Venezia Giulia (4 ITS):
+###ITS in Friuli Venezia Giulia
+
+Friuli Venezia Giulia — 4 ITS Academy:
 - [ITS Industria Meccanica e Aeronautica](https://itsmalignani.it) — meccanica e aeronautica (Udine)
-- [ITS Alto Adriatico](https://itsaltoadriatico.it) — (Pordenone)
-- [ITS Alessandro Volta](https://itsvolta.it) — (Trieste)
+- [ITS Alto Adriatico](https://itsaltoadriatico.it) — ICT (Pordenone)
+- [ITS Alessandro Volta](https://itsvolta.it) — efficienza energetica (Trieste)
 - [ITS Accademia Nautica Adriatico](https://accademianautica.it) — nautica (Trieste)
 
-Lazio (13 ITS):
-- [ITS Fondazione G. Caboto](https://fondazionecaboto.it) — (Latina)
+###ITS in Lazio
+
+Lazio — 13 ITS Academy:
+- [ITS Fondazione G. Caboto](https://fondazionecaboto.it) — logistica (Latina)
 - [ITS Agroalimentare](https://itsagroalimentare.it) — agroalimentare (Viterbo)
-- [ITS Roberto Rossellini](https://itsrossellini.it) — (Roma)
-- [ITS Servizi alle Imprese](https://itsservizialleimprese.it) — (Viterbo)
+- [ITS Roberto Rossellini](https://itsrossellini.it) — cinema e audiovisivo (Roma)
+- [ITS Servizi alle Imprese](https://itsservizialleimprese.it) — made in Italy (Viterbo)
 - [ITS Bio Campus](https://itsbiocampus.it) — biotecnologie (Latina)
-- [ITS Nuove Tecnologie Vita](https://its-nuovetecnologiedellavita.it) — (Roma)
+- [ITS Nuove Tecnologie Vita](https://its-nuovetecnologiedellavita.it) — nuove tecnologie della vita (Roma)
 - [ITS Turismo Roma](https://itsturismoroma.it) — turismo (Roma)
 - [ITS Meccatronico Lazio](https://itsmeccatronicolazio.it) — meccatronica (Frosinone)
 - [ITS Academy Lazio Digital](https://laziodigital.it) — digitale (Roma)
-- [ITS Maria Gaetana Agnesi](https://itsagnesi.it) — (Roma)
+- [ITS Maria Gaetana Agnesi](https://itsagnesi.it) — ICT (Roma)
 - [ITS ICT Academy Roma](https://ictacademy.it) — ICT (Roma)
 - [ITS Academy Sistema Moda](https://its-modaroma.it) — moda (Roma)
 - [ITS Academy Logistica 4.0](https://itslogistica40.it) — logistica (Rieti)
 
-Liguria (6 ITS):
+###ITS in Liguria
+
+Liguria — 6 ITS Academy:
 - [ITS Efficienza Energetica](https://itsenergia-liguria.it) — efficienza energetica (Savona)
 - [ITS ICT Liguria](https://ictliguria.it) — ICT (Genova)
 - [Accademia Marina Mercantile](https://accademiamarinamercantile.it) — marina mercantile (Genova)
@@ -262,34 +277,42 @@ Liguria (6 ITS):
 - [ITS Agroalimentare Imperia](https://itsagroalimentareliguria.it) — agroalimentare (Imperia)
 - [ITS Turismo Liguria](https://itsturismoliguria.it) — turismo (Genova)
 
-Lombardia (16 ITS):
+###ITS in Lombardia
+
+Lombardia — 16 ITS Academy:
 - [ITS Angelo Rizzoli](https://itsrizzoli.it) — moda e design (Milano)
 - [JobsAcademy](https://jobsacademy.it) — efficienza energetica e meccatronica (Bergamo)
-- [ITS Minoprio](https://fondazioneminoprio.it) — (Como)
-- [ITS Nuove Tecnologie Vita](https://its-nuovetecnologievita.it) — (Bergamo)
+- [ITS Minoprio](https://fondazioneminoprio.it) — agroalimentare (Como)
+- [ITS Nuove Tecnologie Vita](https://its-nuovetecnologievita.it) — nuove tecnologie della vita (Bergamo)
 - [ITS Machina Lonati](https://machinalonati.it) — moda e tessile (Brescia)
 - [ITS Trasporti e Logistica](https://itscasabiancamalpensa.it) — trasporti e logistica (Varese)
-- [ITS Cantieri dell'Arte](https://itscantieridellarte.it) — (Milano)
+- [ITS Cantieri dell'Arte](https://itscantieridellarte.it) — beni culturali (Milano)
 - [ITS Made in Italy](https://itsmadeinitaly.it) — made in Italy (Cremona)
 - [ITS Energia Ambiente Edilizia](https://its-bec.it) — energia (Monza Brianza)
 - [ITS Turismo Ospitalità](https://itsturismosmart.it) — turismo (Como)
 - [ITS Lombardo Meccatronica](https://itslombardomeccatronica.it) — meccatronica (Milano)
-- [ITS Sistema Casa Rosario Messina](https://itssistemacasa.it) — (Monza Brianza)
+- [ITS Sistema Casa Rosario Messina](https://itssistemacasa.it) — edilizia (Monza Brianza)
 - [ITS Filiera Agroalimentare](https://itsagroalimentare.it) — agroalimentare (Lodi/Mantova/Sondrio)
-- [ITS InnovaProfessioni](https://innovaprofessioni.it) — (Milano)
-- [ITS TTF Technologies Talent Factory](https://itsttf.it) — (Milano)
-- [ITS Symposium](https://itssymposium.it) — (Brescia)
+- [ITS InnovaProfessioni](https://innovaprofessioni.it) — ICT (Milano)
+- [ITS TTF Technologies Talent Factory](https://itsttf.it) — ICT (Milano)
+- [ITS Symposium](https://itssymposium.it) — made in Italy (Brescia)
 
-Marche (4 ITS):
-- [ITS Recanati](https://itsrecanati.it) — (Macerata)
+###ITS in Marche
+
+Marche — 4 ITS Academy:
+- [ITS Recanati](https://itsrecanati.it) — moda (Macerata)
 - [ITS Sistema Moda](https://itssistemamoda.it) — moda (Fermo)
 - [ITS Efficienza Energetica](https://fondazioneitsenergia.it) — efficienza energetica (Ancona)
 - [ITS Turismo Marche](https://itsturismomarche.it) — turismo (Pesaro-Urbino)
 
-Molise (1 ITS):
-- [ITS D.E.Mo.S.](https://www.itsdemos.it) — (Campobasso)
+###ITS in Molise
 
-Piemonte (7 ITS):
+Molise — 1 ITS Academy:
+- [ITS D.E.Mo.S.](https://www.itsdemos.it) — made in Italy (Campobasso)
+
+###ITS in Piemonte
+
+Piemonte — 7 ITS Academy:
 - [ITS ICT Piemonte](https://its-ictpiemonte.it) — ICT (Torino)
 - [ITS Mobilità Aerospazio/Meccatronica](https://its-aerospaziomeccatronica.it) — mobilità e aerospazio (Torino)
 - [ITS Sistema Moda](https://its-tessileabbigliamentomoda.it) — moda (Biella)
@@ -298,50 +321,292 @@ Piemonte (7 ITS):
 - [ITS Sistemi Energetici](https://its-energia.it) — energia (Torino)
 - [ITS Turismo Attività Culturali](https://its-turismopiemonte.it) — turismo (Torino)
 
-Puglia (7 ITS):
+###ITS in Puglia
+
+Puglia — 7 ITS Academy:
 - [ITS Aerospazio](https://itsaerospaziopuglia.it) — aerospazio (Brindisi)
 - [ITS Antonio Cuccovillo](https://itsmeccatronicapuglia.it) — meccatronica (Bari)
 - [ITS Agroalimentare Puglia](https://itsagroalimentarepuglia.it) — agroalimentare (Bari)
 - [ITS Apulia Digital Maker](https://apuliadigitalmaker.it) — ICT e digitale (Foggia)
 - [ITS Turismo](https://itsturismopuglia.it) — turismo (Lecce)
 - [ITS Infomobilità](https://itslogistica.puglia.it) — infomobilità (Taranto)
-- [ITS MI.TI Martina Franca](https://itsmitimartinafranca.it) — (Taranto)
+- [ITS MI.TI Martina Franca](https://itsmitimartinafranca.it) — made in Italy (Taranto)
 
-Sardegna (4 ITS):
+###ITS in Sardegna
+
+Sardegna — 4 ITS Academy:
 - [ITS Efficienza Energetica](https://itsenergeticanuoro.it) — efficienza energetica (Nuoro)
-- [ITS Mo.So.S.](https://itsmosos.it) — (Cagliari)
+- [ITS Mo.So.S.](https://itsmosos.it) — mobilità sostenibile (Cagliari)
 - [ITS Filiera Agroalimentare](https://itsagroalimentaresardegna.it) — agroalimentare (Sassari)
 - [ITS Turismo Sardegna](https://itsturismosardegna.it) — turismo (Sassari)
 
-Sicilia (8 ITS):
+###ITS in Sicilia
+
+Sicilia — 8 ITS Academy:
 - [ITS Efficienza Energetica Enna](https://itsenna.it) — efficienza energetica (Enna)
-- [ITS Steve Jobs](https://itsstevejobs.eu) — (Catania)
-- [ITS Albatros](https://itsalbatros.it) — (Messina)
-- [ITS Archimede](https://itsarchimede.it) — (Siracusa)
+- [ITS Steve Jobs](https://itsstevejobs.eu) — ICT (Catania)
+- [ITS Albatros](https://itsalbatros.it) — turismo (Messina)
+- [ITS Archimede](https://itsarchimede.it) — meccatronica (Siracusa)
 - [ITS Trasporti](https://infomobilitysicilia.it) — trasporti (Catania)
-- [ITS Alessandro Volta](https://its-volta.it) — (Palermo)
-- [ITS Sicani](https://itssicani.it) — (Agrigento)
-- [ITS Emporium del Golfo](https://itsemporium.it) — (Trapani)
+- [ITS Alessandro Volta](https://its-volta.it) — ICT (Palermo)
+- [ITS Sicani](https://itssicani.it) — agroalimentare (Agrigento)
+- [ITS Emporium del Golfo](https://itsemporium.it) — turismo (Trapani)
 
-Toscana (8 ITS):
+###ITS in Toscana
+
+Toscana — 8 ITS Academy:
 - [ITS Energia Ambiente](https://itsenergiaambiente.it) — energia (Siena)
-- [ITS Prime](https://itsprime.it) — (Firenze)
-- [ITS M.I.T.A.](https://mitacademy.it) — (Firenze)
-- [ITS ISYL](https://isyl.it) — (Lucca)
-- [ITS E.A.T.](https://fondazione-eat.it) — (Grosseto)
-- [ITS VITA](https://itsvita.it) — (Siena)
-- [ITS TAB](https://fondazionetab.it) — (Firenze)
-- [ITS Prodigi](https://its-prodigi.it) — (Firenze)
+- [ITS Prime](https://itsprime.it) — ICT (Firenze)
+- [ITS M.I.T.A.](https://mitacademy.it) — meccatronica (Firenze)
+- [ITS ISYL](https://isyl.it) — moda (Lucca)
+- [ITS E.A.T.](https://fondazione-eat.it) — agroalimentare (Grosseto)
+- [ITS VITA](https://itsvita.it) — nuove tecnologie della vita (Siena)
+- [ITS TAB](https://fondazionetab.it) — made in Italy (Firenze)
+- [ITS Prodigi](https://its-prodigi.it) — ICT (Firenze)
 
-Umbria (1 ITS):
+###ITS in Umbria
+
+Umbria — 1 ITS Academy:
 - [ITS Umbria Made in Italy](https://itsumbria.it) — made in Italy (Perugia)
 
-Veneto (8 ITS):
+###ITS in Valle d'Aosta
+
+Valle d'Aosta — nessun ITS Academy attivo al momento.
+
+###ITS in Veneto
+
+Veneto — 8 ITS Academy:
 - [ITS Turismo Veneto](https://itsturismo.it) — turismo (Venezia)
 - [ITS Mobilità Sostenibile LAST](https://itslast.it) — mobilità sostenibile (Verona)
 - [ITS Meccatronico](https://itsmeccatronico.it) — meccatronica (Vicenza)
 - [ITS RED](https://itsred.it) — ICT e digitale (Padova)
 - [ITS Moda-Calzatura](https://itscosmo.it) — moda (Padova)
 - [ITS Agroalimentare e Vitivinicolo](https://itsagroalimentareveneto.it) — agroalimentare (Treviso)
-- [ITS Marco Polo](https://itsmarcopolo.it) — (Venezia)
+- [ITS Marco Polo](https://itsmarcopolo.it) — turismo (Venezia)
 - [ITS Digital Academy Mario Volpato](https://itsdigitalacademy.it) — digitale (Venezia)
+
+###ITS in Trentino Alto Adige
+
+Trentino Alto Adige — ITS Academy presenti:
+- [ITS Rovereto](https://itsrovereto.it) — meccatronica e ICT (Rovereto)
+
+###FAQ ITS Academy - domande frequenti
+
+Come ci si iscrive a un ITS Academy?
+Ogni ITS gestisce autonomamente le iscrizioni tramite il proprio sito ufficiale. Di solito è richiesto: diploma di maturità (o equivalente), superamento di una selezione (test scritto e/o colloquio), eventuale requisito di età (di norma under 35). Le date di apertura dei bandi variano da istituto a istituto, tipicamente tra marzo e settembre.
+
+Quanto costa frequentare un ITS Academy?
+La frequenza è gratuita o a costi molto ridotti (contributo iscrizione spesso sotto i 500 euro/anno), grazie ai finanziamenti del MIUR, delle Regioni e delle aziende partner. Alcuni ITS offrono borse di studio o rimborsi per tirocini in azienda.
+
+Quanto dura un percorso ITS?
+2 anni (4 semestri), per circa 1800-2000 ore totali. Almeno il 35% delle ore si svolge in stage aziendale.
+
+Che titolo si ottiene?
+Diploma di Tecnico Superiore, riconosciuto a livello europeo come EQF livello 5. Si colloca tra il diploma di maturità (EQF 4) e la laurea triennale (EQF 6). Include l'Europass Diploma Supplement valido in tutta l'UE.
+
+Quali sono le possibilità di lavoro dopo un ITS?
+Il tasso di occupazione degli ex studenti ITS supera l'80% entro 12 mesi dal diploma. Molti vengono assunti direttamente dalle aziende partner dello stage.
+
+Si può frequentare un ITS lavorando?
+Dipende dall'istituto. Alcuni ITS offrono percorsi part-time o serali. La maggior parte però richiede la presenza full-time, soprattutto durante i moduli in aula.
+
+Qual è la differenza tra ITS e università?
+ITS: 2 anni, pratico, almeno 35% in azienda, diploma EQF 5, orientato al lavoro immediato.
+Università (laurea triennale): 3 anni, teorico-pratica, laurea EQF 6, maggiore accesso a percorsi accademici successivi.
+ITS e università non si escludono: alcuni laureati frequentano un ITS per specializzarsi, e alcuni diplomati ITS accedono all'università con crediti riconosciuti.
+
+Quanti ITS Academy ci sono in Italia?
+Oltre 120 ITS Academy attivi sul territorio nazionale, presenti in tutte le regioni. Le regioni con più ITS sono Lombardia (16), Campania (15), Lazio (13), Calabria (9).
+
+###ITS per area tecnologica - ICT e digitale
+
+ITS specializzati in ICT, digitale, cybersecurity e informatica in Italia:
+- Calabria: [Fondazione Cadmo ICT](https://fondazionecadmo.it) (Catanzaro), [Fondazione M.A.SK.](https://fondazionemask.it) (Reggio Calabria)
+- Lazio: [ITS Academy Lazio Digital](https://laziodigital.it), [ITS ICT Academy Roma](https://ictacademy.it)
+- Lombardia: [ITS TTF Technologies Talent Factory](https://itsttf.it), [ITS InnovaProfessioni](https://innovaprofessioni.it)
+- Piemonte: [ITS ICT Piemonte](https://its-ictpiemonte.it)
+- Puglia: [ITS Apulia Digital Maker](https://apuliadigitalmaker.it)
+- Veneto: [ITS RED](https://itsred.it), [ITS Digital Academy Mario Volpato](https://itsdigitalacademy.it)
+- Sicilia: [ITS Steve Jobs](https://itsstevejobs.eu), [ITS Alessandro Volta](https://its-volta.it)
+- Liguria: [ITS ICT Liguria](https://ictliguria.it)
+- Campania: [ITS Campania Hitech & Communication](https://itshitechcampania.it), [ICT Campus ITS Academy](https://ictcampus.it)
+
+###ITS per area tecnologica - Meccatronica
+
+ITS specializzati in meccatronica, automazione, robotica e sistemi industriali:
+- Campania: [ITS TEC MOS](https://itstecmos.it) (Caserta)
+- Lazio: [ITS Meccatronico Lazio](https://itsmeccatronicolazio.it) (Frosinone)
+- Lombardia: [ITS Lombardo Meccatronica](https://itslombardomeccatronica.it) (Milano), [JobsAcademy](https://jobsacademy.it) (Bergamo)
+- Piemonte: [ITS Mobilità Aerospazio/Meccatronica](https://its-aerospaziomeccatronica.it) (Torino)
+- Puglia: [ITS Antonio Cuccovillo](https://itsmeccatronicapuglia.it) (Bari)
+- Sicilia: [ITS Archimede](https://itsarchimede.it) (Siracusa)
+- Toscana: [ITS M.I.T.A.](https://mitacademy.it) (Firenze)
+- Trentino: [ITS Rovereto](https://itsrovereto.it) (Rovereto)
+- Veneto: [ITS Meccatronico](https://itsmeccatronico.it) (Vicenza)
+- Emilia-Romagna: [ITS Meccanica Meccatronica Motoristica Packaging](https://itsmaker.it) (Bologna)
+- Friuli Venezia Giulia: [ITS Industria Meccanica e Aeronautica](https://itsmalignani.it) (Udine)
+
+###ITS per area tecnologica - Agroalimentare
+
+ITS specializzati in agricoltura, agroalimentare, vitivinicoltura e food tech:
+- Abruzzo: [ITS Sistema Agroalimentare](https://itsagroalimentarete.it) (Teramo)
+- Calabria: [Fondazione Pinta](https://fondazionepinta.it) (Crotone), [ITS Sistema Agroalimentare Iridea](https://itsirdea.it) (Cosenza)
+- Campania: [ITS Ermete](https://itsermete.it) (Avellino)
+- Emilia-Romagna: [ITS Agroalimentare](https://itstechandfood.it) (Parma)
+- Liguria: [ITS Agroalimentare Imperia](https://itsagroalimentareliguria.it) (Imperia)
+- Lombardia: [ITS Minoprio](https://fondazioneminoprio.it) (Como), [ITS Filiera Agroalimentare](https://itsagroalimentare.it) (Lodi/Mantova/Sondrio)
+- Piemonte: [ITS Agroalimentare Piemonte](https://its-agroalimentarepiemonte.it) (Cuneo)
+- Puglia: [ITS Agroalimentare Puglia](https://itsagroalimentarepuglia.it) (Bari)
+- Sardegna: [ITS Filiera Agroalimentare](https://itsagroalimentaresardegna.it) (Sassari)
+- Sicilia: [ITS Sicani](https://itssicani.it) (Agrigento)
+- Toscana: [ITS E.A.T.](https://fondazione-eat.it) (Grosseto)
+- Veneto: [ITS Agroalimentare e Vitivinicolo](https://itsagroalimentareveneto.it) (Treviso)
+
+###ITS per area tecnologica - Turismo
+
+ITS specializzati in turismo, ospitalità, beni culturali e accoglienza:
+- Abruzzo: [ITS Abruzzo Turismo e Cultura](https://its-turismoabruzzo.it) (Teramo)
+- Calabria: [Fondazione Elaia Calabria](https://itselaia.it) (Vibo Valentia)
+- Campania: [ITS Casa Campania](https://itscasacampania.it) (Napoli)
+- Emilia-Romagna: [ITS Turismo e Benessere](https://itsturismoebenessere.it) (Rimini)
+- Lazio: [ITS Turismo Roma](https://itsturismoroma.it) (Roma)
+- Liguria: [ITS Turismo Liguria](https://itsturismoliguria.it) (Genova)
+- Lombardia: [ITS Turismo Ospitalità](https://itsturismosmart.it) (Como)
+- Marche: [ITS Turismo Marche](https://itsturismomarche.it) (Pesaro-Urbino)
+- Piemonte: [ITS Turismo Attività Culturali](https://its-turismopiemonte.it) (Torino)
+- Puglia: [ITS Turismo](https://itsturismopuglia.it) (Lecce)
+- Sardegna: [ITS Turismo Sardegna](https://itsturismosardegna.it) (Sassari)
+- Sicilia: [ITS Albatros](https://itsalbatros.it) (Messina), [ITS Emporium del Golfo](https://itsemporium.it) (Trapani)
+- Veneto: [ITS Turismo Veneto](https://itsturismo.it) (Venezia), [ITS Marco Polo](https://itsmarcopolo.it) (Venezia)
+
+###ITS per area tecnologica - Efficienza energetica e mobilità sostenibile
+
+ITS specializzati in energie rinnovabili, efficienza energetica, mobilità sostenibile e logistica:
+- Abruzzo: [ITS Efficienza Energetica L'Aquila](https://itsenergia.org), [ITS MOST Mobilità Sostenibile](https://itsmost.it)
+- Basilicata: [ITS Efficienza Energetica Potenza](https://its-efficienzaenergeticabasilicata.it)
+- Calabria: [ITS Efficienza Energetica A. Monaco](https://its-efficienzaenergeticacs.it), [ITS Efficienza Energetica RC](https://itsefficienzaenergeticarc.it), [ITS Pegasus](https://itspegasus.it)
+- Campania: [ITS Energy-Lab](https://itsenergylab.it) (Benevento), [ITS Mobilità Sostenibile Trasporti Marittimi](https://itsmare.it)
+- Emilia-Romagna: [ITS Territorio Energia Costruire](https://itstec.it) (Ferrara)
+- Friuli Venezia Giulia: [ITS Alessandro Volta](https://itsvolta.it) (Trieste)
+- Liguria: [ITS Efficienza Energetica](https://itsenergia-liguria.it) (Savona)
+- Lombardia: [ITS Energia Ambiente Edilizia](https://its-bec.it) (Monza Brianza)
+- Marche: [ITS Efficienza Energetica](https://fondazioneitsenergia.it) (Ancona)
+- Piemonte: [ITS Sistemi Energetici](https://its-energia.it) (Torino)
+- Puglia: [ITS Aerospazio](https://itsaerospaziopuglia.it) (Brindisi), [ITS Infomobilità](https://itslogistica.puglia.it) (Taranto)
+- Sardegna: [ITS Efficienza Energetica](https://itsenergeticanuoro.it) (Nuoro), [ITS Mo.So.S.](https://itsmosos.it) (Cagliari)
+- Sicilia: [ITS Efficienza Energetica Enna](https://itsenna.it), [ITS Trasporti](https://infomobilitysicilia.it)
+- Toscana: [ITS Energia Ambiente](https://itsenergiaambiente.it) (Siena)
+- Veneto: [ITS Mobilità Sostenibile LAST](https://itslast.it) (Verona)
+
+###ITS per area tecnologica - Made in Italy e moda
+
+ITS specializzati in moda, design, tessile, calzatura, artigianato e produzioni tipiche italiane:
+- Abruzzo: [ITS Sistema Moda](https://itsmodapescara.it) (Pescara)
+- Campania: [ITS MA.ME.](https://itsmame.it) (Napoli), [ITS Ma.De. Academy](https://itsmadeacademy.it) (Napoli), [ITS Moda Campania](https://itsmodacampania.it) (Napoli)
+- Emilia-Romagna: [ITS Tecnologie Industrie Creative](https://fitstic.it) (Forlì-Cesena)
+- Lazio: [ITS Academy Sistema Moda](https://its-modaroma.it) (Roma), [ITS Servizi alle Imprese](https://itsservizialleimprese.it) (Viterbo)
+- Lombardia: [ITS Angelo Rizzoli](https://itsrizzoli.it) (Milano), [ITS Machina Lonati](https://machinalonati.it) (Brescia), [ITS Made in Italy](https://itsmadeinitaly.it) (Cremona), [ITS Symposium](https://itssymposium.it) (Brescia)
+- Marche: [ITS Recanati](https://itsrecanati.it) (Macerata), [ITS Sistema Moda](https://itssistemamoda.it) (Fermo)
+- Molise: [ITS D.E.Mo.S.](https://www.itsdemos.it) (Campobasso)
+- Piemonte: [ITS Sistema Moda](https://its-tessileabbigliamentomoda.it) (Biella)
+- Puglia: [ITS MI.TI Martina Franca](https://itsmitimartinafranca.it) (Taranto)
+- Toscana: [ITS ISYL](https://isyl.it) (Lucca), [ITS TAB](https://fondazionetab.it) (Firenze)
+- Umbria: [ITS Umbria Made in Italy](https://itsumbria.it) (Perugia)
+- Veneto: [ITS Moda-Calzatura](https://itscosmo.it) (Padova)
+
+###ITS per area tecnologica - Nuove tecnologie della vita e biotecnologie
+
+ITS specializzati in biotecnologie, sanità, farmaceutica, nuove tecnologie della vita:
+- Calabria: [ITS Tirreno – Nuove Tecnologie della Vita](https://itstirreno.it) (Cosenza)
+- Campania: [Fondazione BACT](https://fondazionebact.it) (Napoli), [ITS SCI.TEC.VITA](https://itsscitecvita.it) (Napoli)
+- Emilia-Romagna: [ITS Nuove Tecnologie della Vita](https://itsbiomedicale.it) (Modena)
+- Lazio: [ITS Bio Campus](https://itsbiocampus.it) (Latina), [ITS Nuove Tecnologie Vita](https://its-nuovetecnologiedellavita.it) (Roma)
+- Lombardia: [ITS Nuove Tecnologie Vita](https://its-nuovetecnologievita.it) (Bergamo)
+- Piemonte: [ITS Biotecnologie](https://its-biotecnologiepiemonte.it) (Torino)
+- Toscana: [ITS VITA](https://itsvita.it) (Siena)
+
+###Funzionalità Professore - panoramica
+
+Il ruolo Professore ha accesso a tutte le funzionalità social (feed, post, messaggi, profilo) più gli strumenti didattici esclusivi:
+- Creare, modificare ed eliminare classi virtuali
+- Pubblicare annunci con allegati nella bacheca della classe
+- Caricare materiali (file e link) nella sezione Materiali
+- Assegnare compiti con scadenza e punteggio massimo
+- Approvare o rifiutare le richieste di iscrizione alle classi private
+- Visualizzare le consegne degli studenti per ogni compito
+- Gestire gli studenti iscritti nella sezione Persone
+
+Le classi create dal professore si trovano nella sezione "Le mie classi" (percorso /classi/mie).
+
+###Professore - creare una classe
+
+Per creare una nuova classe: andare su /classi/nuova oppure cliccare "Nuova classe" dalla dashboard professore.
+Campi richiesti:
+- Nome della classe (obbligatorio)
+- Descrizione (facoltativa)
+- Tipo: PUBBLICA o PRIVATA
+
+Classe PUBBLICA: visibile nell'elenco "Esplora classi", l'iscrizione è automaticamente approvata.
+Classe PRIVATA: non visibile nell'elenco. Al momento della creazione viene generato automaticamente un codice invito di 8 caratteri (es. AB12CD34). Il professore lo copia e lo condivide agli studenti.
+
+Dopo la creazione si può modificare la classe (nome, descrizione, tipo) tramite il pulsante Modifica. Il codice invito non cambia dopo la modifica.
+Per eliminare una classe: dashboard professore > menu della classe > Elimina > conferma.
+
+###Professore - gestione iscrizioni
+
+Le richieste di iscrizione alle classi private arrivano nella sezione "Persone" della classe e nella dashboard professore tramite il pannello iscrizioni.
+Ogni iscrizione ha uno stato: IN_ATTESA, APPROVATA, RIFIUTATA.
+Per approvare: cliccare il pulsante Approva accanto alla richiesta. Lo studente riceve una notifica e ottiene accesso alla classe.
+Per rifiutare: cliccare Rifiuta. Lo studente riceve una notifica di rifiuto.
+Lo studente può essere rimosso o rifiutato anche dopo l'approvazione.
+Il contatore degli studenti nella dashboard si aggiorna automaticamente dopo ogni approvazione.
+
+###Professore - bacheca e annunci
+
+Gli annunci si pubblicano nella tab "Bacheca" dentro la classe.
+Per pubblicare un annuncio: aprire il composer, inserire titolo (obbligatorio) e contenuto (facoltativo), aggiungere eventualmente allegati, poi cliccare Pubblica.
+Allegati supportati negli annunci: immagini, PDF, Word, file di testo — massimo 10 MB ciascuno. Si possono aggiungere anche link URL.
+Gli studenti possono commentare gli annunci. Il professore può eliminare qualsiasi commento.
+Per eliminare un annuncio: icona elimina sull'annuncio > conferma. Solo il professore della classe può eliminare i propri annunci.
+Nota: i like agli annunci sono salvati solo nel browser locale e non si sincronizzano tra dispositivi.
+
+###Professore - materiali
+
+I materiali si gestiscono nella tab "Materiali" della classe.
+Per aggiungere un materiale: cliccare "Aggiungi materiale", inserire nome e URL (o caricare file), scegliere il tipo.
+Tipi di materiale supportati: LINK (URL web), FILE (PDF, Word, video e altri documenti).
+Per eliminare un materiale: icona elimina sul materiale > conferma. Solo il professore può aggiungere o eliminare materiali.
+Gli studenti possono visualizzare e scaricare i materiali ma non modificarli.
+
+###Professore - compiti e consegne
+
+I compiti si gestiscono nella tab "Lavori" della classe.
+Per creare un compito: cliccare "Nuovo compito", inserire titolo (obbligatorio), descrizione (facoltativa), scadenza (data e ora) e punteggio massimo (facoltativo).
+Stato urgenza del compito (visibile agli studenti):
+- Ok: scadenza oltre 3 giorni
+- Urgent: scadenza entro 3 giorni
+- Over: scadenza passata, consegna non più possibile
+
+Per vedere le consegne degli studenti: cliccare sul compito nella tab Lavori. Si apre l'elenco delle consegne con nome studente e contenuto.
+Il professore può filtrare i compiti per: Tutti, Aperti (scadenza futura), Scaduti (scadenza passata).
+
+###Studente - iscriversi a una classe
+
+Per iscriversi a una classe pubblica: andare su "Esplora classi" (/classi/esplora), trovare la classe e cliccare Iscriviti. L'iscrizione viene approvata automaticamente.
+Per iscriversi a una classe privata: serve il codice invito (8 caratteri) fornito dal professore.
+Sul web: sezione Classi > "Iscriviti con codice" > inserire il codice.
+Sull'app mobile: tab Classi > banner "Unisciti a una classe" > inserire il codice (maiuscolo, 8 caratteri).
+Dopo l'invio la richiesta va in stato IN_ATTESA finché il professore non approva o rifiuta. Si riceve una notifica in entrambi i casi.
+
+###Esplora classi
+
+La sezione "Esplora classi" mostra tutte le classi pubbliche disponibili sulla piattaforma.
+Si accede da: menu laterale > Esplora classi (percorso /classi/esplora).
+Permette di cercare e iscriversi a classi pubbliche senza bisogno di codice.
+Le classi private non compaiono in questa sezione: si può accedere solo con il codice invito.
+
+###Studente - consegna compiti
+
+Per consegnare un compito: aprire la classe > tab Lavori > selezionare il compito > cliccare Consegna.
+I compiti con stato Over (scadenza passata) non accettano più consegne.
+La dashboard studente mostra i 3 compiti con scadenza più vicina aggregati da tutte le classi a cui si è iscritti, così da avere sempre sotto controllo le priorità.

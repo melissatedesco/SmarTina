@@ -49,4 +49,4 @@ async def health():
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("api_smarTina:app", host=API_HOST, port=API_PORT, reload=API_RELOAD)
+    uvicorn.run(app, host=API_HOST, port=API_PORT)
