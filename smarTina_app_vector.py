@@ -32,7 +32,7 @@ client = OpenAI(api_key=api_key)
 
 # Modelli
 MODEL_MAIN = "gpt-4o-mini"  # orchestratore
-MODEL_FT   = "ft:gpt-4o-mini-2024-07-18:its-cadmo:smartina:CcpM9wrx"
+MODEL_FT   = "gpt-4o-mini"
 EMBEDDING_MODEL = "text-embedding-3-small"
 
 # File RAG (Verifica che i nomi dei file generati corrispondano a questi)
@@ -70,7 +70,7 @@ def agente_rag(conversation_history):
     Agente informativo (RAG) che usa la conoscenza dei documenti locali di ITSocial.
     """
     ultimo_input = conversation_history[-1]["content"]
-    blocchi = cerca_blocchi_simili(ultimo_input, k=2)
+    blocchi = cerca_blocchi_simili(ultimo_input, k=5)
     contesto = "\n---\n".join(blocchi)
     prompt = [
         {"role": "system", "content": (
@@ -119,14 +119,16 @@ def orchestratore(conversation_history):
             "Sei l'orchestratore di SmarTina. Analizza l'intera conversazione e decidi chi deve rispondere.\n\n"
             "Attiva il modulo RAG se la richiesta dell'utente riguarda:\n"
             "1. Funzionalità specifiche di ITSocial (home, profilo, post, stelle, tendenze, commenti, regole, accesso, classi virtuali, contatti, ticket).\n"
-            "2. Informazioni generali sugli ITS Academy (definizione, aree tecnologiche, livelli EQF).\n"
+            "2. Informazioni generali sugli ITS Academy (definizione, aree tecnologiche, livelli EQF, durata, diploma).\n"
             "3. Richieste su specifiche regioni italiane (es. 'Quali ITS ci sono in Calabria?', 'Dammi i link della Campania', ecc.).\n"
+            "4. Il nome di un ITS specifico (es. 'ITS Cadmo', 'ITS Pegasus', 'Fondazione Pinta', qualsiasi nome di istituto).\n"
+            "5. Qualsiasi domanda che inizia con 'cosa è', 'dimmi di', 'vorrei sapere', 'informazioni su' riguardo a ITS o ITSocial.\n"
             "--> In questo caso rispondi SEMPRE e soltanto con: CALL:RAG\n\n"
-            "Attiva il modulo GENERICO se l'utente sta semplicemente facendo:\n"
-            "1. Saluti o congedi (es. 'ciao', 'buongiorno', 'grazie, arrivederci').\n"
-            "2. Chiacchiere libere, sta dicendo il proprio nome o sta facendo domande personali/emotive.\n"
+            "Attiva il modulo GENERICO SOLO se l'utente sta facendo:\n"
+            "1. Saluti o congedi puri (es. 'ciao', 'buongiorno', 'grazie', 'arrivederci').\n"
+            "2. Chiacchiere completamente fuori tema, sta dicendo il proprio nome o domande personali/emotive senza riferimento a ITS.\n"
             "--> In questo caso rispondi SEMPRE e soltanto con: CALL:GEN\n\n"
-            "REGOLA CRITICA: Rispondi esclusivamente con 'CALL:RAG' o 'CALL:GEN'. Non aggiungere spiegazioni, spazi extra o altra punteggiatura."
+            "REGOLA CRITICA: In caso di dubbio scegli sempre CALL:RAG. Rispondi esclusivamente con 'CALL:RAG' o 'CALL:GEN'."
         )}
     ] + conversation_history
 

@@ -30,7 +30,7 @@ if not api_key:
 client = OpenAI(api_key=api_key)
 
 MODEL_MAIN = "gpt-4o-mini"
-MODEL_FT   = "ft:gpt-4o-mini-2024-07-18:its-cadmo:smartina:CcpM9wrx"
+MODEL_FT   = "gpt-4o-mini"
 
 # File RAG
 # INDEX_PATH = "rag/its_social_faiss_index.faiss"

@@ -24,11 +24,11 @@ if not api_key:
 client = OpenAI(api_key=api_key)
 
 MODEL_MAIN = os.getenv("MODEL_MAIN", "gpt-4o-mini")
-MODEL_FT = os.getenv("MODEL_FT", "ft:gpt-4o-mini-2024-07-18:its-cadmo:smartina:CcpM9wrx")
+MODEL_FT = os.getenv("MODEL_FT", "gpt-4o-mini")
 EMBEDDING_MODEL = os.getenv("EMBEDDING_MODEL", "text-embedding-3-small")
 
-INDEX_PATH = os.getenv("INDEX_PATH")
-METADATA_PATH = os.getenv("METADATA_PATH", "rag/itssocial_metadata.pkl")
+INDEX_PATH    = os.getenv("INDEX_PATH",    "rag/its_social_faiss/its_social_faiss_index.faiss")
+METADATA_PATH = os.getenv("METADATA_PATH", "rag/its_social_faiss/its_social_metadata.pkl")
 
 DB_CONFIG = {
     "host": os.getenv("DB_HOST"),
@@ -127,7 +127,7 @@ def get_embedding(t):
     emb = client.embeddings.create(model=EMBEDDING_MODEL, input=t)
     return emb.data[0].embedding
 
-def cerca_blocchi_simili(q, k=2):
+def cerca_blocchi_simili(q, k=5):
     """Cerca blocchi simili nel RAG; se RAG non disponibile, ritorna lista vuota."""
     if index is None or not metadata:
         return []
@@ -142,12 +142,17 @@ def orchestratore(hist: list) -> str:
         prompt = [
             {"role": "system",
              "content": (
-                 "Sei l'orchestratore di SmarTina. "
-                 "Analizza la conversazione e decidi chi deve rispondere.\n"
-                 "Se riguarda un ticket → CALL:TICKET:<testo>\n"
-                 "Se riguarda informazioni o contenuti → CALL:RAG:<testo>\n"
-                 "Altrimenti → CALL:GEN:<testo>\n"
-                 "Rispondi solo con una di queste forme."
+                 "Sei l'orchestratore di SmarTina. Analizza la conversazione e decidi chi risponde.\n\n"
+                 "Rispondi CALL:TICKET:<testo> se l'utente vuole aprire, vedere o gestire un ticket di assistenza.\n\n"
+                 "Rispondi CALL:RAG:<testo> se la richiesta riguarda:\n"
+                 "- Funzionalità di ITSocial (home, post, classi, messaggi, notifiche, profilo, accesso, tendenze)\n"
+                 "- Qualsiasi ITS Academy (nome specifico come 'ITS Cadmo', 'ITS Pegasus', ecc.)\n"
+                 "- Regioni italiane con ITS (es. 'ITS in Calabria', 'ITS a Milano')\n"
+                 "- Informazioni generali su ITS Academy (cos'è, durata, diploma, EQF)\n"
+                 "- Qualsiasi domanda che inizia con 'cosa è', 'dimmi di', 'vorrei sapere', 'informazioni su'\n"
+                 "  In caso di dubbio, scegli sempre CALL:RAG.\n\n"
+                 "Rispondi CALL:GEN:<testo> SOLO per saluti puri, chiacchiere fuori tema o quando l'utente dice il suo nome.\n\n"
+                 "Rispondi SOLO con una di queste tre forme, niente altro."
              )}
         ] + hist
         r = client.chat.completions.create(model=MODEL_MAIN, messages=prompt)
@@ -173,13 +178,23 @@ def agente_ticket(hist):
 def agente_rag(hist):
     try:
         ultimo = hist[-1]["content"]
-        blocchi = cerca_blocchi_simili(ultimo, 2)
+        blocchi = cerca_blocchi_simili(ultimo, k=5)
         if not blocchi:
             return "Al momento non ho informazioni specifiche su questa richiesta."
 
+        contesto = "\n---\n".join(blocchi)
         p = [
-            {"role": "system", "content": "Agente informativo. Usa solo il contenuto nei documenti."},
-            {"role": "system", "content": "\n---\n".join(blocchi)}
+            {"role": "system", "content": (
+                "Sei SmarTina, l'assistente ufficiale di ITSocial. "
+                "Rispondi usando le informazioni nei documenti qui sotto. "
+                "Puoi rispondere su: funzionalità di ITSocial (home, post, classi, messaggi, notifiche, profilo, "
+                "accesso, registrazione, tendenze, like, commenti, ticket), "
+                "e sugli ITS Academy italiani (cos'è un ITS, aree tecnologiche, diploma EQF 5, "
+                "elenco per regione con link ufficiali). "
+                "Se l'informazione è nei documenti, rispondi in modo chiaro e completo. "
+                "Non inventare dati o link non presenti nel contesto."
+            )},
+            {"role": "system", "content": f"Documenti di riferimento:\n{contesto}"}
         ] + hist
         r = client.chat.completions.create(model=MODEL_FT, messages=p)
         risposta = r.choices[0].message.content.strip()
@@ -190,62 +205,17 @@ def agente_rag(hist):
 
 def agente_generico(hist):
     try:
-        # Estrai il nome dall'history, MA SOLO se l'utente lo ha detto esplicitamente
-        nome_utente = None
-        for msg in reversed(hist):
-            if "content" in msg:
-                content = msg["content"].lower()
-                if "mi chiamo" in content:
-                    words = content.split("mi chiamo")[-1].strip().split()
-                    if words:
-                        nome_utente = words[0].capitalize()
-                        break
-                elif "chiamo" in content and "sono" not in content:
-                    words = content.split("chiamo")[-1].strip().split()
-                    if words:
-                        nome_utente = words[0].capitalize()
-                        break
-
-        # --- LOGICA CRITICA: SE NON HO IL NOME, NON INVENTARLO ---
-        if nome_utente is None:
-            # Se non ho il nome, non usare "Utente" o "Giulia" — usa una risposta neutra
-            system_content = (
-                "Tu sei SmarTina, assistente di ITS Social. "
-                "L'utente non ha ancora detto il proprio nome. "
-                "Non inventare mai un nome. Rispondi in modo chiaro e amichevole, ma non attribuire un nome che non è stato dato. "
-                "Se l'utente chiede 'ti ricordi come mi chiamo?', rispondi: 'Non lo so ancora, puoi dirmelo?'."
-            )
-        else:
-            system_content = (
-                f"Tu sei SmarTina, assistente di ITS Social. L'utente si chiama {nome_utente}. "
-                "Rispondi in modo chiaro e amichevole. "
-                "L'accesso a ITS Social è aperto a tutti gli studenti ITS ed è sufficiente un'email per registrarsi. "
-                "Non servono credenziali del corso."
-            )
-
         p = [
-            {"role": "system", "content": system_content}
+            {"role": "system", "content": (
+                "Sei SmarTina, l'assistente virtuale di ITSocial. "
+                "Parla in modo gentile e amichevole. "
+                "Leggi tutta la conversazione: se l'utente ha già detto il suo nome, ricordatelo e usalo. "
+                "Non inventare mai un nome che l'utente non ha dato. "
+                "Se non conosci il nome e ti viene chiesto, rispondi 'Non me lo hai ancora detto, puoi dirmelo?'."
+            )}
         ] + hist
-
         r = client.chat.completions.create(model=MODEL_FT, messages=p)
-        risposta = r.choices[0].message.content.strip()
-
-        # --- BLOCCA QUALSIASI NOME INVENTATO ---
-        # nomi_inventati = ["giulia", "carlo", "marco", "luca", "anna", "paolo", "simone", "mario", "giuseppe"]
-        # for nome in nomi_inventati:
-        #     if f"ciao {nome}" in risposta.lower():
-        #         risposta = risposta.replace(f"Ciao {nome.capitalize()}!", "Ciao!")
-        #         risposta = risposta.replace(f"ciao {nome}!", "Ciao!")
-
-        # --- FORZA LA RISPOSTA CORRETTA PER LA DOMANDA SUL NOME ---
-        if "ti ricordi come mi chiamo" in hist[-1]["content"].lower():
-            if nome_utente is None:
-                return "Non lo so ancora, puoi dirmelo? 😊"
-            else:
-                return f"Certo, ti chiami {nome_utente}! Ti serve aiuto con qualcosa?"
-
-        return risposta or "Non ho capito bene. Puoi ripetere?"
-
+        return r.choices[0].message.content.strip() or "Non ho capito bene. Puoi ripetere?"
     except Exception as e:
         print("ERRORE in agente_generico:", e)
         return "Sto riscontrando problemi tecnici. Riprova tra poco."
@@ -333,12 +303,6 @@ def smarTina_chat(user_id: str, nuovo_messaggio: str, history_esterno=None):
         # Carica la storia dal DB (se esiste)
         history = carica_storia_db(user_id)
 
-        # Se è il primo messaggio → invia benvenuto
-        if not history:
-            benvenuto = "Ciao, sono SmarTina. In cosa ti posso essere utile?"
-            salva_messaggio_db(user_id, "assistant", benvenuto)
-            return benvenuto
-
         # Aggiungi messaggio utente
         history.append({"role": "user", "content": nuovo_messaggio})
         salva_messaggio_db(user_id, "user", nuovo_messaggio)
@@ -346,10 +310,8 @@ def smarTina_chat(user_id: str, nuovo_messaggio: str, history_esterno=None):
          # Orchestratore decide
         dec = orchestratore(history)
 
-        # Inizializza out con un valore di fallback
-        out = "Errore: risposta non riconosciuta dal sistema."
-
-        if dec.startswith("CALL:TICKET:"):
+        # Routing robusto — funziona anche se l'orchestratore omette i due punti finali
+        if "CALL:TICKET" in dec:
             out = agente_ticket(history)
             if out.startswith("CALL:CONFIRMED:"):
                 raw = out.replace("CALL:CONFIRMED:", "", 1).strip()
@@ -363,10 +325,11 @@ def smarTina_chat(user_id: str, nuovo_messaggio: str, history_esterno=None):
                 )
                 out = "Ticket registrato correttamente nel database."
 
-        elif dec.startswith("CALL:RAG:"):
+        elif "CALL:RAG" in dec:
             out = agente_rag(history)
 
-        elif dec.startswith("CALL:GEN:"):
+        else:
+            # CALL:GEN o qualsiasi risposta non riconosciuta → agente generico
             out = agente_generico(history)
 
         # Assicurati che out sia sempre una stringa valida

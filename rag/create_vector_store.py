@@ -32,8 +32,8 @@ nlp     = spacy.load("it_core_news_sm")
 speller = Speller(lang="it")
 
 INDEX_DIR     = "rag/its_social_faiss"
-CHUNK_SIZE    = 100
-CHUNK_OVERLAP = 200
+CHUNK_SIZE    = 500
+CHUNK_OVERLAP = 50
 EMBED_MODEL   = "text-embedding-3-small"
 
 
@@ -50,15 +50,11 @@ def load_document(path: str) -> str:
     return text
 
 
-# === 3. DIVISIONE IN CHUNK ===
+# === 3. DIVISIONE IN CHUNK PER SEZIONE ===
 def split_text(text: str) -> list:
-    chunks = []
-    start  = 0
-    while start < len(text):
-        chunk = text[start : start + CHUNK_SIZE].strip()
-        if chunk:
-            chunks.append(chunk)
-        start += CHUNK_SIZE - CHUNK_OVERLAP
+    # Divide il testo in base ai marcatori ### (una sezione = un chunk)
+    sections = re.split(r'\n(?=###)', text)
+    chunks = [s.strip() for s in sections if s.strip()]
     return chunks
 
 
@@ -132,13 +128,10 @@ def main():
         raise SystemExit("❌ Nessun chunk generato. Controlla il file sorgente.")
     print(f"✂️  {len(metadata)} chunk creati e salvati come metadata")
 
-    # Pre-processing per gli embedding (i chunk originali vengono preservati)
-    print("🔧 Pre-processing in corso...")
-    processed_chunks = [preprocess_text(c) for c in metadata]
-
-    # Embedding dei chunk processati
+    # Embedding diretti sul testo originale (senza pre-processing)
+    # text-embedding-3-small gestisce bene il testo italiano grezzo
     print("🔢 Generazione embedding...")
-    vectors = get_embeddings(processed_chunks)
+    vectors = get_embeddings(metadata)
 
     # Salvataggio: indice FAISS (vettori processati) + metadata (testi originali)
     print("💾 Salvataggio indice FAISS e metadata...")
